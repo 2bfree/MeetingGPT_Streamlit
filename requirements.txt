@@ -2,5 +2,6 @@ openai==0.28
 pandas
 plotly
 numpy
+tiktoken
 
 
