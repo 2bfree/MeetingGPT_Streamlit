@@ -195,7 +195,7 @@ def reformat_gpt35(answer):
     return input_tokens, output_tokens, response['choices'][0]['message']['content'], response_time
 
 
-def qa_extraction_gpt35(question, transcription):
+def qa_extraction_gpt35_input_query(question, transcription):
     input_query=[
             {"role": "system", "content": "You are a highly skilled AI trained in language comprehension and summarization. \
             I would like you to read the meeting transcript provided and use the information contained in it to answer questions. \
@@ -233,19 +233,5 @@ def qa_extraction_gpt35(question, transcription):
             {"role": "user", "content": question}
         ]
 
-    if input_tokens <= 15800:
-      start_time = time.time()
-      response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo-16k",
-        temperature=0,
-        messages=input_query,
-        timeout=60
-      )
-      end_time = time.time()
-      response_time = end_time - start_time
-      model_output = response['choices'][0]['message']['content']
-      messages = [{"role": "system", "content": model_output}]
-      truncated_messages, output_tokens = num_tokens_from_messages_gpt35_turbo(messages, 15800)
-      return input_tokens, output_tokens, response['choices'][0]['message']['content'], response_time
-    else:
-      return input_tokens, 0, 'No Response Generated -- # of Input Tokens Exceeds 16000', 0
+    return input_query
+
