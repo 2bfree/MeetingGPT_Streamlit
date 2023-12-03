@@ -3,6 +3,7 @@ import time
 import os
 import openai
 import gpt35
+import llama
 import pandas as pd
 import post_process_output
 import meeting_analytic_visuals
@@ -13,11 +14,11 @@ import plotly.express as px
 
 openai.api_key = st.secrets['OPEN_API_KEY']
 
-if "input" not in st.session_state:
-    st.session_state["input"] = "not done"
+if "response" not in st.session_state:
+    st.session_state["response"] = "Incomplete"
 
-def change_user_input_state():
-    st.session_state["input"] = "done"
+# def change_user_input_state():
+#     st.session_state["input"] = "done"
 
 st.set_page_config(page_title="MeetingGPT", page_icon=":tada", layout="wide")
 
@@ -35,56 +36,59 @@ st.markdown("""
          
          """)
 
-user_input = st.file_uploader(" ### Upload a Meeting Transcript or Meeting Video File:", on_change=change_user_input_state,
+user_input = st.file_uploader(" ### Upload a Meeting Transcript or Meeting Video File for Processing:", # on_change=change_user_input_state,
                               type=['txt', 'mp3', 'mp4', 'wav', 'avi', 'mov', 'mkv', 'flv', 'wmv'])
 
+st.markdown("# MeetingGPT Processing")
+if user_input is not None:
+    file_details = {"filename":user_input.name,
+            "filetype":user_input.type,
+            "filesize":user_input.size}
+    # st.write(file_details)
+    if user_input.type == "text/plain":
+        progress_bar = st.progress(0)
+        raw_text = str(user_input.read(), "utf-8")
+        input_tokens, output_tokens, answer, response_time = gpt35.gpt35_meeting_analytics(raw_text)
+        progress_bar.progress(25)
+        reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = gpt35.reformat_gpt35(answer)
+        progress_bar.progress(50)
+        df = pd.DataFrame({"meeting_id": [user_input.name], "final_response": [reformat_answer]})
+        df, main_topics_df, engagement_df = post_process_output.reformat_for_visuals(df)
+        progress_bar.progress(75)
+        fig = meeting_analytic_visuals.generate_website_visual(df, main_topics_df, engagement_df)
+        progress_bar.progress(100)
+        st.plotly_chart(fig)
+        st.session_state['response'] = "Complete"
 
-if st.session_state["input"] == "done":
-    progress_bar = st.progress(0)
 
-    for perc_completed in range(100):
-        time.sleep(0.01)
-        progress_bar.progress(perc_completed+1)
+if st.session_state['response'] == "Complete":
+    st.title("ChatBot for " + str(user_input.name))
 
-    st.success("Transcript / Video Uploaded Successfully")
+    if "messages" not in st.session_state:
+        st.session_state['messages'] = []
 
-    # st.session_state['type'] = st.radio("Which Model would you like to ask", ["GPT3.5 Turbo", "Llama2"])
-    # if st.session_state['type'] == "GPT3.5 Turbo":
-    st.markdown("# MeetingGPT Processing")
-    if st.button("Process"):
-        if user_input is not None:
-            file_details = {"filename":user_input.name,
-                    "filetype":user_input.type,
-                    "filesize":user_input.size}
-            # st.write(file_details)
-            if user_input.type == "text/plain":
-                raw_text = str(user_input.read(), "utf-8")
-                # st.write("Raw Transcript:")
-                # st.write(raw_text)
-                input_tokens, output_tokens, answer, response_time = gpt35.gpt35_meeting_analytics(raw_text)
-                # st.write("Original Answer:")
-                # st.write(answer)
-                reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = gpt35.reformat_gpt35(answer)
-                # st.write("Reformatted Answer:")
-                # st.write(reformat_answer)
-                df = pd.DataFrame({"meeting_id": [user_input.name], "final_response": [reformat_answer]})
-                df, main_topics_df, engagement_df = post_process_output.reformat_for_visuals(df)
-                fig = meeting_analytic_visuals.generate_website_visual(df, main_topics_df, engagement_df)
-                st.plotly_chart(fig)
-                    
-    # if st.session_state['type'] == "Llama2":
-    #     st.markdown("# Llama Model processing")
-    #     if st.button("Process"):
-    #         if user_input is not None:
-    #             file_details = {"filename":user_input.name,
-    #                     "filetype":user_input.type,
-    #                     "filesize":user_input.size}
-    #             # st.write(file_details)
-    #             if user_input.type == "text/plain":
-    #                 raw_text = str(user_input.read(), "utf-8")
-    #                 input_tokens, output_tokens, answer, response_time = llama.llama_meeting_analytics(raw_text)
-    #                 reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = gpt35.reformat_gpt35(answer)
-    #                 df = pd.DataFrame({"meeting_id": [user_input.name], "final_response": [reformat_answer]})
-    #                 df, main_topics_df, engagement_df = post_process_output.reformat_for_visuals(df)
-    #                 fig = meeting_analytic_visuals.generate_website_visual(df, main_topics_df, engagement_df)
-    #                 st.plotly_chart(fig)
+    for message in st.session_state.messages:
+        with st.chat_message(message.get("role")):
+            st.markdown(message.get("content"))
+
+    prompt = st.chat_input("Ask a question about the Meeting")
+    if prompt:
+        with st.chat_message("user"):
+            st.markdown(prompt)
+        st.session_state.messages.append({"role": "user", "content": prompt})
+
+        with st.chat_message("assistant"):
+            message_placeholder = st.empty()
+            full_response = ""
+            input_query = gpt35.qa_extraction_gpt35_input_query(prompt, raw_text)
+            for response in openai.ChatCompletion.create(
+                                model="gpt-3.5-turbo-16k",
+                                temperature=0,
+                                messages=input_query,
+                                stream=True
+                                ):
+                full_response += response.choices[0].delta.get("content", "")
+                message_placeholder.markdown(full_response + "| ")
+            message_placeholder.markdown(full_response)
+        
+        st.session_state.messages.append({"role": "assistant", "content": full_response}) 
