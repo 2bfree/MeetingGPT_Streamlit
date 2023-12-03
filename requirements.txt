@@ -1,6 +1,4 @@
 openai==0.28
-time
-os
 pandas
 plotly
 numpy
