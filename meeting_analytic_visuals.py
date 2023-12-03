@@ -2,10 +2,7 @@ import plotly
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
 import plotly.express as px
-import textwrap
-from html2image import Html2Image
 import os
-from htmlwebshot import WebShot
 
 def add_br_after_characters(input_string, chars_per_line=50):
     output_string = ""
@@ -30,14 +27,14 @@ def generate_website_visual(df, main_topics_df, engagement_df):
     # Find the maximum length
     max_length = main_topics_df['Topic_Length'].max()
     fontsize = (200-max_length)*0.1
-    fontsize = max(10,fontsize)
+    fontsize = max(12,fontsize)
 
     ordered_speakers = engagement_df.sort_values(by='Speaking Time', ascending=False)['Speakers'].tolist()
 
     fig = make_subplots(rows=2, cols=3, horizontal_spacing=0.02, vertical_spacing = 0.2, subplot_titles=['Abstract Summary (GPT35)', 
                                                     'Key Topics - % of Meeting (GPT35)', '% of Speaking Time by Participant (GPT35)', 
                                                     # '# of Interactions by Participant (GPT35)',
-                                                    'Action Items (GPT35)', '', 'Sentiment (GPT35)'],
+                                                    '                           Action Items (GPT35)', '', '     Sentiment (GPT35)'],
                       specs=[[{'type': 'scatter'}, {'type': 'bar'}, {'type': 'pie'}], [{'type': 'scatter'}, {'type': 'scatter'}, {'type': 'scatter'}]])
     
     bar_colors = px.colors.qualitative.Plotly[:len(ordered_speakers)]
@@ -62,8 +59,8 @@ def generate_website_visual(df, main_topics_df, engagement_df):
         showarrow=False,
         font=dict(
             family='Arial',
-            size=20,
-            color='white'
+            size=18,
+            color='black'
         ),
         align='left'
     )
@@ -77,8 +74,8 @@ def generate_website_visual(df, main_topics_df, engagement_df):
         showarrow=False,
         font=dict(
             family='Arial',
-            size=20,
-            color='white'
+            size=18,
+            color='black'
         ),
         align='left'
     )
@@ -130,11 +127,15 @@ def generate_website_visual(df, main_topics_df, engagement_df):
       width=1800,
       title=dict(text='MeetingGPT Summary Visuals - ' + str(df['meeting_id'].iloc[0]), font=dict(size=35)),
       legend_tracegroupgap=180,
+      legend=dict(font=dict(size=fontsize)),
+    #   xaxis1 = dict(margin=dict(t=50)),
+    #   xaxis2 = dict(margin=dict(t=50)),
+    #   xaxis3 = dict(margin=dict(t=50)),
       xaxis4=dict(domain=[0, 0.55]),  # Adjust the domain for right two subplots
-      xaxis5=dict(domain=[0.8, 1.0]),  # Adjust the domain for right two subplots     
-      font=dict(size=fontsize, color='white'),  # Set the font size for axis labels, legend, etc.
-      plot_bgcolor='rgba(0, 0, 0, 0.8)',  # Set the background color of the entire figure
-      paper_bgcolor='rgba(0, 0, 0, 0.8)'  # Set the background color of the paper
+      xaxis5=dict(domain=[0.8, 1.0]),  # Adjust the domain for right two subplots    
+    #   xaxis6= dict(margin=dict(t=50)),
+      font=dict(size=fontsize, color='black'),  # Set the font size for axis labels, legend, etc.
+      plot_bgcolor='lightgray'
     )
 
     labels_to_show_in_legend = ['Test']
@@ -161,8 +162,19 @@ def generate_website_visual(df, main_topics_df, engagement_df):
     fig.update_layout(scene=dict(xaxis=dict(backgroundcolor='rgba(0,0,0,0)'), yaxis=dict(backgroundcolor='rgba(0,0,0,0)')))
 
     # Update subplot titles font directly in subplot_titles
-    fig.update_annotations(font=dict(size=18))
-    fig.update_xaxes(row=1, col=2, layer='above traces')
+    fig.update_annotations(font=dict(size=20))
+    fig.update_annotations(
+    x=[0.4],  # Set the x-coordinate for the specified subplot title
+    y=[0.4],  # Set the y-coordinate for the specified subplot title
+    showarrow=False,
+    font=dict(size=20),
+    row=2,  # Specify the row index of the subplot
+    col=1   # Specify the column index of the subplot
+    )
+
+    fig.update_xaxes(
+    tickfont=dict(size=fontsize),  # Set the font size for x-axis labels
+    )
 
     # temp_directory_for_files = 'C:\\Users\\miked\\OneDrive\\Desktop\\W210\\Streamlit\\plots'
 

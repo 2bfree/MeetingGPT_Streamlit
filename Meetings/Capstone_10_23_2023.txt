@@ -1,0 +1,279 @@
+﻿210 (2023-10-23 16:35 GMT-7) - Transcript
+Attendees
+Chase Iver Madson, Francis J Lee, MikeDrop, MikeDrop's Presentation, Siva Chamiraju
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Chase Iver Madson: So, yeah, so this is week 9. We're coming into next tomorrow. So I am Finishing up my code base for deploying The model I'm trying to code around is just the open AI API version of the model that Mike put together. I'm just putting all those into a nice relative locations in the code base so that the main dot PI file can read them and use them and utilize that key and everything and receive problem the Open AI.
+Chase Iver Madson: And so I'm getting it all to work and communicates. And yeah, I'm gonna just all work this evening to try to get it done too because yeah, I haven't kind of that completely finished yet. but I'm pretty close I believe. So I'll have an update by tomorrow morning I think with hey I have it running and here's where you can take a look at it. So that's pretty much…
+MikeDrop: Perfect.
+Chase Iver Madson: where I am.
+MikeDrop: I can give my update if you guys want next.
+Siva Chamiraju: Sure.
+MikeDrop: Yeah, that's what I want to share. so Yesterday, I made some good progress essentially in this code base. I have both so, we had talked in slack about this earlier in the week but I'm using two different websites and two different models. Now, I'm gonna just have I guess two horses in the race with this analysis, GPT 3.5 turbo and then trying the llama models. So was able to figure out a code base that can actually Pretty similar, formatted queries with what's called any scale and open a AI.
+MikeDrop: the benefits of any scale and the llama models on any scale is They're pretty low price relative to the Other model that we're talking about. So essentially this is a dollar for every million tokens. And I believe the other one. was on the order of Point zero, zero three. I think per a thousand tokens, so, You multiply that Over a thousand. Times point, zero zero three. Yeah. So GPT 3.5 turbo is about three times the amount of money. per query, then the one I'm using,
+MikeDrop: code llama, which is the only one of these models that can actually handle the input length that we're talking about for our analysis. So this is I guess a much. More effective Of running this stuff and it produces I'll say pretty comparable results to GPT. When I looked at a sampling of five. Meetings or something. Comparing the stuff. So yeah, the pricing is a little better so maybe there's more ability to iterate on solutions without breaking too much of the bank in terms of the queries.
+MikeDrop: And also, same performance, generally speaking. And so in this script I'm bringing in basically all the corpuses that we have And splitting it into test and train basically, but we're not really fine-tuning a model right now, it's just to have it. So we have 320 meetings that we can kind of play around with from the a leader ICSI corpus. And my goal I think was to try to I guess. get a baseline for what would we kind of see if we saw 320 meetings summarized by our tool, what would it kind of look like? And then from that data set you can I guess, learn out, what are the kind of gotchas with it?
+00:05:00
+MikeDrop: and that I built in were one of the things that's kind of annoying about Gpd 3.5 turbo and code llama is that If you were to give it too long of a transcript that was just over an hour. It would actually Hey I can't process this and not give you any output. So what this does is it figures out how many tokens there are in your message. and then if you ever are going to exceed 16,000 tokens, which is the kind of the limit, then it kind of just truncates your message. That you're sending. So essentially what this will do is it'll truncate the meeting at the end and it'll just clip off, whatever it needs to clip off to, make sure that you can still
+MikeDrop: I guess send a, transcript through. And then the idea would be that I guess in how to guide of this is you can only really put in, X amount of time. Meetings or it's gonna start truncating.
+MikeDrop: But I wanted to actually produce something. in the cases because I think it happens more than it's gonna have to truncate more. We thought originally maybe about 40% of the time for some of the data sets we've been looking at. So even for 45 minutes or It might not the truncate.
+MikeDrop: So built these functions out. And then in here, this is the same type of structure.
+Siva Chamiraju: Can I quickly make a comment on that one? if the limit is 45 minutes,…
+MikeDrop: Yeah.
+Siva Chamiraju: maybe in pipeline, we can break the file up to 45 minutes. I don't have in text if we can figure out. I think there is a time indication. Even on the text file, the transcript that we have. And then pass it individually to the model.
+MikeDrop: What might happen there though is that this model can only handle the context of that many tokens. So what will happen is you would send one half of the meeting and then be come up with minutes for this half of the meeting and then you'd have to split it into I guess two full outputs where one would only know…
+Siva Chamiraju: Okay.
+MikeDrop: what you said. Know for that half and then the other would know what you said for the other half.
+Siva Chamiraju: Okay. Yeah,…
+MikeDrop: You know what I mean?
+Siva Chamiraju: GPT has continuation but Lama doesn't have continuation.
+MikeDrop: do you know that? Because I haven't really looked into that.
+Siva Chamiraju: Yeah, for GPT if I have long text. When I copy paste on my browser, And I tell exclusive that,…
+MikeDrop: Yeah.
+Siva Chamiraju: Hey wait for my second part of this text to analyze, it says, Of course I'll wait and pass on the second part.
+MikeDrop: shoot, so I might be able to build that into this API call. Potentially.
+Siva Chamiraju: Yeah.
+MikeDrop: Yeah, if you have how you would interact with the console, I can try to write something to do that in the GPT world and maybe that that kind of works the same in the Code llama world, but Not really sure.
+Siva Chamiraju: Yeah, at the beginning I just say, Hey Gpd, I have a long file. I'm going to split it into multiple parts, Expect three texts coming to you before you respond anything. It's pretty cool that it says, yeah, I will wait for your three parts and then respond.
+MikeDrop: Interesting. That's so funny that it's able to get around that that's great because I think that'll make the summary ultimately better if we're able to tease out that issue away from this.
+Siva Chamiraju: Right.
+MikeDrop: Yeah, it's Yeah. So we could certainly add those types of queries back and forth and see if we can do that because I think it's as simple as adding something that says Hey wait for me to, add more like you basically interact with this API, just like you to interact with the endpoint on, and this format Yeah, so let's see.
+MikeDrop: So basically these are just the same as they were before…
+Siva Chamiraju: 
+MikeDrop: but I added a couple things where it figures out if you need to truncate and then it truncates the message down and then it passes this as the query instead of the original pass of the full transcript, so that you basically are always gonna go through this, if statement where you're less than 1600 16,000 tokens. What this also does now, is Figures out how long it takes for it to respond. To the queries. And the purpose of that is because I was finding that when there was fundamental issues with this prompt,
+00:10:00
+MikeDrop: either this prompt or the transcript, there was becoming instances where it took, 10 minutes for it to respond. And I guess when I ran the whole entire thing, I wanted it to kind of tell me what the outlier cases were where it struggled to figure out an answer. so I figured out the start and end time using just the regular time stuff and then It just outputs like a response time. So basically in the final data frame, when I ran all these queries, for every query, I ran, I figured out the time that it took and then I add I guess a timeout where if you ask code lava or gbt some question and it takes them more than a couple minutes to respond. It just
+MikeDrop: It just moves on or just stops a truncates in, then you move on. So I thought that was a good metric to track with, running this on a lot of data to see. If something's broken. when some series of circumstances. Comes to play. Yeah, so most of
+Chase Iver Madson: Mike, do you mind giving a quick one? Two minute recap of everything about you've talked so far just for Francis search register?
+MikeDrop: Yeah. Yeah. No problem. So essentially, since last time I had the open AI version of this whole code base using API keys for that. So that was chat. TBT 3.5, turbo, I've added any scale endpoint which is similar to TBT. However, it is a third of the cost to paying the endpoint. So it costs a dollar for every million tokens that are either sent to the query or output. And from a GPT 3.5 turbo perspective, it's three. three dollars per million or something like that, so it's considerable lower price and then also it's
+MikeDrop: I guess just as good from a accuracy and just coherence perspective. So When I generated in a couple of models, I started to see it was pretty good. it's not really much different than the GPT model in terms of it's like, How good the output is. When it comes down to it, built this code base out. Basically, to run both. Open AI. And open AI being gbd 3.5 turbo and the llama chat llama or whatever it is Code Lama.
+MikeDrop: And running both of those models on, all of the AMI is CSI, and a leader data, sets will give us kind of a better idea at how to improve the model or what things in the model are not working per intent. so yeah, so basically one of the things I added was like When either of these models receives an input that's too long. It actually says, Hey, that inputs too long. I'm not going to answer you. And so, Siva was telling me that you can actually interact with GPT and Tell it I'm gonna put more than one input in here and then use all these inputs.
+MikeDrop: So that's a way that we could potentially get around it but right now what I'm doing is with each of these functions I'm figuring out how many tokens are in a particular query. And then if it's gonna be over 16,000 I'm truncating it so that you can still input the query and get an answer. For both code llama and GPT turbo, they have different, I guess schemes for tokenizing data, so that I put it into different functions. and then I updated these to kind of truncate the messages if they actually did seem to be too long and then what I was saying before was the times I figured out a way to just track every time I
+00:15:00
+MikeDrop: Try to query an endpoint. how long does it take to respond? Because I think one of the critical usability features that is going to be how long after they upload the video. Exactly gonna take for you to get all this information. on the order of minutes or seconds etc. So I think it's critical that it's a low-ish number, and I think improving the way that you ask, the question can help with it answering and not getting stuck. And if we run this on a Big Data set, we'll be able to That kind of figure out what. I guess specific meetings and specific circumstances. Does this struggle to answer a question?
+MikeDrop: let's see. I changed some of the prompts a little bit. One of them was the key points. I was finding that key points, sometimes it put 10 of the same point over and over and over, and it was taking forever to respond because it was just repeating itself over and over. So I actually used GPT to figure out a better way to ask the questions. So it's like, How do I reframe this prompt to make it easier to, kind of make it so that it doesn't repeat itself? so I ended up with this and I think the time is better on that one and overall better same thing with action items sentiment analysis meeting engagement. This one, I changed a little bit too,
+MikeDrop: just a little bit more explicit instructions. and then the QA ones largely the same as it was I haven't really tested the Situation where you want to use? The summary and keep asking nested questions. I haven't checked that yet. But that shouldn't be a problem. We should be able to test. But essentially in the end, I made this big loop. and what it does is this loop
+MikeDrop: Basically, the queries of abstract, summary key points action item sentiment and engagement and it pulls down the responses and a number of tokens that it required for the input and the output. And then the amount of time that it took to do each of these and it pulls all that down into a data frame. And so this one ran for 320 meetings so essentially, now we have, I guess a base data set to kind of play around with in terms of looking at statistics and stuff and seeing what are the edge cases in terms of Places where this thing struggled to respond quickly, how uniform or some of the statistics? so again, this engagement column, I'm interested to see if we can
+MikeDrop: I don't know, interrogate the engagement column a little bit more. And try to figure out if we can pull out. Statistics from the text. Yeah, so I think this a good data set to start with, I can send where it is. In the drive.
+MikeDrop: I ran just the code llama one for now, since it costs. A dollar for every million tokens. So, this kind of data set costs 30 bucks or something.
+MikeDrop: But I figured It's good to start with having that. And then we can expand upon that, but the GPT ones gonna be expensive. So I was thinking we could iterate with this one and then maybe at the end, he's a subset of this. but, updated the logic for GPT, but only tested on a couple of cases. But yeah, this is the latest codebase. So right now, at the next steps is just studying the output to see if there's any patterns.
+MikeDrop: And I guess prepping everything for next week's presentation because I think next week's presentation is a lot of it. It's Based on the model and What are you going to use? Right. So I think having this data in hand is a good thing for that.
+00:20:00
+MikeDrop: To justify one of these models, instead of the models we were originally planning to use so today I was Just basically trying to prepare them from a rouge perspective and code llama, already looks better than any model that I ever find tuned. and from A, I guess. Coherence Perspective. It's way better. the coherence of the fine-tune model is more like Hey this is being really overfit as I was talking about before so Yeah. I think that's about it. For what I've done.
+Chase Iver Madson: And with llama you said earlier or in the previous day we can bring that locally we can download that locally and hosted ourselves. And Peeing make those summaries on our deployment instead of having to pass it to the API, is that gonna be possible with…
+MikeDrop: It was that way and…
+Chase Iver Madson: what you have?
+MikeDrop: then I struggled with getting it to work locally and so did Madhu from that other group. And so he was telling me that the way that he ended up getting it to work, was any scale, which is essentially a similar situation with an endpoint. So it's the same situation as we're in with GPT 3.5 where you're sending it to this endpoint. But it's more like I guess, unless I don't know. Less enterprisy platform. It's not Microsoft but it's like some I don't know. Company called any scale.
+Chase Iver Madson: Catch All right. Links. Mike, that looks great. yeah. So
+Chase Iver Madson: the Francis did either of you have any updates, you wanted to touch on?
+Siva Chamiraju: Sure the AWS setup for you all, maybe we can take it towards the end of this and finish it off. If you're not able to…
+MikeDrop: Yeah.
+Siva Chamiraju: we can do that Towards the end. I was looking into the audio identification, from the file to text conversion. The audio file to text was working with robot so far, no luck. He says There are other tools and I have been chatting throughout today. I'll keep you posted. If I find some solution on that, the problem that I'm trying to chase is for zoom meeting. Google Meet is doing really good for zoom meetings. We don't get proper audio identification. Trying to see if we can use AWS service seem to do good. But I'm not able to download the file. It's only visible online on the UI. And also, it's only top. 10 or 12 comments After that, it's not showing me. There should be a way to extract it. not successfully as to.
+Siva Chamiraju: figure out how
+MikeDrop: Is it a paid service to get it? feels it's like Hey this is a cool output. I'm only showing you and rose of it or whatever.
+Siva Chamiraju: It doesn't give me any option to pay, my credit card is with them and they've been charging me for my transcript service So if they can tell me…
+MikeDrop: Yeah.
+Siva Chamiraju: if they charge more and give that audio identification it has an option to pass whether I need. the audience identification and I did say yes and I can see the output. It's just download is not possible at this time. He's not sure.
+MikeDrop: 
+Siva Chamiraju: He's checking with somebody, internal to see if they can help, but he's not positive.
+MikeDrop: Yeah.
+Siva Chamiraju: He's saying he sent me a five hour video where he thinks somebody might have covered it. So I have to go through it and see
+MikeDrop: That's definitely.
+Siva Chamiraju: I'll keep you posted on that other than that. No, I've just experimenting how it's had GP works and how we can use it. Even at work, I started recording every meeting and started sending it to charge Apte to see how it can better at it. And yeah.
+MikeDrop: nice. That's awesome.
+Siva Chamiraju: So I compare some people what they do is after meeting, they send minutes of me and they compare that with the AI minutes of meeting. It's pretty close in a chair. I'm using only open AI not llama. It's very close. Yeah.
+00:25:00
+MikeDrop: Nice. prompt are using how are you positioning? The question. Just
+Siva Chamiraju: I just use standard prompts like, Hey, this is a meeting about this topic. I have final in this,…
+MikeDrop: Uh-huh.
+Siva Chamiraju: this is the transcript of it. that's where I use Hey, I have a long transcript. I'm going to send it in multiple parts. Wait until…
+MikeDrop: Okay.
+Siva Chamiraju: which are my parts and then at the end, I want you to summarize it for what are the main topics discussed? What are they action items? And what are next steps? and also I ask who give me the metrics of participation. I don't think that's doing that, great. It just gives me names that have this person has. I'm still experimenting more on that.
+MikeDrop: Yeah the prompt I think is harder to make for something that requires you to create a statistic, you have to be super specific. That's what it seems like.
+Siva Chamiraju: Yeah, I actually wonder why these recordings services haven't implemented this yet? And on, Google has army of people for them. It takes a week because they have all Metadatai with them.
+MikeDrop: Yeah, it feels weird that they have.
+Siva Chamiraju: Probably the idea is not with them yet. Once they get the idea, they can implement in a week or two.
+MikeDrop: Pretty much.
+Siva Chamiraju: Yeah. That's pretty much from my side. She's
+Chase Iver Madson: Thank you va. So I've been able to follow those instructions and get to a working Jupiter set up using an EC2 instance. I don't know. You guys are probably smarter than this but I forgot to turn off my instance on Friday and then I woke up to a 40 50 dollar charge over the weekend leaving it on. So,
+Siva Chamiraju: I told Mike the other day I forgot to mention it to you I guess, should 25%.
+MikeDrop: Yeah.
+Siva Chamiraju: I stopped and still there charging something. I don't know why they charge like that. just I set up the instance I stopped it but not like 40 50 dollars. I do get charged a dollar a day or something like that.
+Chase Iver Madson: It's should be significantly lower and my understanding is that your instance, is associated with a storage volume and…
+Siva Chamiraju: Right.
+Chase Iver Madson: I don't know what you can do on that and then deleting the volume to turn that off. I know you can just terminate the instance altogether and we create a new one when you need one,…
+Siva Chamiraju: Right. yeah,…
+Chase Iver Madson: but that's not optimal.
+Siva Chamiraju: no, I think 100, GB spaces volume, as I guess. That's where probably, it's charging.
+Siva Chamiraju: but I'm happy that you are able to finish it and able to get to the Jupiter level.
+Chase Iver Madson: so in terms of what AWS computing requirements, we will need Jupiter notebooks on AWS if we get to a point where we're ever training models and that's mostly on mics but Is anybody using an amount of compute that is too much to just run locally on their own local version like vs code or something at this point? Because I would just say that if possible keep it local that way, you're not paying. I racking up spending all your credits. That's all.
+MikeDrop: Yeah. I think even the eight I calls are or…
+Chase Iver Madson: But we should be, yeah.
+MikeDrop: not beefy because you're kind of sending it out, whatever that service has. So you don't even need to use a GPU for any of this stuff. I'm doing it.
+Siva Chamiraju: Yeah. yeah, what
+MikeDrop: I don't even know if you need to use it for fine-tuning. I can't remember, you might be able to tune that GPT model like using their own GPUs, but I'm not sure. I don't like that.
+Chase Iver Madson: But when I trained a NLP architecture for 266, I used three trained in beddings and then The downstream fine-tuning is what took me hell of a lot of time to try to compute locally. So if we end up doing that kind of fine tuning, I imagine it might be at least a few hours if these transcripts are super long, in my case, I was trying to see policies. These are 10 page documents but that's not even long compared to the transcripts of these meetings that we're working with. I have a feeling, yeah.
+00:30:00
+MikeDrop: It takes a long time. Yeah. But our data set is not very rich. so then,
+Chase Iver Madson: But it'll be good that we have AWS ready when we need it but also probably Keep what you can local as it make. Whatever makes sense in the moment. Yeah.
+Chase Iver Madson: Cool.
+Chase Iver Madson: All Yeah, so go back to what I was saying earlier. I'm going to continue working after this meeting to get the application, the stateless, MVP, hopefully online. I'm gonna finish the code. I'm gonna commit it all to a github repo, Invite you all. So you can see on the github repo, This is the code base for it. I'm going to try to get it working online on AWS with the containerized version. I'm good with my docker code, I still need to work out my Kubernetes code. So that's where I'm like assuming that things will just work out but yeah, we'll see. But I will buy tomorrow morning have the code out there and have something that is containerized and whether or not I can get it on AWS, I'll try to so that I can just send you guys a link and the functionality that I'm imagining is
+Chase Iver Madson: You should be able to upload a text file that represents transcripts and then it'll send you to the meeting minutes and that's about it. Yeah.
+Chase Iver Madson: Francis, thank you for taking lead on the 231 business last week. I thought that went I am assuming that I don't know if they did. They have any follow-up questions at this point? Maybe they might expect a few before the submission date and…
+MikeDrop: Okay.
+Chase Iver Madson: then at some point like we talked about before we'll probably get a report or something from him.
+Francis J Lee: Yeah, yeah.
+Chase Iver Madson: From their team.
+Francis J Lee: So we had to submit for our class yesterday the
+Francis J Lee: A model card. So they should submitted that first shaft and I'm assuming we'll get some of that in your term future up to their review and grade for us the privacy nurses as of today as possible right now. So if you guys are on a review I'm gonna update it as we go along the project as a continuing finalize, everything. So just add to it. And then
+Francis J Lee: I know that we're using lacing llama soap open ai. So, not to. I saw llama for eating and reviewing some of their responsible use guides Facebook has. So I'll just make sure that I'll try to protect us in the sense of what makes the most sense. So we just keep moving along and I'll just try to figure out what makes the most us to just add on to the breakfast. No statements. I was saying, Hey, we have been using your responsibly and adding that. So that's currently. We're after that. I haven't heard anything from the team member, And then I didn't get a chance to work on any data visualizations. That's gonna ask Mike Yeah for that I had a chance to reach out to him just to play around with himself. Some additional features.
+MikeDrop: I think the data set, I just finished generating when we probably the best one to start.
+Francis J Lee: Would be good one. Okay, awesome.
+MikeDrop: Looking at. so, Insane.
+Francis J Lee: Is that in our Google Drive?
+MikeDrop: It right now? Yeah, I'll send you it.
+MikeDrop: it's
+Siva Chamiraju: What kind of visualization? You're planning Francis like Tableau or something?
+Francis J Lee: Yeah, it's probably just gonna play around the tableau at first and then if we need to change it and not utilize tableau as a streamlined and I'll try to figure out some other coat visualizations to process. But that was pretty clean and pretty but yeah that could go it's something else depending on how it could fit in the pipeline. Push more kind of trying to see conceptually what that does initial products developed.
+Siva Chamiraju: I love traveling on Salesforce, but D3 and all is too much coding and stuff. I hit for small little box.
+Francis J Lee: It. Yeah.
+Siva Chamiraju: You had to write hundreds of months.
+Francis J Lee: That's good.
+MikeDrop: Yeah, I don't like D3 at all. I had database just last semester. I use tableau for everything.
+Francis J Lee: Yeah.
+MikeDrop: And I was It's way easier to use and…
+Chase Iver Madson: Okay.
+Francis J Lee: Yes. Yeah.
+MikeDrop: everything else.
+MikeDrop: but I think David visualization-wise from the engagement statistics, there's a row in there that if we can figure out a way to smartly query that row, and pull out what it's saying for engagement level of each person and digitize that and visualize it somehow from a meeting-wide basis or, take that text and try to convert it into some numerical, I don't know. Way of visualizing, something that would be good.
+00:35:00
+Francis J Lee: Yeah, that makes sense. yeah, this scroll through in and see what it kind of pull up from here. Opening the phone now.
+Chase Iver Madson: Does anybody have notes from our 231 meeting on Friday? And I remember there was a half dozen points that I remember we just said. That's a great idea. We should make sure we think about that. Later down the line of development. I just want to make sure we have those.
+Chase Iver Madson: Somewhere. And then we can read that. We can evaluate what prioritize and as we make our changes the next couple of weeks.
+Siva Chamiraju: It's strange, the guy said not to record but actually you are supposed to send a recording link to his project.
+Francis J Lee: Yeah, that's why I was like Hey wait are you sure? And I didn't want to feel weird about it but it's okay if you don't want to record it. I think I had basic notes. It's been chat but it's just I think.
+MikeDrop: Man, we could have used our own tool.
+Francis J Lee: Yeah. That's all I really got from. Fantastic.
+Siva Chamiraju: I recorded my session with the other team. I'll upload more drive.
+Francis J Lee: Yeah.
+Siva Chamiraju: I have their permission to share it.
+Francis J Lee: Yeah, I have our video to do. I just like And got permission from them, but I didn't get a transcript from them, so it's just straight video. I don't know.
+Siva Chamiraju: Also, are you used the free version of meat?
+MikeDrop: We're keeping the count.
+Siva Chamiraju: Google ME.
+Francis J Lee: What happened?
+Siva Chamiraju: Google meet free version doesn't have much capability. So does our zoom as well? The one that we use here is my work related and this has a lot of sophisticated features.
+Francis J Lee: Nice.
+MikeDrop: so, I think one of the main things he mentioned that was really cool. Is I don't know quality control how we want to deal with that.
+MikeDrop: I don't know if we really want to add bells and whistles and spend time doing that, but making some type of edit feature of we generated this do you want to change anything and then allow the user to update the document and then read submit it and then we can take note of what was changed. and, that could be a feedback loop into Kind of learning where it makes mistakes. But, you can also take that in a different direction, you're tracking what people are changing,
+Francis J Lee: Yeah.
+MikeDrop: How do you guys feel about that feature? I feel like it isn't as important for Yeah,…
+Francis J Lee: The Feedback Loop Walmart.
+MikeDrop: there's an option to edit this.
+Francis J Lee: I don't necessarily think option edit because I feel like they would just be able to copy and then just input what they wanted, It just copy and…
+MikeDrop: Yeah.
+Francis J Lee: paste it onto. However they're going to send it out. Unless we produce an output, that's a very nice executive summary PDF and they want that. Then there's a little different but
+Chase Iver Madson: Yeah. I think we should probably gear it towards outputting as a word or the Doc X file, so, it's sort of encourages, Hey, if you want to edit it, be on your own, but That. if we do it as PDF alone, I think it sent the message that this is final. And I think to put it as a word document, I think more, the message, a is a little more. Here's a great starting point potentially but you can make any edits that you might need based on your awareness of the meeting and the context around the meeting and
+Chase Iver Madson: all that. I feel like the edits itself allowing the user to edit it within the application or send feedback to the model. So that the model can come back with a modified version of it. That is problematic in my mind because the probably didn't attend the meeting. I think that's the use case that we have focused on is maybe you missed a meeting and you wanted to catch up. So they won't know how to edit some content in the meeting in my mind. So I don't think that we're the people. we're going to give the option to edit, it will Have the knowledge of what to edit in a lot of cases.
+00:40:00
+MikeDrop: Yeah. Yeah, I kind of agree. I guess if we get it in the right format we don't need to really have that as something that's really kept track of
+Chase Iver Madson: I appreciate the sentiment on. Contestability, you want to build contestability into the models? I think in our case, that would be a Difficult to implement and it wouldn't make sense for the common use cases that we're expecting.
+Chase Iver Madson: And again if we just posted in a word format then it kind of is implied that you can contest. It just go ahead and edit it yourself after the fact
+MikeDrop: What about the cursing conflicts and profanities? Talking about.
+Francis J Lee: Yeah, I think it'd be okay. I don't really see anything in such legal, it's just more on if it's a professional document then they'll identify that, it wasn't a professional meeting versus our product, cleaning it up. If anything, it would almost show that our products trying to, change what was happening in the meeting. And
+MikeDrop: Yeah.
+Francis J Lee: As Intenses, it may have been. and then I think I added that the products and tension intended for 18 and up just so we avoid any children and stuff like that so it won't really affect okay, these kids are playing around and just Cursing a lot. So I think that that'll be fine.
+MikeDrop: It'll probably show up in the sentiment query more than anything else. And that query for professional meetings is always giving basically the same result, which is Hey, this conversation was super neutral. There was …
+Francis J Lee: .
+MikeDrop: No, there's no kind of sway in one direction or another and minimal conflict. So that's kind of what it's been showing so far. But of course, we can study all the outputs and What happens when there is a conflict, what is it mentioned?
+Chase Iver Madson: I feel like Yeah that's going to be Quality control of edge cases and it's good to think about. I don't think we necessarily need to prioritize it because I don't know, I don't think, we're gonna have to show to test that instance out in
+MikeDrop: yeah, I don't think either It was funny how you asked a lot of questions where I was That's really far into the design process that you'd be asking that it's but it's a good idea. A lot of them were really good ideas, but they were wow, that be like if we were done everything, we'd be doing that. I don't know.
+Francis J Lee: Yeah, I put a link in for llamas feedback loop. So if you open and scroll it, there's a section about reinforcement learning from here back. Yeah, but kind of like what Chase was talking about, it's more meeting summarization. So I think the only feedback would be if the output wasn't as good or it just didn't make sense, but it seems like the models at the point of Not. Summarizing things that don't make sense.
+Francis J Lee: That's how llama 2 that there's.
+MikeDrop: Right.
+MikeDrop: damn, so they actually
+MikeDrop: they actually I actually get feedback and put it back into their tuning of the model.
+Francis J Lee: Yeah.
+MikeDrop: 
+00:45:00
+Siva Chamiraju: Lama is Facebook one, right? The Meta API,…
+Francis J Lee: Yep.
+Siva Chamiraju: do you guys use this app called Whatsapp?
+Siva Chamiraju: They just added a material. You guys aware of it.
+Siva Chamiraju: It's on your phone. If you go to updates, it's a site topic. Sorry, I'm trying to
+Francis J Lee: So yeah, I'm on the, what's up?
+Siva Chamiraju: to go to Updates and the first tab.
+Siva Chamiraju: Somewhere, I forgot. Where after that, you can just mention meta, ai and ask anything. It's your AI bot and they also have coaches.
+Siva Chamiraju: Quite a few coaches. If you just go to New Message. And there is a new AI chat. You have called sports.
+Francis J Lee: Yeah.
+Siva Chamiraju: The better adventurous storyteller? A ride or die, older sister. There's so many Watts, you can chat with them. And it's pretty cool I've been using it just for fun. the reason I brought it up is it builds based on how you have been asking and it knows it builds your profile.
+Siva Chamiraju: They say didn't encrypted but not sure how they can encrypt at the same time, build your profile. I don't know how it works. Encryption, is there not supposed to store anything, they shouldn't be reading my messages. But maybe they'll just read only whenever I say at Meta Ai.
+Francis J Lee: Interesting. Yeah because I didn't accept the introducing a chats and then the prompt comes up and then if You want to privacy policy AI terms? Learn more.
+Siva Chamiraju: Yeah. Yeah, give it a shot. It's pretty cool. I'm really enjoying Opening eyes only. It's not a mobile right yet.
+Francis J Lee: Open AI. Okay.
+Siva Chamiraju: It's only Browser.
+Chase Iver Madson: I think there's an app for Jcbt.
+MikeDrop: Yeah, my red record for it,…
+Francis J Lee: Yeah.
+MikeDrop: uses it. On his phone.
+Siva Chamiraju: Okay.
+MikeDrop: Because we're not even allowed to bring it up on a browser at work.
+Francis J Lee: Yeah.
+MikeDrop: Good so yeah, there's no way I can use our tool but Brad.
+Francis J Lee: Function.
+MikeDrop: They won't let me use it.
+MikeDrop: You can only use it if we like phrase, the question How do I code this? and with no context,
+MikeDrop: But still very helpful.
+Chase Iver Madson: Alright, so tomorrow is again Week, 9 the subject for tomorrow's, technical model evaluation. And yeah, we'll see what they have to cover on that. If you look at the digital campus for that module, there's only one video. Let me see how long that even is. To do. It's probably gonna be very generic because Some people have computer vision and this video is only less than two minutes long. So I don't know what all they're gonna cover in class. But yeah, I think we're gonna expect relatively
+Chase Iver Madson: Easy class tomorrow, in terms of, we don't have any deliverables but we do have in one week from tomorrow. Our second presentation. So we're probably spent some time tomorrow, especially in our breakout group, we have a chance coordinating that I think and getting us rolling with what we're going to cover. What we want to have done by then and yeah. I will have a busy next week I think.
+MikeDrop: Yeah, I definitely need to go look at what is needed for that presentation and try to divide up.
+Siva Chamiraju: Should we meet again? Sometime early this week. So instead of waiting all the way to next Monday,
+MikeDrop: Yeah, definitely.
+Chase Iver Madson: What's everyone's availability? I think. I actually kind of have a very packed We Thursday, But after that,
+Siva Chamiraju: Friday may work last week.
+MikeDrop: Probably could work last week.
+Chase Iver Madson: Yeah.
+MikeDrop: But let's I guess between now and tomorrow's class, we can just figure out what is all the things required and try to assign them out before Friday.
+00:50:00
+Siva Chamiraju: Okay.
+Chase Iver Madson: Yeah, so we can come in Friday with everybody That everybody has a little bit of a draft of what they're going to cover and maybe we can talk through it and that way. Sunday Monday.
+MikeDrop: Monday would just be a dry run.
+Chase Iver Madson: Yeah we'll just dry around. Cool.
+Siva Chamiraju: Yeah.
+Francis J Lee: So are we switching so weekly we'll be meeting on Monday instead of Sunday.
+Chase Iver Madson: I think that makes sense.
+Siva Chamiraju: I yeah.
+MikeDrop: It seems like everyone's had a conflict with Sunday every time.
+Francis J Lee: But Yes I just want to make sure it's up. You might as well just lock it in. I'm pretty good with this time. Is it this a reusing this time or thank you.
+Chase Iver Madson: 5pm's good with me, might be a Pacific if everybody likes that.
+MikeDrop: That works.
+Francis J Lee: I should be good as long as there's no meetings.
+Chase Iver Madson: Thank you.
+Francis J Lee: For the most part. Usually, eating certain ly, sometimes there's something ones.
+Chase Iver Madson: All…
+MikeDrop: Perfect.
+Chase Iver Madson: it's done. And let me go ahead and delete the zoom link For that.
+Siva Chamiraju: yeah, I will add
+Siva Chamiraju: I'll send this link right before the meeting again.
+Chase Iver Madson: Okay, so yeah I'll post up again the chat with my deliverables by tomorrow morning. I'll say for the application so yeah we'll have a stateless MVP hopefully show off for tomorrow other than that. Yeah we got presentation report. You thanks everybody for the work and before I close it out just any last thoughts, any land anybody wanted to bring anything up before I steamroll.
+Siva Chamiraju: The AWS Mike offline and see if it can work or you can.
+MikeDrop: yeah, I'll just follow the steps and…
+MikeDrop: then If I don't, Figured out this.
+Siva Chamiraju: Yeah, should be pretty straightforward after this.
+Siva Chamiraju: You just have to add a host in your local and then forward a port. trying to run that app updates. On the instance and you are good to go.
+MikeDrop: Perfect. Yeah,…
+Siva Chamiraju: Yeah, those three slightly. Yeah.
+MikeDrop: I'll follow the Pepsi put down. What's up?
+Siva Chamiraju: Those three slides that I mentioned in the slide numbers that has the data is variable to easily get it done or you have to go without more details.
+Chase Iver Madson: I didn't have too much trouble with it, but yeah, I think I had to think about each step a little bit. It wasn't too bad though.
+Siva Chamiraju: You bring me Mike, mentioned my name and I can jump in any time if you need help.
+MikeDrop: All right, thanks Siva.
+Siva Chamiraju: It looks thanks.
+Francis J Lee: Thanks.
+Chase Iver Madson: Thanks everyone.
+MikeDrop: All Talk to you later.
+Chase Iver Madson: See you tomorrow.
+Siva Chamiraju: 
+Francis J Lee: but,
+Chase Iver Madson: Fail.
+Meeting ended after 00:53:10 👋

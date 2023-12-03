@@ -1,0 +1,252 @@
+﻿Capstone 11/13 (2023-11-13 17:12 GMT-8) - Transcript
+Attendees
+Chase Iver Madson, Francis J Lee, Francis J Lee's Presentation, MikeDrop, MikeDrop's Presentation, Siva Chamiraju
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Francis J Lee: To talk a lot about additional features and marketing this to companies and so log in passwords probably gonna be something to deal with that pipeline. So it's not a must have but it could be something just explore unless there's other prioritizations Mike something else that we could do.
+MikeDrop: not about having that be in the interface and at a high level just being able to type something into a box and Have that be sent. I feel like that is still going to be a little bit of I guess iterations.
+MikeDrop: Yeah, that one's a little weird because I think in order to have the proper context with the way we're doing it. You have to build out the text that has been said before and every time I sent this note out, every time you send back and forth like a question or answer you have to basically give the API everything that has happened up to that point. In order for it to know hey, you just asked this question and I give you this all those things so it'll be some implications with how we designed the back and forth and Whether I guess we'd use the summary as our context or we use the full transcript as our context.
+Francis J Lee: Do we want to add is a Q&A something that we want to have that's the base requirement or is that just additional features?
+MikeDrop: I don't know depends on what you guys think.
+Francis J Lee: You know what you guys thinking?
+Siva Chamiraju: I want to see what other deliverables that we have. I think last time when we met we thought putting a hold on a new additional features.
+Siva Chamiraju: Do you have list of what is it just the product presentation and a paper is that final deliverables or they're more?
+Francis J Lee: Yeah. Yeah, just the final globals will be the presentation and then I believe there's a web-based deliverable in the sense of what are final production is the MVP. So those are the bare minimum for us to successfully complete Capstone. But yeah, I guess to Q&A would be an additional features, And I guess this is talking about for posts because I guess Chase would be pretty much done with MVP. Essentially this week were following next week. So it would really just be adding any pretty features. So I guess it would just become what's more important or what do we think's more possible login and password type of
+Francis J Lee: features data storage, the pipeline update about dashboard or embedding visuals and then I guess Q&A is also another portion of iteration. So if it depends on I guess Chase's just looking for what's next that they should be for testing while he's finalizing.
+MikeDrop: I think from the perspective of having user testing if we do even have a visual or a Q&A that we want to start with. I think that could go a long way if people are actually testing it to see if it works, right. I guess those two things would be more things that you can actually give feedback on then the login and data storage aspects. That makes sense.
+Siva Chamiraju: Yeah.
+Francis J Lee: Yeah.
+MikeDrop: So I don't know those are better to prioritize earlier if we're going to go after them at all.
+Francis J Lee: Yeah.
+Francis J Lee: I think that makes sense too because in the end login and password, yeah, it's more of a security and a privacy that you probably figure out later versus what's really going to be an actual change of the product right login passwords just part of the pipeline and admin but you prioritize actual feature and
+Siva Chamiraju: Yeah, I'm not trying to prioritize that but then we also had that other use case where we can combine multiple files. I think that was the whole point of having a login, but I agree I think coach Q&A makes more sense than providing additional inputs to the process
+MikeDrop: Yeah. I agree.
+Francis J Lee: So yeah, I guess if Q&A integration could be something the forecast or Instead of the login and password or just I think visualizations something. Why didn't I would work on I think we can figure out I guess we still
+00:05:00
+MikeDrop: Progress there when my turn and show.
+Francis J Lee: Yeah, okay, Anything else you need to?
+Chase Iver Madson: No, yeah, I will send the link to the working application once it's ready and if you guys want to take a look at it too and just play around with it and get a feel for any other changes because once you see it, you're probably going to realize this it's ugly here. It should have some other there's probably a lot of aesthetic changes that need to be done too. So just consider those and just how the user experiences it and just keep notes on what you think. items to make the application better. But once I send the application link go ahead and do that. Other than that, I'm good. Sorry for the long winded update.
+Francis J Lee: so no. No. Thank you so much.
+MikeDrop: Yeah, I'll share for a minute.
+Francis J Lee: Yeah.
+MikeDrop: so In the last couple days. I've been working a couple things. So the first thing is I was trying to get this whole situation to work where you ask all the questions in the same query. I was able to get it to work. where you ask you explicitly Hey, ask these five separate questions about the meeting transfer going over five and you put every question explicitly in And then you say please provide answers for each question that are easily discernible from each other.
+MikeDrop: that works but the quality of the answer is not as good. so first of all Since this prompt that you have to make for all of them is really long. You're limited in I guess how much you have to truncate the transcript more because this input is something tokens. And you have to truncate the transcript. no 2,000 something token. So you need to try this transcript by 2000 more so you're truncating more of the transcript and then I tested on a couple of cases and Sometimes these questions don't even work the same way as if I were to ask them individually. So, for example, I asked these five questions here.
+MikeDrop: In this case, like it says there's no specific action items for this transcript. in cases where I just ask explicitly is their action items only that there's a lot like that they identify
+MikeDrop: so I don't know if we have to prove it first very far, but I think there's a trade-off between I guess adding the transcripts in once and then giving all the questions at the same time versus. The other side of it which is adding the transcript each time and maybe get more quality answers. but one thing about this I guess is that it might actually speed up the way that it ends up getting either results. so it might be worth running a full run of this and then comparing it side by side with the other way of doing it where you do the individual and then just I guess how different it is. But yeah, this is possible to do it just didn't seem to give really as good of results.
+MikeDrop: as I wanted it to get sometimes it was just like now I don't really want to answer that and also, when these things are generating output I think they want to be brief with the output and if all of the questions need to be answered. one of them is longer winded then maybe the other ones like they just say, I'm gonna make this shorter so I can be within the token limit or whatever.
+MikeDrop: So I think there's some performance potential issues with doing it this way, but definitely some benefits as well. So I think this is worth pursuing as a side thing and a different way of doing it and for example, if you ask these five questions separately each of the questions might take five seconds each and it might take 30 total seconds where you get an answer but this question asked once Might only take 10 to 15 seconds. So it's maybe a better user experience from that perspective, but Just the thought there. and then the other thing that I worked on was so I originally had a certain ways of posing the questions. but I
+00:10:00
+MikeDrop: I had this outline in the slack of what I think we should go and do and we're able to put together a first pass at what that might look kind of these things that I said. In the slack, I can't share both, All let's see So the V2 versions of this stuff, I guess I can just go to the output because it might be hard to explain it all. Yeah, I'll go to the output and then work backwards. So essentially the output looks. Where is it?
+Chase Iver Madson: that I just
+MikeDrop: Is it in here somewhere?
+Chase Iver Madson: I guess.
+MikeDrop: Okay, I think the output of the new questions. so first of all I combine the key points and the engagement and I made the outputs really simplistic and asked it to be explicitly stated in a format. That would be Easily deparse so essentially it mentions all the main topic and then it has what percentage of the meeting were we talking about those items. And then it says, these are the main topics and this is the percentage of the meeting that they were discussed. And then here it just explicitly States a percentage for speaking time and a number for interactions.
+MikeDrop: And then up here for Action items. It identifies the speaker that the action item and assigned to and then I explicitly state that you need to have a colon and then an answer for it. So it is able to figure out who's assigned to what? So then it is able to digitize. the actual amount of action items that that person has and then this question for I was playing around with sentiment and I changed the question to just be give me a one word sentiment number or sentiment like category for this meeting. and I gave it a certain amount of option. So I was trying to make it so that it would give you a fruitful output where you could have eight categories and a good split between them, but I'll show you what I asked.
+MikeDrop: For v2. There's a supplement I said as an AI with expertise in language and emotional analysis your taxes to analyze the sentiment and label it as one of the following eight categories negative neutral constructive productive collaborative contentious or engaging
+MikeDrop: And it didn't really work that well because what ended up happening is I ran it on 89 meetings and 71 of them were in labeled as engaging and then there was a couple that were labeled as other things. but I was just trying to basically have it so that sentiment thing wouldn't be like this thing that does the same thing every time it would be Kind of like something where you could just be more like This is a one-word summary of how the meeting kind of went in terms of sentiment.
+MikeDrop: And I guess the ultimate goal. so that we could digitize. The outputs of what this is saying so that we can create certain visuals instead of having a wall of text. so I guess the previous version of this was Very much a bunch of I guess things that we're trying to basically repeating themselves in a lot of places. And kind of the same. so
+MikeDrop: It's surprising that I guess GPT is pretty good. I haven't tried llama in this but they ran 89 meetings through the GPT with the new questions. and surprisingly I was able to parse out for every meeting from the output I was able to parse out the topic and the percentage. using reg X And then I got it into this format where for every meeting you have every topic that was discussed. and then the percentage so It did that for a number of different things based on the outputs. Basically using regex all over the place. to get it and then ultimately when you parse it down and…
+00:15:00
+Chase Iver Madson: opportunity
+MikeDrop: you have it in this format, you can create something this example so for one meeting you can have something where
+MikeDrop: You have these two in text format where you have the summary. And the action items exclusively stated. But then every other piece of it is something visual. So you have something like Where this is the key topics that we're discussed and the percentage of time they were discussed for this is the split between speaking time of each number of action items and then this is Kind of like a stoplight of is it a positive sentiment or negative sentiment or something? So that's kind of.
+Chase Iver Madson: Are you showing a visual awkward? We just see the notebook. There we go.
+MikeDrop: Sorry.
+MikeDrop: So yeah, this is the summary of this meeting. And then the action items as it shows and then everything else is a visual. so
+MikeDrop: basically in the output and…
+Chase Iver Madson: Okay.
+MikeDrop: like parsing it to get the numbers and then Taking it to that level. hey want to
+Chase Iver Madson: it's good. Yeah, this makes sense. we're gonna get some output from our request to open ai's API, and we first need some parser to Just break it out to just some clean Json file for if nothing else then to transmit that information back to the front end to the application UI but on top of that after it's been parsed we can then send it to another that visualization script that is this like matplotlib or an interactive one. probably
+MikeDrop: I was just kind of using it. this isn't set in stone. Obviously. This is kind of I just was trying to display…
+Francis J Lee: 
+MikeDrop: what I was thinking.
+Chase Iver Madson: Yeah, good.
+Francis J Lee: Yeah. Yeah,…
+Chase Iver Madson: Perfect concept. Yep.
+Francis J Lee: I think this is really good.
+MikeDrop: Yeah. Thanks.
+Siva Chamiraju: Yeah, one thing on the questions.
+MikeDrop: and don't
+MikeDrop: All right.
+Siva Chamiraju: One thing on the questions I learned this week that with open AI don't be in requesting tone be authoritative in which Don't say Can you remove those kind of words? So it gets better response.
+MikeDrop: Okay.
+Siva Chamiraju: It seems one of the core data scientists at my work mentioned it and he showed it with examples how it works. When you request versus when you force it to tell you something.
+Francis J Lee: command
+MikeDrop: 
+Siva Chamiraju: In fact, he was able to even pass a Google doc link.
+Siva Chamiraju: Open it was able to read from the Google Doc. He didn't ask you read from this dog.
+MikeDrop: that's
+Siva Chamiraju: He said read from this dog. and give me summary of third cell of a Google sheet and…
+Chase Iver Madson: but
+Siva Chamiraju: it did apparently So, I mean I'm just saying don't go by the requesting take out all the requests and see if it changes the output in anyways.
+MikeDrop: Yeah. No, I think some of the things I was asking for please this and kind of explicitly stating like I wanted in this format very much. Please do that. So, yeah, I might try to play around.
+Francis J Lee: so this is good then with the outputs, so this is part of the Q&A flow or it's just like Analyze conversion and outputs like all these action items is what you're passing through open AI, right?
+MikeDrop: 
+MikeDrop: What I'm proposing, I guess, is That when you upload a meeting transcript the output isn't just a wall of text. It's like this in this and…
+00:20:00
+Francis J Lee: Yeah.
+MikeDrop: then this and…
+Francis J Lee: Yeah.
+MikeDrop: then the base I don't know this doesn't have to be how it is. But this is
+Francis J Lee: or pretty
+Francis J Lee: so then what are you just pulling it straight from through open AI how's it all being calculated?
+MikeDrop: 
+MikeDrop: basically I'm asking the five separate questions and it's getting into this data frame and then I'm running some post processing on the data frame to get stuff into this format. based on a parsing of the actual output.
+Francis J Lee: Okay.
+MikeDrop: So for example I'll show what the actual output is without.
+MikeDrop: Let me do it this way. so if I do I'm strict.
+MikeDrop: interaction items and
+MikeDrop: topics engagement
+MikeDrop: the actual output looks like
+MikeDrop: So The second one is the action items. Here, I'll try to split it. So you can read it.
+MikeDrop: My God.
+MikeDrop: yeah, so there's five problems. So the first one you ask summary it gives you the second one you ask for the action items and then you ask for this common separated list. And so for the action items, I find this and I split this text up and then I create a data peace simulation this piece And then for this it's just a one-word answer this is sentiment. And then this is always in a similar format to this. It's a little variable but I think most cases I'm able to get into a format that actually is workable. So you can see if I just scroll through these quickly we can go. And look at just all of the engagement ones.
+MikeDrop: you'll be able to see I guess what the variations are. so they're very subtle like GPT is able to actually give a pretty consistent output across. you can see these are different meetings, right? So
+MikeDrop: There's a couple that have a weird ass output, but the rest of them look. for the most part they're giving consistent enough output that you can parse it. After the fact reliably and get something to visualize. If that makes sense.
+Chase Iver Madson: totally Yeah.
+Chase Iver Madson: Yeah from where my standpoint with. The application code I can see this working pretty well. If you hand over to me, whatever you're done working with it a notebook that just shows This is what we're sending to open AI. This is what we're getting back from them and this is your strategy for parsing and putting it into The data object that can both send the raw content to the front end for just showing the summary for example, and as well as doing some additional visualization and then sending that visualization to the website. I can see that all working and I should be able to adapt that with a notebook like this. Yeah.
+MikeDrop: Perfect. Yeah, I wasn't sure if it would be easy to embed. just in the code base itself it creates this and…
+Francis J Lee: Okay.
+MikeDrop: then all you have to do is embed it into the website or I wasn't sure how that would work. I was thinking if we haven't just But what good?
+Chase Iver Madson: Yeah with react you just make a component and then you just have to make sure that that component can. Embedded visualize and that a visualization from there and I want to say naively that that's doable. Yeah, let me just ask chat CPT if that sounds like that's a doable, but that sounds doable to me.
+00:25:00
+MikeDrop: Yeah, no, I just feel like we just have to figure out the formatting here and whether there's any other visuals that really make any sense to have in high level summary situation like the whole timeline situation that we're talking about and things to pull out but I was figuring it might be easier for someone to read a smaller amount of text and then this take a look at the visuals and then I think it's easier to digest the information I guess.
+Francis J Lee: Yeah. No, I think that's good.
+Chase Iver Madson: Better and…
+Francis J Lee: I think it very
+Chase Iver Madson: the answer is by the way, we should be able to confirms that I had to install a couple of packages but that should not be a problem. So whatever plot lead or whatever else visualization we're working with the world are oyster, whatever we can make in thought Lee I should be able to put that onto the website. Yeah, sorry.
+Francis J Lee: That's good. I guess yeah, then yeah that makes sense having more visuals especially from the Capstone breathing for all with the dean or she showed that survey Hall most people weirdly preferred, visuals on text. Even if it's not directly to the question they have so in the sense, it's like maybe they don't care about all this information. But now that they see individual application. They may really enjoy it right or start to pull contacts from it. So I think that'll help create the niche of the project. what do we need to do to help help? Mike and Chase? I guess verse this.
+MikeDrop: I think iterations on the questions to potentially get better output for sentiment. and also just a Q&A I feel like is something that I guess based on this actual output or these outputs. what things would we project people would actually ask in QA and maybe run some tests on if we were to ask that about each meeting how good it would actually perform. For example, you could just give me a summary of when you were talking about functional design or new requirements or something Is it giving good results when it's being asked different things I feel like that's like a testing that is possible to systematically do whereas.
+MikeDrop: I feel like the summary testing is harder to I guess iterate on.
+MikeDrop: but the problem
+Francis J Lee: They're saying that you're talking about the user asking, our product. specific pieces on the meeting or
+MikeDrop: Yeah, so they looked at this and they're all right, you talking about speech recognition or something, give me what speaker a said his opinion on. speech recognition was or something like that or something they might ask about the meeting based on what they're seeing here.
+Chase Iver Madson: The Q&A is meant to be compatible with the summary. and in a sense that the summer is going to provide just a gleaning of information what happened in the meeting what was discussed and then the user's going to want additional information. So it should look to the trend the original transcript and should know what's in the original transcript and pull out maybe a lot more detail about something. That's just one simple bullet point. in the summary
+MikeDrop: Yeah, question about an action item or a key topic that was talked about and I want more detail on that topic or something.
+Francis J Lee: So we will need to be storing. I guess the transcript before if we're not going into the theory of just processing it and pumping a visuals like that. for the near term or I never talk about storage having a data Lake but I know for the Essential MVP we wanted to just at least process if MVP product with some kind of executive summary with metrics like this. so yeah.
+00:30:00
+MikeDrop: I think it'd be a scenario where if you wanted to use the QA and you didn't want to use storage you could just say hey you loaded into memory in the web page that you're currently in. And you do this whole situation and then you use that that you loaded into memory to do a QA and then when they go away from the page, it's just gone. until so it's kind of the same as this summary,…
+Francis J Lee: Okay.
+MikeDrop: but it's custom prompts. Basically We have these very deliberate prompts. But it's really just replacing these delivered prompts with People asking it weird questions or different that are opposed.
+Francis J Lee: God but
+MikeDrop: I guess in a really systematic way I guess
+Francis J Lee: Says possible to do a Q&A without storing the meeting. hypothetically
+MikeDrop: I think it's basically like in place how you use it here and then you just kind of answer the questions and then The page if they reload the page or go back to the page again, they have to load the transcript again.
+Francis J Lee: Yeah, I think that makes sense because right now I think we want to prioritize at least getting the product and pushing it out. Right so you can test it and then have other people test it and then I don't know if storage something we're still trying to fight for or is that something we're not trying to focus on because of a timeline coming down?
+Chase Iver Madson: I think we should probably have that floating but not as what's next because I think there are some essential things. We want to work out before we get Creating a login connecting it to a database for storage and adapting the user interface to make more sense for something user login that's gonna be a whole chunk of work and I think we should just have that in our queue.
+Francis J Lee: Yeah.
+Chase Iver Madson: But not as a need to get done.
+Chase Iver Madson: Maybe once we check off some of the basic things like the applications up and running we've at It doesn't look like a piece of crap that we were embarrassed to even show to testers. once we get to that point of okay, we've gotten a very basic things now. Let's see if we can tackle adding adding State into our application. I hope I'm using the term State correctly there.
+Francis J Lee: Yeah. That's valid. So let's I guess.
+Siva Chamiraju: but we do need a capability to hit the S3 because the script. When we use AWS transcribe, it will go into S3 bucket or it can also be stored in somewhere. I think hitting is three is okay, I'll make sure that my script touches the S3 and give you the output from my screen.
+Chase Iver Madson: Yeah, so S3 is a necessary part of the pipeline, but once it does a transcription once it gives us the text file in theory the way it's currently set up. We don't really need to save that text file long term. that would just be something we might want later when we start involving a lot more State into our system. So S3 bucket is a necessary part, but it's not once we go through and pass it. Once that we produce the output. We don't necessarily need the key. Hold on the S3 at the current state of our application.
+Siva Chamiraju: Okay.
+MikeDrop: So eventually we would store both the transcripts in the user account that they uploaded but also this summaries that they got from that and then you could do some more I guess analytics on top of that of hey, you've been to 10 to 20 meetings and here's kind of some visuals or something having to do with that.
+Francis J Lee: So yeah, so then I guess with what we need to do to get. Your pipeline with the Q&A integrated with Chase how much more I guess iterations are you looking to do for that?
+MikeDrop: I think it's in a good spot right now. The only thing I want to change is I want to see I want to run the full run with the one question and try to get that to work and get a good output if you know what I mean. So we only have to pass the transcript once and we don't lose performance or prove that we do lose performance and then don't do it that way. and then I think I might change the sentiment one to just have it spit out negative neutral or something more directly tied to what I was thinking green yellow red in terms of sentiment. It's easier to I guess have that piece. It's like seeing that way. Or we could just have it give a one word summary of the sentiment of this meeting and just see what it comes up with.
+00:35:00
+MikeDrop: I don't know if we want to constrain it in any way or whatever but I think it's closing. I mean might try to test llama with the same stuff just to see if it gives anything different but GPD looks really good and I was surprised that it is actually parsable. because I didn't think I'd be like a nightmare to do this, but it seems not.
+Francis J Lee: It's good. Then I guess we'll chase you said by tomorrow you're gonna have potentially. A workflow I guess is you guys all want to meet tomorrow before class or it doesn't mean you guys want to push this out until Friday?
+Chase Iver Madson: something simple
+Francis J Lee: I think we're at the point of hopefully getting something by this weekend to have reviewed by our friends and family to try it out, do you guys want to wait and…
+Chase Iver Madson: okay, just
+Francis J Lee: push out till Friday or look at trying to meet before class as well?
+Chase Iver Madson: I can do either.
+MikeDrop: I can do either too. I guess I can do In our report class tomorrow or something.
+Francis J Lee: Okay.
+Siva Chamiraju: Okay, that works.
+Francis J Lee: Are all push a meeting invite for tomorrow? And then we're Concourse if we're not at that point and we just push till Friday, but if we are able to have something for tomorrow, then that would also be great in the sense of tomorrow for class. There's nothing to do besides they're I think the only thing is on the async.
+Francis J Lee: It's about recommended Just check out the content and constructing data pipeline. So it's just a async material but there's nothing that's hard or that deliverable. That's tomorrow. It's probably just updating where project status is. We could repeat that tomorrow. So Enterprise features, we're still on pause. We're not prioritizing storage with login and password and user interface. As this time. Our focus is to get the MVP. We definitely like to stuff that Mike's developed with the question prompts to create those visualizations that can feed into Chase's Pipeline and then see if it's gonna continue see if speaker identification as possible. Yeah.
+Francis J Lee: And other update yet, almost any of you guys looked there. Was that privacy audit he gave us a report, there's some basic stuff but doesn't really apply to us because we're not going full business is more heavily on a Really business implementation login passwords talked about how if we have international people since we said some of the people in the meetings could also be from International places and we don't even really notice that just adding more disclaimers. So that's really about it on the Privacy audit. Yeah.
+Chase Iver Madson: he awesome Okay.
+Francis J Lee: but
+Francis J Lee: All right, anything else you guys want to talk about?
+MikeDrop: Do you know how easy or hard it is to get the box in the UI of the website that goes back and forth. I don't know if it's something where we should be using external tools to do it or if we should be building that all out our self. I don't know I haven't really even looked in that area. Like I know.
+Chase Iver Madson: You talk about the upload component or how it takes data that's returned.
+MikeDrop: What the UI looks like or how the ui's built for that and how that works. the Box on all the other teams. I feel have something like that but I don't know if they built it from scratch or they use some package or something to have it shown or whatever.
+00:40:00
+Chase Iver Madson: your body the Right.
+MikeDrop: for keyword
+Chase Iver Madson: So looking when you go to a petco.com and you're in the right corner, there's a little out thing where you can click it expands and it looks like a chat box that you would have. Yeah, right.
+MikeDrop: You'd be able to go back and forth.
+Chase Iver Madson: I have not looked into that yet. like I think that makes sense to be our Q&A peace something at least like that. And if it's not a little old-out thing that goes on top maybe you can just be a square at the bottom, but then it sort of has that back and forth chat box feature to it feeling to it. I want to say that that exists. I don't know where the built-in component. So I'm using react as a front end framework and I am pretty confident that there is a
+Chase Iver Madson: external Library I can bring in to act Handles that specifically so I think the answer question. Yes. I'm pretty sure with a little bit of research we can find something that is adaptable and then it's a matter of So that's what looks like the front end. But how do we pass the question send it back to where it needs to go get an answer return it within a reasonable time frame. Yeah, that's another question. But whether we can make it look that way I'm a bit more confident.
+MikeDrop: Do you think would it help if I created a mock-up of how it might work? If you asked it a question, you got to answer back. He asked the question I think I might be able to put together an example of you ask it this it gives you that answer then you asked another thing like how you'd have to have the code that Okay.
+Chase Iver Madson: I'm gonna put it in our group now the board I have up for the application diagram, but I have a tab open for…
+MikeDrop: he
+Chase Iver Madson: how I've been mocking up the
+Chase Iver Madson: The user endpoint the UI. So if you just want to make a new page at the bottom or the QA and how it looks then I'll refer to that there. now Even…
+MikeDrop: All right here.
+Chase Iver Madson: if you want to draw and paint and just copy paste it in there. That's totally fine. As long as it's here. I think that's where I've been storing all of my mockups prototypes.
+MikeDrop: I think what I meant was just literally the code you'd have to build to be able to do it if you were doing it all from Atch if you so you send an API request that has the transcript and you ask question you get a response and then you have to use all that and create another request the next time you ask some question. that uses the context of what you just asked so it has to I guess be like, what is the answer to this? And then if you ask something where it's what about the thing you just said? It knows that it just answered in a certain.
+Chase Iver Madson: Right, it's aware that it's in a conversation and it has had these previous responses. Yeah, that's
+MikeDrop: Because it's tricky with the transcript to do that because I think we have to truncate the requests or API requests the way it works. is now I guess we're at the edge of the count that we can use. In terms of tokens. So if you were to request and ask a question back and forth and that accumulated enough tokens, you'd lose more and more of the context from the meeting in order to actually send API requests. So I wasn't sure also there was another way of doing that so you wouldn't have to truncate it. there's all sorts of issues with using the API versus using the browser with respect to actually being able to get it to work in that way. So
+MikeDrop: So yeah.
+Chase Iver Madson: yeah, I'm afraid when it comes to the back end how to keep a contextual conversation and make it kind of work how the chat GPT website the web app works where it remembers. Yeah. I'm not sure about that.
+MikeDrop: We might just make it more like ask it a question and know that it's only a one-way Street. and then, you can't follow-ups and make conversation, but you can ask specific questions. With no problem, maybe we just do it that way because it's very easy to implement at first as our base level product. And then if there's time or it's easier to do than we think we'll be able to contextually have conversations back and forth because I don't think our main product is a chat but I feel like the feature of being able to ask a question to the transcript is actually a really good feature. but it doesn't necessarily need to be conversational and…
+00:45:00
+Chase Iver Madson: Yes.
+MikeDrop: I feel like if it has to be conversational. It will be hard to design is…
+Chase Iver Madson: Yeah, yeah,…
+MikeDrop: what I'm think.
+Chase Iver Madson: once if we make it more limited that capacity we're still has that basic usefulness, but maybe if you played with it for a while and try to have a conversation with it, it might feel disjointed and it doesn't understand. I think that's probably fine for because although at the end of the day we need to do a demonstration of how it works and we can kind of control the guardrails how that demonstration looks that we show something impressive from the QA side.
+MikeDrop: Yeah.
+Chase Iver Madson: It shows checkbox. we have QA Incorporated in here, but nobody's gonna be stressed testing it to make sure that how's the conversation between you and the chat Bob gonna work and…
+MikeDrop: Yeah, exactly.
+Chase Iver Madson: then maybe we can Market it too a little bit more as you can ask some clarifying information and it answers it so that we're not like pitching it as another tragedy BT or like something that you can have a conversation with
+MikeDrop: right I'm wondering also if we should in our user testing actually show them side by side this is Output of this meeting this is GPT output of this meeting and just have them 20 meetings. So it's like human dispositions. and that can be kind of I guess a quantitative.
+Chase Iver Madson: Mm-hmm
+MikeDrop: Result that we can use in terms of a metric because I feel like a lot of the times the Rouge metric is not really great for this. and I don't know I think that might be a component we want to add. To be like hey,…
+Chase Iver Madson: Yeah.
+MikeDrop: this one's clearly better because people literally looked at these meetings.
+Francis J Lee: Duke dude, I think if we were able to create two different websites or just bring it to each of the users and then I'll create a correct prompt for them test both of these and then let us know which one you like better and why just made some multiplication or something like that on top of it like a survey data for the user testing. If you feel like confirm the model.
+MikeDrop: Yeah.
+MikeDrop: I think that type of thing would be good because I feel like ours project is not going to have as many Flashy numbers and metrics that are It's really working so that can kind of I guess manufacture that in some ways to be like, what is the quality of this summary or what is relative to other summaries or whatever?
+Francis J Lee: And so I guess for tomorrow then we're just focusing on not necessary Q&A but Mike that's something that you could maybe work on for something that chase contestant to the future but not enough for this week. We're focusing for MVP and I guess that visualization portion with the five question prompts that you have because I think that's really our base product those five prom questions that visualization and then whatever Chase is pulling out for the output of the actual pipeline, And then in fact be able to get the speaker identification. So yeah, once you have a little test I guess problems that we can feed that into chasing and see that maybe a next week thing.
+Siva Chamiraju: Are we expected to present something tomorrow?
+Francis J Lee: I didn't read anything. I don't know if you guys were saw anything about presentation's the only actual presentation that we have. That is due is the final deliverable.
+Francis J Lee: So at least for assessments that I have on here.
+MikeDrop: I haven't seen anything either.
+Francis J Lee: yeah, so the only thing I'm more of is just
+Siva Chamiraju: Or we plan the demo.
+Francis J Lee: We yeah,…
+Siva Chamiraju: It's for tomorrow.
+Francis J Lee: maybe an update might be So depending…
+Siva Chamiraju: Yeah. I do.
+Francis J Lee: where we are, but tomorrow's call.
+MikeDrop: We might want to just have an update where we took your feedback and we actually said the features were thinking we would definitely want and…
+00:50:00
+Francis J Lee: Yeah.
+MikeDrop: these are the ones that are nice to have or something so that he gonna sees that we literally was physically took exactly…
+Francis J Lee: Yeah.
+MikeDrop: what he said and did something
+Siva Chamiraju: Yeah. I also want to hide our UI…
+Francis J Lee: But yeah.
+Siva Chamiraju: till maybe the final presentation so that getting people all effect and then It now,…
+MikeDrop: Yeah, definitely.
+Siva Chamiraju: I think that slowly dies down. But hey, yeah, this guys have done this already. So
+Siva Chamiraju: Spot just a thought. Yeah.
+MikeDrop: That makes sense.
+MikeDrop: Yeah, we're high level like we have done this…
+Francis J Lee: sense
+MikeDrop: but not necessarily show every bit of what they're gonna see in the final thing.
+Siva Chamiraju: right
+Francis J Lee: Yeah. I could say I think yeah, that's a good point on explaining which features we have and I think we discussed that we're really at a bare minimum. Just trying to get the website URL productionized with the tap or not the table just a visualizations that might create with the prompts which I think are very solid too. It gives a lot more insights rather than just a text and then the professor said additional features that we would like to have or the Q&A Priority One, then the additional database functional features for login passwords, so it can be customized to the business user or whoever you should cases and flow that but yeah that does a good update to show that we've Communicate back okay, we're focusing now.
+Francis J Lee: But yeah, I don't have anything besides that and there's no actual deliverable decide to get. So you guys see anything at all by chance?
+MikeDrop: No, I don't think I've seen I think that's good to me.
+Francis J Lee: We're all set about a call for tomorrow for class. And then just anything else you guys need just
+Chase Iver Madson: thank you Francis for taking the steering wheel on this project for the remainder because A lot that I yeah,…
+Francis J Lee: Yeah.
+Chase Iver Madson: so it's good to let me just focus in on getting this thing online. So again I do appreciate you and…
+Francis J Lee: Yeah, man.
+Chase Iver Madson: this is great. You've been doing great.
+Francis J Lee: Yeah, of course,…
+MikeDrop: Yeah, okay.
+Francis J Lee: whatever I can do. Yeah, I need to help out as much as I can. So whatever you guys need, whatever it might be model or any other section. So yeah.
+Siva Chamiraju: Smart. Thanks guys.
+Francis J Lee: All… Thank you. but
+MikeDrop: Thanks.
+Francis J Lee: 
+Chase Iver Madson: Have a good.
+Siva Chamiraju: but
+Meeting ended after 00:52:54 👋

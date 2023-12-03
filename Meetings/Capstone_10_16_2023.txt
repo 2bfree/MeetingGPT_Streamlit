@@ -1,0 +1,298 @@
+﻿Capstone (2023-10-16 17:05 GMT-7) - Transcript
+Attendees
+Chase Iver Madson, Chase Iver Madson's Presentation, Francis J Lee, Michael Townsend, Siva Chamiraju
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Siva Chamiraju: All right.
+Chase Iver Madson: Welcome everybody. Yeah. This week I have been focusing my efforts on the application building and containerizing it. And I have actually not prepared much as any way of an agenda for today. But I figured I'd show you what I have for the application and then maybe we can just talk through some design choices of how we want it to look and talk about also how it needs to connect with everybody else's pieces. But before we get in all that what it open the floor, if anybody wanted to bring up any other topics that they've been working on or dying to talk about,
+Siva Chamiraju: I don't have much updates. I'll pass.
+Francis J Lee: No, I'm just sorry. God
+Michael Townsend: Yeah, so I ended up trying to download the Lama 2 model because I saw the other group was trying to I guess compare two large language models against each other, and I kind of felt like that was a good idea to see if, one performs better and in some ways than the other and have, kind of, at least two, potential options. So, I'm gonna try to get outputs in a similar format for Lama too. As we have for GPT and Lama, too might not require paid anything, so I'm not sure that around I might also get around the aspect of Privacy stuff because I think I can download the old model and run it. That make sense I can extract all of it.
+Michael Townsend: And use it as if it was a hugging face model. Rather than the other ones like you're pippin' stalling their package, you're pinging their API. so I just want to see how close The Lama 2 can come to GPT because right now GPT looks really good. And then the other thing is I made some modifications to try to generate data basically from the AMI corpus with the GPD model. So that my the Ami Corpus is like 120 meetings. If I run our Model on those 120 meetings, we ingest those into our platform, we can play around with, How someone would interact with?
+Michael Townsend: How the meetings in the platform would. Be ingested. And then processed on or…
+Siva Chamiraju: Up.
+Michael Townsend: statistics on what happened in the meetings and how to navigate Those things, I think the data set would help us. I guess see how it would be used in theory more so than the tuning part.
+Chase Iver Madson: That's awesome on the point about host downloading it and having the model ourselves, it sounds like that's kind of what we were similar to our original plan of having that model, posting it in our docker image, and when we deploy it, it's just like a back end and point but it's happening. Sort of internally within our website. We're not like sending out a requests and having it come back with transcript information going out to Microsoft. Yeah. It is my understanding that correctly because if so, that's awesome.
+Michael Townsend: Yeah, that's kind of why I wanted to go a parallel path in case. But I somewhat anticipated, it's gonna be hard to get as good of an output. But I mean, the other team, It seemed like the llama outputs were, relatively similar to the GPT output. So maybe, i'll be wrong but I'll see if I can get it kind of to ask the same questions or prompts and see if it comes back with as fruitful and answer. And that makes sense.
+Chase Iver Madson: So, from there, I would suppose if you mess around llama, if Llama works out great, and the next step would be to figure out a way to, I guess. Serialize package it up, and hand it over to me somehow and then I put that into My local repository and when I build my container or the whole application
+00:05:00
+Chase Iver Madson: I would basically set up Everything that the end point for prediction and then bake it into the user interface as well and then put that on to our website when we deploy it. I think that that's all making sense to me. That sounds good.
+Michael Townsend: Yeah, I just had a link out of what I'm using right now. It's towards Data Science article from a couple months ago from someone and I'm following this steps essentially in GCP right now. I kind of waiting on if we have a kind of walk through and setting up AWS all I'll move over there but right now I'm just really comfortable in GCP. So I'm just sticking with it.
+Michael Townsend: But yeah, it's kind of like you clone a repo and then you download the models and then you can use some commands to use them.
+Michael Townsend: 
+Chase Iver Madson: So yeah, that sounds great. Thanks for the update. Mike. I'll go ahead and share my screen so we can look at what I have as far as Application goes.
+Chase Iver Madson: Iron screen here and I'll jump over to this. Just so I can start from the code. I have this code base. Here that's isn't showing. This is the game. Okay. So I'm working in code locally. I have My main dot Pi. This is how I'm defining the application that we are using basically fast API is the package I'm using. That's what we used in 255 machine learning systems engineering. It seems to work really well and is one of the more customizable ones. So as we get more artistic about how we want the application to look, we should have a lot enough flexibility to code it and make it work and look the way we want it to. basically, all you see here is
+Chase Iver Madson: This endpoint, this is just the root and point for our website. It's just going to be one page where I'll show you what I have. It design-wise set up as basically, this is all I imagined title at the top, some meeting information before we get to the actual meeting minutes itself. And then maybe a question answering section here at the bottom I said I haven't built the question answering section yet, and that could be a little pop-up, perhaps, like a little chatbot. I don't know. How we want to design that but
+Chase Iver Madson: For now, this is sort of the working outline. there's a button that allows the user to upload a video and at some point We talked about integrating. Some feature where we allow users to pick multiple meetings and have those multiple meetings, you used as background context for the model, I don't know if we train the whole model. with five transcripts or I don't know how exactly do that and if that's something we still want to do, but this is sort of anticipating that
+Chase Iver Madson: A little bit. so anyways, this is sort of my vision board for how to build this application. the user interface and this is the code I have for it. When I deploy it, this is I have a two stage docker file that I'm running off of for dependency management I'm using poetry It's a Python package that it's like a fancier version of a requirements file. That also lets you do stuff run the environment in a dev setting. But basically, here is where I go to say, Make sure we have a python 10. Environments. That uses.
+Chase Iver Madson: these packages, psy pie, Make sure we have x y z. I probably might get some point. Need to get your code and just look at just what packages you're using and cross reference. So I can delete some of these that might just be artifacts from 255. And then make sure that I'm including everything that you're maybe using that's unique. yeah, but all of the packages should be included in here with their versions and all that good stuff. The docker file. It's okay. I did I cover this already? Yeah. Anyway, so I was able to successfully build this and so this is what it looks like on my docker desktop. The image runs correctly. I want to actually run the image onto a container. This seems I got this running correctly now too, which I'm happy with and it launches into this. So this is is, what I have. It's nothing too pretty.
+00:10:00
+Chase Iver Madson: This point, but we have some header to our website. We have some section at the top here, it doesn't necessarily need a title or anything and it might be better to have a file dropdown or something. But right now I just have a button that doesn't do anything when you click it, but you would upload your meeting recording here in this would get sent into the chain. So that's all under construction. The details, The meeting I had a section up here for that. Now this might not be metadata that's available for every meeting. So this is sort of dependent on what the formatting of how we expect the data to look and what data we expect to have, I should say. But potentially, we'd have something like What's the title of the meeting? When did the meeting take place and who attended the meeting something like this? The
+Chase Iver Madson: Metadata. I'll leave this sort of as is for now. But we can adjust this as needed later. And down here, we get the actual meeting minutes. Broken down into topics, discussed key decisions, and action items. I'm happy to adjust this to whatever Mike you're thinking as far as our golden format for. these meeting minutes. And yep, down here would be, where we'd have some sort of chat feature?
+Siva Chamiraju: This is for now, hardcoded text right. The topics discussed
+Chase Iver Madson: I have this as a variable right now. Where I'm using the lorem, ipsum whatever I don't see that before but the generic text that you use usually when you just need filler text. So, where is…
+Siva Chamiraju: .
+Chase Iver Madson: Yeah, so I have that as stored as variables right now so I'm just like creating some random jumbo, here.
+Michael Townsend: Yeah, and each of those would be actually one query basically to the model, I think. And in the way that it's implemented, in Gpd 3.5 turbo right now.
+Chase Iver Madson: Yeah, so you have please summarize the topics discussed and…
+Michael Townsend: and then,
+Chase Iver Madson: then it gives some results and…
+Michael Townsend: Yeah.
+Chase Iver Madson: you do again for decisions and again for action items.
+Michael Townsend: And then you would basically use the exact same. I guess method on the Answer would be and just be user defined question. And then send that to the model, given the context of the meeting minutes.
+Michael Townsend: so, Pretty flexible, I think.
+Chase Iver Madson: Awesome.
+Siva Chamiraju: and you're sending it as you are right, Microsoft as you for the image is built on as you're right.
+Chase Iver Madson: Right now this is just a simple, local image. I'm building. I actually need to think through that and work out how I'm going to deploy it in keeping with. 255. I plan to have Kubernetes deployment manifests and all that. So I have to build those out. Still.
+Chase Iver Madson: As far as what cloud service we're going to use, I figure, we can use AWS. That would be my first assumption. I actually do need to solve that Problem too. How exactly are going to deploy this on line? I would imagine we go ahead.
+Siva Chamiraju: And simple command, Just like how we did it for Kubernetes it's simple command. We just have to set up all your AWS for executing that image and being available on AWS. We can maybe meet some time this week later to do all that set up for all of you.
+Chase Iver Madson: Great awesome.
+Michael Townsend: Yeah, we great.
+Francis J Lee: Yeah.
+Chase Iver Madson: Yeah, but I'll do a little research and figure out what exactly I need for application deployment with AWS. And maybe we can just have an extra bonus meeting this week where we get everybody set up with. individual So we can use Jupiter notebooks for example, and run, actually Python code that way like we're doing at the GCP but also to put this code together and The image that comes with this and deploy it so that it actually shows up on a website that's not localhost.
+00:15:00
+Siva Chamiraju: All And for those packages we have this transcript service with AWS the code that I have written a couple of weeks ago, that requires some packages as well. I can pass those details to you.
+Chase Iver Madson: Yeah, let me put note He actually don't think I could put it in this tomo file, but I will put it in this main file that As more advantages and will be. And what are they organ? Could you remind me?
+Siva Chamiraju: Transcribing. The audio video to text.
+Chase Iver Madson: Okay, right.
+Chase Iver Madson: And I said this to wrap around anyways, Yeah, please do send me that information and I'll integrate this For now, If anybody has any other thoughts, please just chime in. I'm happy to take notes and let's discuss, but I figure something we can do too. look at This and start talking about how it should look that way when I'm back here coding it up. I can make changes and be guided towards a common vision. So how do we feel about this interface so far as the super simplistic is it doing What else do we want to see in here? What's feasible and what's needed?
+Siva Chamiraju: I…
+Michael Townsend: It looks great Good.
+Siva Chamiraju: But can we achieve that meeting, that metadata, is it available for us? And then, even in the minutes, do we have topics key decisions, and action items? I don't know, maybe you are able to get that but I was not sure if we were able to break it into those three components, were you?
+Michael Townsend: Yeah, so The GPT model you can position the prompt to specifically target the thing you want. so basically, I think right now I'm doing four separate prompts for the GPT. So the first one is an abstract of summary. The second one is a key topics. I think the third one is action items and then there's a sentiment one that I tried out but essentially it splits it up into those topics so you can I guess target specific things, you want it to pull out and then we can figure out what subsections are the most important for people and decide on that. But it shouldn't be difficult. Given I guess what GPT can do now?
+Siva Chamiraju: She's also add the metric, right? I think Francis brought up adding that Matrix would make sense. But in government percentage and all that material.
+Michael Townsend: yeah, Yes, some of the stakeholder engagement stuff that I had. Would be good.
+Siva Chamiraju: Yeah.
+Michael Townsend: And then I guess one of the things that I think we should add is I guess. when someone uploads meetings, they have some type of profile that stores the meat, the minutes that they've generated in the past And has them all available to them to navigate to, I guess. Within the platform. and then, potentially have those be I don't know, Queryable in terms of just being what meeting things?
+Michael Townsend: Are the ones that I'm most active in versus Lee's active in? maybe it could be like a area where you could be, how could I trim? What meetings. I'm attending as a individual contributor. Or something you could figure out what meetings you're most engaged with and what meetings you're leasing age with that. You're attending. And then, I don't know. Something like that, but
+Michael Townsend: That's just a thought.
+Chase Iver Madson: So users should be able to access previously, stored meetings. But we mean by that, we mean we're not storing the video. Maybe we're storing them. Okay?
+Michael Townsend: The minute, just This. Slide or whatever. if they wanted to come back to it.
+00:20:00
+Chase Iver Madson: Users should be able to access previously, stored model outputs from past uploaded meetings. So that's going to be Minutes etc. Everything that would be generated when they upload it and send it so that they can kind of navigate back in the past with what's Okay.
+Michael Townsend: Do you guys think that's a good idea?
+Francis J Lee: I think it's definitely something we could add on as a feature on is that something we want to have the base MVP, or a base part of it? Or is that something we want to have? That's like, We build on after we finalize the base.
+Michael Townsend: Yeah, I'd say it's a build on. but, I guess from my perspective, it could be a way to Kind of simulate how it would be used with more than one meeting, as in I guess the MVP will be looking at one meeting and what it looks like. But ultimately someone might be uploading all their meetings into here and getting some type of I don't know data on that, unlike how They're interacting and what,
+Francis J Lee: There's personal kind of analytics on all the meetings that they're attending. So maybe more like a sea level or a high level executive, I have 20 meetings, a week with the reality is, I don't need to go to all of them because I'm not getting much from this a self analysis almost kind of
+Michael Townsend: Yeah. Yeah, that's what I was thinking. and I feel like,…
+Francis J Lee: Makes sense.
+Michael Townsend: I feel like with the way that it generates the stuff, it could be something not that hard to piece together. Because of the way that it generates it kind of standardizes how it generates it.
+Michael Townsend: Though.
+Siva Chamiraju: But to have that you need to maintain history, You need your expecting user to have a login and Continue to have that continuation from previous. Meeting uploads.
+Michael Townsend: Yeah, so you need to store it all in some subfolder on. that could be where we could integrate the S3 stuff where data outputs would be stored in a subfolder, that would be a user-based. Or something like that.
+Siva Chamiraju: Okay.
+Siva Chamiraju: Okay.
+Chase Iver Madson: I think. how I'm starting to understand what we're Trying to develop here. There seems to be a stateless version of our application which Basically,…
+Michael Townsend: Yeah.
+Chase Iver Madson: is you upload a meeting recording. It generates the results. It pops it out here, and then it's done. And then you close it out. You never see it again. That's kind of what we are trying to develop in the next now, and the next week or…
+Michael Townsend: The MVP. Agreed.
+Chase Iver Madson: But we are also envisioning building out into a more stateful version of This application that, has user persisted content. And we're going to actually be storing these results somewhere in a database probably. that we're gonna start needing to think about the pipeline and…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: date, like the S3 bucket. And how exactly we store in results and then access it and a clever way and that maybe comes out if it's the stakeholder engagement metrics over time. that starts to sound to me, maybe we have a separate dashboard for the interested user like a management or something that can see these for multiple. Users over time. Or I don't know. Yeah, yeah. But something persisted. That's going to be a little bit more design, I think. But yeah, that's a state.
+Siva Chamiraju: Chip.
+Chase Iver Madson: We're gonna build out a more stateful version of this.
+Siva Chamiraju: Yeah.
+Chase Iver Madson: There's gonna get more complicated, I think But useful.
+Francis J Lee: Yeah, I think that makes sense. The initial is just like a base and we don't store anything and you just upload what you want output, Okay, this is some cool stuff. What's your enterprise level things? Enterprises a little bit more advanced has a little bit more learning from what you experience and then pushes stuff out and I think that analytics may be if we're able to create some type of just basic data. Visualizations on top of a one page, minutes key decision actually I'm at the bottom some Cool basic,…
+00:25:00
+Michael Townsend: Like bar chart or something.
+Francis J Lee: Yeah, yeah just basic data is on speaker engagement or who's been talking count attendees?
+Michael Townsend: That would be super cool.
+Francis J Lee: Just basic metrics. So people as most I feel like a lot of products right now. There's nothing visual about it. It's just always Outputting, just words and everything like that whereas we can maybe visualize some of the utterances and everything and then even word diagrams or the word clouds and just at the bottom or something like that. So people will be okay, this kind of cool is something new. Haven't seen this, really in the market on meeting minutes. You guys are trying to almost create a metric from meeting minutes as well. So yeah, because I think the big use case for the education period is how many people are actually participating in class. even like the one professor she was saying that would be great because they have a hard time tracking like that everyone actually participate. That's part of the,
+Francis J Lee: What they call the syllabus you're supposed to five percent of your grade. You're supposed to attend the day actually, attend the entire time or things like that.
+Michael Townsend: No, that would be perfect. Yeah. you could call out who,…
+Siva Chamiraju: .
+Michael Townsend: who is participating, and who is listening? Or something.
+Siva Chamiraju: Yeah.
+Francis J Lee: I'll just give good metrics that way. it also imports just keeps people accountable. So then if you're people are tracking maybe I should, think a little bit harder and engage. Maybe I should try to comment. Obviously the inverse is people just say stuff to say stuff and then it waste time in the meeting, but yeah.
+Michael Townsend: Yeah, that's the downside.
+Chase Iver Madson: We've all been there, I think.
+Siva Chamiraju: But with Chase,…
+Chase Iver Madson: yeah, I like
+Siva Chamiraju: I really appreciate all that you are coming together and So, baby steps towards the end product.
+Chase Iver Madson: Yeah. Yeah, I'm gonna continue working on this with somebody's comments right now. I kind of have a design and a stacked way where it's just one thing, then next and the next. You just scroll, I'm building this on HTML. So I'm not a HTML wizard or anything, but I'm sure it's not gonna be that hard, especially chat GPT helping me code. This to maybe think about designing it in a way that I don't know. has meeting minutes on the left here. And I'm using this right hand side space for about the meeting, stakeholder engagement, and then this space down here for question, answering. For example, I could move that around. I'll keep it like this, for the stateless version of this application.
+Chase Iver Madson: but yeah, I think we might have a more like built out hamburger style dashboard that as opposed to Something really simple and easy to scroll through here.
+Chase Iver Madson: Yeah, I like it. We can also consider building multiple pages. So if we have a lot that we want to show if we have interesting visualizations but there's just not that much space for it. we could just build a whole new endpoint that we just link to and See analytics about this meeting click, and then it says you to another page on our website.
+Michael Townsend: Yeah, that'd be good too.
+Siva Chamiraju: Yeah.
+Chase Iver Madson: But those are all just design decisions. I guess. Let's try to make it work in one page.
+Francis J Lee: Yeah.
+Chase Iver Madson: and then just be totally willing to Modularize it, as needed because this is all going to be just artistic decisions. We're gonna have to make on how this looks and feels and everything. What put as much content in there then how do we organize it?
+Michael Townsend: are you thinking that metadata is user-defined or basically, like You said you've asked the model to define a title and you ask the model to list out all the attendees and then the date is just assumed to be that day or something that you just posted the meeting.
+Chase Iver Madson: Yeah. I,…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: but default my assumption is that that's user-defined and if this was to go enterprise, I would imagine you just have it set up to connect with the Microsoft Teams API,…
+00:30:00
+Michael Townsend: Outlook. Yeah.
+Chase Iver Madson: And fill that it by itself. I don't know how I feel about putting that questioning the model itself. I'm saying, what's the title of this meeting and then it pops something else out that's not the actual title,…
+Michael Townsend: Yeah, that's true.
+Chase Iver Madson: ?
+Siva Chamiraju: Yeah, I was just looking at the recording of last week. It does give you time and also attendees, at least the Google meet Not sure about zoom.
+Chase Iver Madson: Interesting. is that an element in the JSON file? Or is it just part of the text at the top or something?
+Siva Chamiraju: this is the transcript from Google Meet, but the audio transfer And it upload it.
+Michael Townsend: I think it's just a text file that at the top. It says attendees and then it starts with the transcript and then at the end of it I think it says, a lapsed time total.
+Siva Chamiraju: Yeah.
+Michael Townsend: but I think, We can extract it at least from those. Maybe we could use one of the Google meets as kind of our,…
+Siva Chamiraju: Yeah, but
+Michael Townsend: I don't know, templated one that we put into here.
+Siva Chamiraju: Right, but the Google meet transcript when I use AWS, it's chopping all that off. There are quite a few options. Maybe I need to experiment more and see if I can extract them. The date and audio file may not have a date, Unless at the beginning, we give the day to that. Audio file. we verbally say the date today's date and all that.
+Chase Iver Madson: And the users are going to upload a video. So the date that is in the metadata for that video might just be the date. The video was created, which probably most of the time is going to be when the meeting was because it's just automatically creates the recording or the video after the recording finishes. But maybe there's for some reason that's not always true. Yeah, I don't know.
+Siva Chamiraju: Instead of meeting data, we can say uploaded, just to keep it simple.
+Chase Iver Madson: and yeah, I'm gonna go ahead and have When I actually code,…
+Francis J Lee: Two.
+Chase Iver Madson: this button to do something. I'm gonna have it. Prompt the user to fill in the metadata and if they just leave a blank then this will be blank, easy. And then, let's consider how later on. We can make that smarter than just asking the user to fill in all this information. And it is a total extraneous too.
+Siva Chamiraju: Okay.
+Chase Iver Madson: This is a nice to have. I would say
+Siva Chamiraju: As you said maybe during the demo during class or even an end, we are going to give the best case like you are going to actually enter those data which makes our output look pretty. nobody's gonna do during that time on, what did I enter and how it's gonna look
+Chase Iver Madson: Yeah.
+Chase Iver Madson: so, I want to think through what happens when we click this. When Let's say there is some metadata user can define it blah, blah. It gets uploaded and I figure I just need it to get sent to another set of code in my application, like another endpoint, I don't know exactly how I'm going to code that, but it's going to get uploaded to a location where then it passes through, Siva the code that you put together. That extracts the audio, then takes the audio and creates a transcript with AWS transcribe. And then we have text And then it passes however, we have the model whether that be
+Chase Iver Madson: the Open AI API for Whisper or if we're having a local llama file, along those lines and then that generates discussion points that topics discussed, I mean key decisions, action items, Saves that to those variables and then just plops them in right here. So that's sort of how this cycle works
+Siva Chamiraju: I think you are on the right track but when you upload, I look at the file type, it is already text, then I will not pass it to transcribe. We'll just pass it to the model as is
+00:35:00
+Chase Iver Madson: Great point. That's very smart. I like that.
+Siva Chamiraju: It is empty depending on the file types.
+Michael Townsend: Yeah.
+Siva Chamiraju: I will handle those file types, and send it to Amazon transcribe, with those parameters, AWS is expecting us to recognize the file before we use that parameter. So there is some small code that needs to be written to identify what type of file it is and then pass it AWS.
+Chase Iver Madson: Yeah, I think we can make that work and We can either make it programmatic in the background, the detection of what kind of file it is. You even just like putting it up stream as upstream as possible so that as it's uploading it's figuring out what it is. And then it sends it to the appropriate.
+Siva Chamiraju: Right.
+Siva Chamiraju: Yeah. as simple as the extension of the file name, we can just take and just assume that it is either text or MP4 or whatever that wave Dot wave or something like that.
+Chase Iver Madson: Part link in the chain.
+Chase Iver Madson: That's cool.
+Michael Townsend: in terms of the file that you the AWS transcribe you had that thing on the S3 bucket that had the identification of speakers and then you said there was where they way to like,
+Siva Chamiraju: Yeah, so it's showing it online but when I download it's just giving that one transcript of text. It's removed. I should probably work with this guy. What's his name? Ronald No forgot his name asking him if I can get a help any support from the transcript team. It looks like it is possible. I don't know how to extract and download that file.
+Michael Townsend: Okay, perfect. Yeah, because otherwise I think we should, I guess put some type of disclaimer on because I did run. I guess the same query with, non-identified speakers and it kind of makes it more iffy in terms of its out the output of this so we could say Hey …
+Siva Chamiraju: Right.
+Michael Townsend: if you Give us a transcript with speaker identification. You're going to get these features, but if you don't have that then it's probably better to just have these features and maybe the stakeholder engagement metrics are just completely grayed out for that situation.
+Siva Chamiraju: I'll take that action item to figure that out this week next to see how AWS can identify the speaker.
+Michael Townsend: Perfect.
+Francis J Lee: That makes sense.
+Chase Iver Madson: Siva could you send me where can I find the code that you have That starts the pipeline for video to transcript and so forth?
+Siva Chamiraju: I have a rough code, it's in my laptop. I'll upload to our drive. Yeah.
+Chase Iver Madson: Sounds good. All right then Mike what do you have anything that is I know you've been working a lot on Figuring out how to make our model. Look, you don't have anything at this point, that I can just plop in to this or that I should plop into this chain. Yeah, because still like if it's not necessarily fine, I have a lot of developing you.
+Michael Townsend: I like data, I have data and then I have the ability to run these prompts if you want to. This file here and just use the code in it.
+Michael Townsend: This file here is a notebook that runs through The GPT code, basically to generate stuff. And then, for example, this is Running the code on our last meeting minutes. Which you could just use a template for, what, you might have, and so this is kind of what it's saying right now with the current questions it's being asked But We can tweak what it's being asked. I guess, as we see fit, if you go to that notebook, there's really prescribed questions that it's asking
+Michael Townsend: Let's see. So this first one abstract summary extraction. So the content there is what it's asking. And, a lot of these are just like the stock ones that they have in there for what open AI recommends. And then as I said I made another function just to see if I could make a custom one which is the stakeholder engagement definition. And then I actually made a QA extraction one too. So, you see that QA extraction if they have a question you just make it into a string and then you pass it, the question, the transcription and then it gets you, the answer.
+00:40:00
+Michael Townsend: so, there's a way I think, with this code that you could potentially implement It on its own with these packages that are installed in here.
+Chase Iver Madson: I think I can just use this code. Put this into open.
+Michael Townsend: Yeah.
+Chase Iver Madson: This. Sorry Was that I can just plug that into this code base here. and as long as this connection works to open API,
+Michael Townsend: I think it does because that's my key. So, I think that'll work.
+Chase Iver Madson: We could make this work. Although the only thing is we need to be careful not to do it unnecessarily maybe do it for one or two test runs or maybe do it live for the teacher but This cost money, every time you run this, right?
+Michael Townsend: It's like 10 cents or something.
+Chase Iver Madson: That sense Not so much. That is Starting. But let's be economical.
+Michael Townsend: Yeah, it's not a big deal I'll run out of money before I care. I only put ten dollars. That's what
+Siva Chamiraju: Or you can preset the limit. That's good.
+Michael Townsend: Yeah, I guess button there and it won't work if
+Siva Chamiraju: AWS works differently, they just take your blank credit card, it's like Open tab. The movie.
+Michael Townsend: 
+Siva Chamiraju: They just have rights to grab it. How much are you use? I think there is a limit that you can set, but I didn't try. Where should I upload the code model building?
+Chase Iver Madson: If you want to just throw that into yeah.
+Siva Chamiraju: Right.
+Chase Iver Madson: Oops not that I want to go to. There is our drive. Here it is.
+Chase Iver Madson: Model building.
+Siva Chamiraju: Model building. And is there any subfolder? I see Llama model opening? I saved models. should I just create one more like
+Michael Townsend: Yes. Create another subfold or something?
+Chase Iver Madson: Okay, I will start building all the whole cycle into this starting from upload to siva's code to Mike's, openai code. I will try to in the process of just making sure that it's working all limit myself to one dollar to 10. Queries. And just being able to go crazy.
+Michael Townsend: Yeah, no.
+Chase Iver Madson: And then that way, when we have our stateless version of this application, we have something to show that. Upload, it does. Work. And then this gets populated afterwards.
+Michael Townsend: And then the chat part, I guess I don't know how that would neck in, but in terms of just setting up a function that is interacted with, by the user. I think the functions there to do that. If necessary.
+Chase Iver Madson: Yeah, I'm gonna have to do a little research on interface design for a chats and how it's generally. The different ways it is done and what fits for our scenario whether we want it to be a little pop-up guy that is Chatbot looking or maybe just something different for our needs. I'd probably just the very basic version. Just Click button to input, some text and then it returns some text just very ugly and dumb simple. But I'm sure there's some widgets that are off the shelf work well for this kind of use case.
+Michael Townsend: That makes sense.
+Chase Iver Madson: and as we're saying this, I'm realizing that the way that it needs to work, is This stuff down here, shouldn't appear until you upload stuff too. So I'm trying to think maybe this is its own page. That just says upload a meeting. Boom. And then it takes you to a page with this And the chat.
+Michael Townsend: yeah, that could be
+Chase Iver Madson: Or does it on the same page and changes but changes how it looks? I don't know. I've been done that much user.
+00:45:00
+Michael Townsend: or you mean what you could do is, have a button that says, Interrogate this meeting. Or something like pulled up a different page.
+Siva Chamiraju: It sounds good chase. I uploaded this scripts onto drive if you want to experiment it's nothing. Is production ready And just experimenting. So I'll walk you through a few things here if you want experiment. First thing is that extract and What it does is if the file is too big you can Pass. How many minutes you want to extract in? AWS transcript is expensive. Each time? I send it's a dollar compared to 10 cents for Mike. So I was doing 10 minute extraction so I stay within 10 cents. I was using it just for experimentation and if you go back, maybe you can include this in your upload as for free trial you just do for 10 minutes instead of long lengthy video.
+Chase Iver Madson: Yeah.
+Siva Chamiraju: and then movie to text is just plain text conversion from a wave while I believe I was expected, I don't think this is production ready, but the original this. I haven't changed it in a while. I may be changing this. Whenever I change, I will reupload it here. Maybe I should maintain a Jupiter notebook instead but for now we'll just live with this AWS S3 copy. That's the actual
+Siva Chamiraju: yeah, this is where I've been calling AWS service, I think.
+Siva Chamiraju: This is just copy Sorry this is not the one this is Google meet I have a fight you can use this for your uploading fact. This will upload to AWS S3 bucket.
+Chase Iver Madson: Yeah, so once the user uploads and puts whatever metadata they want in there,…
+Siva Chamiraju: Right.
+Chase Iver Madson: then something like this code is…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: what actually picks it up from here and puts it into where it needs to go. Yeah,
+Siva Chamiraju: Yeah. Yeah, it needs to be parameterized and all that but it's basic code right now and if you go back the actual code. Is that one more? Yeah. The last one audio to text by I think that's the latest one. where,
+Siva Chamiraju: Yeah. This is a case that S3 bucket file and sends it to transcribe service on AWS gives you back the output Right now, I'm saving it in S3 as a static file, I need to parameterize to Put the But bucket, slash username slash file name dynamic file name right now, it's just overriding the same file because I don't want to even S3 bucket. I'm at 85% of usage. So I didn't want to keep on adding new files. So I'm just low riding the same out.
+Chase Iver Madson: I think you'll want to put this into an AWS like a secret thing. Otherwise. Yeah,…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: because if I put this into my code base and then I'm gonna have a git repo that I plug this into in the coming week. So I just want to be careful. Not to put anything. Yeah.
+Siva Chamiraju: Yeah, you guys and all ripped me off with that just clean. I think.
+Siva Chamiraju: If you want and yeah.
+Chase Iver Madson: What I think I will do as I'm developing this just to get this working is I will only set it up to take. Transcripts, the text files to start with.
+Chase Iver Madson: and once we have something that, Uploads and the model. Does this thing and then it responds with the stuff down here. Then I'll build it out to video. And with logic figuring out,…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: is it video, is it transcript? Yeah. Awesome.
+Siva Chamiraju: Yeah.
+Chase Iver Madson: This is great. Thank you for this code.
+Siva Chamiraju: Yeah.
+Chase Iver Madson: No. I think this is I think it seems like we're generally happy with This design, at least for our simple stateless version of it. I have some more to do to get The code working at the front end and the back end and everything linked up. I have code from both Siva and Mike to start integrating and incorporating. So Yeah, I think we're good on this and I need to commit a lot of time to Any last thoughts on the UI and how we're gonna get everything to connect? I do have this application. Diagram still for reference. Skip.
+00:50:00
+Siva Chamiraju: I think it's coming along good. Maybe it may go multiple iterations but for first cut I think it's great.
+Chase Iver Madson: Yeah.
+Michael Townsend: No, it's great.
+Francis J Lee: You think so too? I think it will also be at the very end if we're able to output a data set that we can use to create the visualizations that also be good. So I guess maybe working with Michael, I could figure something out with that for the visual part. So after everything's processed at the very end out, put some data and format it to a way that pipelines into just automated benefits.
+Michael Townsend: yeah, what I was thinking for that is we could generate on the BMI data set like a hundred meetings or something and then just try to cater the questions that we have in there to how get the format. We want consistently and prove that it does get that format consistently and we can extract it properly. What I was?
+Francis J Lee: Yeah, maybe I go work with you and then we can figure something out that too. I guess figuring out…
+Michael Townsend: Yeah.
+Francis J Lee: what the exact visualizations, the questions, what, count that we want to find and stuff.
+Michael Townsend: I also think I could use some help on just the general prompts and testing out Different prompts within that script. I'm like, I guess maybe a smaller subset of the data to see if we can optimize what it is actually outputting. I don't know how much optimization we need to do or if, some of the meeting minutes, we've come up with already, have really given us what we need, but if you guys have anything, you've seen in some of the outputs that I've sent out, So far that we might want to tweak.
+Michael Townsend: We Might be a little trial in there.
+Michael Townsend: 10 Cents, trial and error.
+Michael Townsend: But it's not that much.
+Chase Iver Madson: If you want to get thinking about and start conceptualizing, how The. more abstract information about the meetings, how that's going to be not just, what questions we should ask but then how else we should
+Chase Iver Madson: Visualize that and then What does that mean in terms of storage needs and database like it? if you want to think ahead on that stuff that will help while I am sort of,
+Chase Iver Madson: Horse blinders, get something working that goes from here,…
+Francis J Lee: Yeah.
+Chase Iver Madson: skips down to transcripts sent it to a very simple version of the model that doesn't have anything locally deployed but just queries, open AI. And I'm gonna put the pieces together and put a GitHub repository that everybody will then have access to that. Then we can start swapping out with, as we want to build this thing. The code for that just takes the transcripts and then extended to take audio and raw video the code that does open AIs and potentially swapped out for a locally hosted, llama file. So, I'm gonna have a skeleton stateless MVP version of the application. that we're just going to slowly build, until it looks like That what we wanted to?
+Francis J Lee: Yeah, sounds good to me.
+Chase Iver Madson: that's
+Francis J Lee: yeah, I can work with Mike because I feel like that probably be around the area where the preposter status and pull the data from the process and then See how I can pipeline it into a database and just have curated questions or curated, diagrams that are useful so I'll do some research into What might be good data is for an executive summary. Posted meeting. So that.
+Michael Townsend: That's awesome, man.
+Francis J Lee: But yeah.
+Francis J Lee: Other than that. Also, just a update. Yes, is still pending for the privacy, I know we got our assigned team so I haven't been contacted. I don't know if you guys have seen any emails come your way, but overall it's pretty straightforward. They're just gonna be auditing Just conducting, privacy impact assessment and then they're gonna be creating Model College Foot project. They here to document like that, Alexa cycles stakeholders ethical considerations and then they're gonna be just providing at the very end recommendations, we're supposed to accept those recommendations or not, incorporate into the final product but it's our choice, what we want to do it, most likely, whatever they recommend, we should probably apply to. So just be on the lookout, I keep checking my email daily, if I haven't gotten any contacts. But if you guys see anything, let me know as well.
+00:55:00
+Siva Chamiraju: So for the storage right now, we were talking about storing it in All the data and staff. That's probably where we have some unanswered questions.
+Francis J Lee: What?
+Siva Chamiraju: I guess how do we have the privacy whatsoever? Archival policy and all that stuff. Maybe you may want to. Come up with something and, share with us. How we should tackle that part?
+Francis J Lee: Yeah, that's good idea. Yes, I'll think of some ideas. Obviously, we'll have the base where it's just, process and nothing gets stored. That's just anyone commercial And then we have the actual enterprise business. So that'll be more where they're gonna be paying for service, and we could utilize those funds to have a more secure Database to hold the data. So I'll look into more. What we would have that split in the sense of the privacy layer.
+Siva Chamiraju: yeah, it will be in one of our personal S3 buckets, then meeting Regardings that will be a consciousness.
+Francis J Lee: Yeah.
+Siva Chamiraju: We haven't started a group AWS ants. one of our accounts will store this data and even after Capstone will continue to have it. How do we address them?
+Francis J Lee: Yeah.
+Siva Chamiraju: So, is there any deliverable tomorrow? I didn't see the schedule. Is there a pitch that we have to do?
+Chase Iver Madson: So tomorrow we're gonna get a peer feedback evaluation form that they're going to send us at some point to fill out and I haven't received that yet. I figure, they're just going to give that to us during class, or I guess just watch out in the channel if they send a link that says, Hey, fill out this form about, How your team's doing. Second thing is. The elevator pitch, 30 seconds to 45 seconds or 30 seconds to a minute. I think of explaining
+Chase Iver Madson: Just our pitch. What is meeting GPT? Why is it useful? But putting everything we need to in that pitch without going over a minute. And yeah, I don't know if somebody wanted to take that, I don't mind doing it if nobody wants to.
+Siva Chamiraju: Francis was volunteering last time.
+Francis J Lee: I think where can I find the outline of it?
+Chase Iver Madson: I will. Put a picture of or I'll post a link in the slack here.
+Chase Iver Madson: All they say is coordinate with your team to prepare a 30 second to one minute elevator pitch that effectively communicates and overviews the Capstone Project meal present. This pitch in this week's live session. How much more than that? unless there's also a couple of videos for Week, 8, if you go to digital campus,
+Chase Iver Madson: Introduction to Storytelling Effective, communication storytelling might be helpful to watch those, but yeah.
+Francis J Lee: Is it just Or Where did you find that dozen I'm looking like, yeah.
+Chase Iver Madson: That's in, if you go to 210 Digital Campus modules and…
+Francis J Lee: Yeah.
+Chase Iver Madson: it's kind of poorly organized. But if you go down to module 8 or folder eight or no, Sorry just module it just says 8. Storytelling with data and influencing as a data scientist.
+Michael Townsend: That stuff.
+Francis J Lee: About it. 30 seconds. And
+Chase Iver Madson: So you got two videos. And then the pitch.
+Michael Townsend: Wait dog.
+Francis J Lee: Yeah, it wasn't. Okay, got it.
+Francis J Lee: Yeah. Yeah,…
+Chase Iver Madson: 
+Francis J Lee: that's not really just 30 seconds to one minute. Yeah, it doesn't really say anything. So, okay.
+Chase Iver Madson: I'm going to keep coding and then I'm gonna, hopefully have something to show for tomorrow's class in terms of not just a containerized application that just stores, what I showed you today. But I'll see if I can get more of what we talked about in coded in here so that we can actually show an interview somewhere working interface tomorrow as well. So in addition to the pitch, If we are prompted to talk to the professors and give it an update, which it sounds like last week, they're trying to cut that. Not everybody needs to do a full update each week. If we do talk tomorrow I'll just show them what we have as And here's proof that we actually have code on top of everything we've been talking about
+01:00:00
+Michael Townsend: That's perfect.
+Siva Chamiraju: It's good.
+Chase Iver Madson: I think we can wrap there. Any last thoughts?
+Chase Iver Madson: All right. Thanks everybody. Awesome input. And yeah, I'll keep working away at this thing. let's have something working in the next week or two, I'll be great.
+Siva Chamiraju: All…
+Francis J Lee: Of them.
+Siva Chamiraju: Thank you.
+Michael Townsend: All…
+Francis J Lee: Thank you.
+Michael Townsend: So guys later.
+Chase Iver Madson: Hi everyone.
+Meeting ended after 01:01:11 👋

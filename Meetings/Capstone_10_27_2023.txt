@@ -1,0 +1,186 @@
+﻿MS call (2023-10-27 16:04 GMT-7) - Transcript
+Attendees
+Chase Iver Madson, Chase Iver Madson's Presentation, Francis J Lee, Francis J Lee's Presentation, MikeDrop, MikeDrop's Presentation, Siva Chamiraju
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Chase Iver Madson: All right. Hello How's everyone doing at the end of the week here?
+Francis J Lee: Good working through yes.
+Siva Chamiraju: Still stuck.
+MikeDrop: generate
+Siva Chamiraju: I have to go back to work after this call.
+Francis J Lee: Yeah. same
+Chase Iver Madson: Sorry to hear that.
+Siva Chamiraju: Fridays used to be so but these days Fridays are my most busiest days.
+Chase Iver Madson: I feel like it should be an unspoken role that Fridays are. low-key, it should be I don't know, but hey.
+Chase Iver Madson: Had my first interview of my job search. I've been over a hundred resumes in applications in and one real person. I've talked to but went okay, I had to clean up a little bit. So that's explains the different look.
+Francis J Lee: ice What's the role?
+Chase Iver Madson: Data scientists is for this nonprofit called human rights first and they build a lot of really cool tools and data science using NLP and computer vision and stuff. So I've actually certain very surprised at how need of a role this one is I'm glad it's not like a super I had to compromise a lot or anything to get it but we'll see only initial how it is.
+Francis J Lee: Yeah, let's go.
+Siva Chamiraju: Yeah. Good luck there.
+Francis J Lee: Yeah.
+Chase Iver Madson: Thank you. Yeah. How does it sound let's jump into?
+MikeDrop: yeah, but
+Chase Iver Madson: The presentation we don't necessarily have to do a dry run today. I don't have everybody's feeling but maybe we can just have the slides up on screen and everyone can kind of just talk to what they think they want to address. What do you guys think?
+Siva Chamiraju: Yeah.
+Francis J Lee: Yeah, yeah that works for me. I'm still working on some stuff. I just kind of added two slides to things that I probably will go over but I still have to complete it. Yeah.
+Chase Iver Madson: cool
+MikeDrop: Yeah, I've been focusing mainly on the model. So I haven't really put together the storyboard but I think it's gonna be fine Okay, so
+Chase Iver Madson: Yeah, let's quickly just look at the slides talk a little bit of what each person's thinking. I want to cover more bullet point than in script and if there's any feedback that people have on what they should try to include or so forth. We can kind of address that too, but we can keep this one rather like today. yeah, I Let's just do it.
+Chase Iver Madson: Okay.
+Chase Iver Madson: So Siva is going to start us out. The slides with the introduction and hello.
+Chase Iver Madson: do you want to Do two slides the way I had it thought out was one slide is a very quick. What is our product just only dedicated to that and…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: then the second slide kind of goes into the Y of our product. But yeah, we can merge them or change it? however you think
+Siva Chamiraju: Yeah, I think last time he did give us a feedback that hey if it was 2020 I would want you guys to go more on why but considering how the world is changing now, don't spend too much time on why this is all expected kind of products. I would still give some examples on what we talked about earlier. how could it help us day-to-day Life Special? I think the example that we talked about earlier if I go on vacation and come back and pick up or I miss a class. or how I think I dance can be.
+Siva Chamiraju: through the metrics how the attendance can be shared or professors. How can they see the participation of candidates? those kind of examples I just run through quickly. I won't take more than eight minutes, I guess.
+Chase Iver Madson: Yeah. yeah, everybody's gonna have I think
+Chase Iver Madson: three to four minutes. Where would you try to shoot for three three and a half. So since you're gonna be split between the beginning and the end. Yeah, I would try to knock through these with about a minute to give yourself a little more time at the tail end.
+00:05:00
+Siva Chamiraju: Yeah makes sense. should
+Chase Iver Madson: But however, you want to do that. Yeah.
+Siva Chamiraju: Okay, I'll try to keep it less than 90 seconds for first two or three slides.
+Chase Iver Madson: yeah, and looking at This guidance page here, too. I don't think that we need to be concerned much more than what we already have and what you already plan to do. So, I think we're good on that end. Then Siva you'll head it off to me and…
+Siva Chamiraju: Yeah.
+Chase Iver Madson: I'm giving myself two slides here and I still need to make the visuals for it and cleanest lines up and script this out. But I plan for the first line to kind of show the architecture.
+Chase Iver Madson: Of how this thing works which is a slide that I'm going to need to update that Vizio or the whatever I'm using to make this visualization. I forgot what it's called draw.io have to update that to be current and then my following slide is going to be an actual product demo where I guess I'll just have some screenshots of our current version of the website of the UI and I don't know how if times going to permit but I'm going to try to show what it looks like when you upload a video or upload transcripts. I should say and produce the website. And so I plan to do a little bit more developing over the weekend to get the website looking better and incorporating more of the features. But I showed on Tuesday, I think it's
+Chase Iver Madson: Basically there it just needs a lot of polish. So yeah, I'll go through what the basic level is what the extensions we're looking at.
+Chase Iver Madson: is this generally how envisioning our product where we start with automating meeting minutes, then we're going to move on to question answering then move on to including the transcription in the service has that changed in anybody's opinion on how we want to present the stair steps of how we want to extend it out.
+MikeDrop: I think the QA service kind of comes for free in some ways, but I guess in terms of optimizing it. You wouldn't I guess go after until you had a basic. Kind of optimized meeting minutes. So I guess it's still that play but it's more realistic that QA is just to drop in the bucket as long as we just address some of the smaller concerns with it where you want to I guess have it go back and forth and potentially I guess use the summary and also the transcript to answer a question or be able to actually have it be like someone bought relative to the other one where it's just input/output always the same situation.
+Chase Iver Madson: Mm-hmm
+MikeDrop: what the design around them but I think before we were thinking it was really ambitious to go after that extension, but now it's kind of like For using GPT 3.5 or code? Llama. It's an easy extendable feature, so
+Chase Iver Madson: Yeah. We were making use of general purpose large language models that do the job pretty well, whether it be abstract summarization or question So as long as we have it's set up once it's not that much of a stretch to make it set up For multiple, but I think question answering might be a little bit of a challenge because it's going to have the back and forth. But yeah, that's just gonna be a programming challenge more than a modeling challenge.
+Siva Chamiraju: So I would still stick to our minimum viable product that we committed at the beginning. We are now six or seven weeks into program and we can say we are leaning more on to extensions, right? Because we have the minimum viable product ready. I think that's…
+Chase Iver Madson: Yeah.
+Siva Chamiraju: where our uniqueness comes considering.
+MikeDrop: people
+Siva Chamiraju: There are a lot of available Services already in the market.
+Chase Iver Madson: Yeah, so I'll continue to present it we have our basic service which we have functionally working and then some still extensions that we know we're doable. But also, yeah, it's just gonna be Matter of executing it like building it into the website and making it look and work correctly and be useful.
+Chase Iver Madson: so yeah, I'll have more to show on that specially from the actual product demo once I get a cleaner looking and I'll apply to help that at least mostly ready to go by in terms in time to present in our dry run on moving along. We have the sort of meat to the presentation where we get into the technical discussion, which just again, I think they want us to spend seven to eight minutes in this area, which is why we've split it up between
+00:10:00
+Chase Iver Madson: Mike and Francis
+MikeDrop: Models that we've tested thus far in the same space in terms of calculating Rouge scores and showing that I guess even if we use an out of the box model and fine tune that model we still won't achieve near the results or I guess. Something that the of-the-box models are able to achieve so I put together some charts that basically show that metric of Rouge. I can show if you want.
+Chase Iver Madson: Yeah, let me see.
+MikeDrop: So there's that Ami data set that was kind of like the four speakers.
+MikeDrop: This is like a density chart for basically 89 meetings. I ran basically all of our models we've run. Through kind of each of the 89 meetings. And this is like how well they're summaries are aligned with the golden summary and you can see even when I do. Of specific fine-tuning on the Ami data set and how it's written. the other models are considerably better from a Rouge one perspective and then especially a Rouge long perspective which means that their General essence of the summary is a lot. more matched so I think I want to spend as little time as possible on.
+MikeDrop: I guess the other models and kind of say we selected code llama and GPT 3.5 turbo because they're llms because our application has I'll say A very data sets. So what I mean by that is I guess we have three data sets, but they're really small when it comes to fine tuning them and they're all kind of written with a certain type of style in mind and you're always going to have I guess. A lot of different styles of how meeting minutes are large language model is able to give you an output that
+MikeDrop: Is a little bit more normalized to what a normal meeting minutes would be and I think if we find tuned against some of these other data sets we just basically get outputs that are more or less trying to match what they said in those but they're not really going to be transferable to unseen data as well as the large lineage model. So in general I'm gonna try to make that case and then also just mention I guess I don't know how we're gonna split it up exactly but I guess the other section would be talking about the prompts and what we actually want to cover in terms of usability of the customer or whoever's using it why we're asking certain things and what use cases each of the prompts can give us
+MikeDrop: another bonus is that If we were using an out-of-box model that we had to fine-tune we'd have to fine tune it for every one of these in the individual things like key points like action items sentiment. we have to make a model that was fine-tuned to each of those sub thing subsets and It wouldn't be possible to make because there's no training data for all those things. So this gives us so much more flexibility to create. a tool that's really usable because we don't need to Tune it on any data we can just kind of Prompt engineering our way to get what we want. If that makes sense.
+MikeDrop: so I think that's the general sentiment I'm going for when it comes to. Showing it. I just haven't storyboarded the slides yet.
+00:15:00
+Chase Iver Madson: I think that's great. Yeah, that's about what we need to express is what our current. Decision is towards using an API as opposed to build how building and housing our own models and the justification for that. Yeah.
+Chase Iver Madson: cool, and I'll make sure that in my architecture diagram to update so that it doesn't share that how hosting our own models.
+MikeDrop: yeah, and then the other thing is we might want to slide that's like talking about
+MikeDrop: I guess roadblocks of modeling decisions slash a roadblock. So some of the things where you're trying to figure out ways of I guess going back and forth with the prompts to get around the token limits reduce costs. I know I was trying to do some I guess prompt engineering stuff where I only pass the transcript once because as I was noting in the slack that basically right now it's pretty expensive to run the data set because the way that I'm positioning the prompts so I think it's just we can optimize it so we can get it down to a lower price but
+MikeDrop: It looks like if we were gonna sustain this code llama and GPT, 3.5 turbo have very similar performance and code. Llama is much less expensive, but Does have to have truncation so it all depends on. I guess if we can get around the truncation issues and then also, the cost issues we can drive that cost down and then we can continue to look at some of them the meetings that have. issues with responding quickly if the models struggling to respond in a certain amount of time, it might be indicative that your prompt isn't really You're prompted being fooled or You transcript is fulling your prompt or something like that. So.
+Chase Iver Madson: Yeah, can I suggest that? Yeah, you mentioned two or three sentences or maybe more on the costs of this new decision. what was the downside and I think it's going to be every query or every time a user tries to upload their transcript and get a response that's money, but how much money is kind of the question so getting giving in the presentation a sense for cost per Use…
+MikeDrop: Yeah.
+Chase Iver Madson: where a use is defined as me uploading my transcript and getting a response. You can take a generic length transcript and multiply that out and say it's gonna cost 30 cents per use or something. Whatever the answer.
+MikeDrop: I think the histograms right now are saying even with passing the transcript five times and getting five responses, for each of the different subsections the total cost for Kodama according to the post that I had above there is something like five cents. So we get it down to one cent. if we don't pass the transcript five times and then same thing with GPT through prototype turbo that one's 15 cents so we could get that down to three cents.
+Chase Iver Madson: awesome
+MikeDrop: So, It just depends on if I think I'll be able to do that. I was testing it a little bit but I was having some troubles but I think I tried to ask it a bunch of questions and I was only getting one answer. So I think it has to do with how formatting the questions and stuff but should be able to get it considering it works on the web browser the way that you go back and forth.
+MikeDrop: Let's play around with it.
+Chase Iver Madson: I think there's a lot of good contact. Thanks, All right, so then we move on to Francis.
+Francis J Lee: yeah, so I'm just gonna follow up I guess moving into a little bit more about the Privacy news talk a little bit about Our interview and then just what they recommended. Are we planning on doing you like user feedback loop AI or human or is that not something we're gonna do I just want to confirm because I know something like they recommend it but Wasn't sure for incorporating that into the model?
+00:20:00
+MikeDrop: I think we were going to format it in a way that they could update it if they wanted to a docx and then they can do that at the discretion, but we were I guess leaning against I guess optimizing it or changing it on the Fly and then resubmitting it to the model so that we collect user data kind of like llama does where If someone says something is wrong that keeps track of that and retrains. I guess we want to go with a static model. That's not on the Fly changing you.
+Francis J Lee: Yes, not necessarily improving or by versions versus constant. updates, right? Okay, so
+MikeDrop: right Yeah, we would just maybe take some user feedback in the form of comments and stuff more so than the form of actual digitized data of them making it
+Francis J Lee: All of that into a presentation
+Francis J Lee: Yeah, and then I was gonna talk a little bit about Metas responsible guide with their model use of Lama and then just a little bit until opening Research policies and utilizing it for research pretty basic for openai's stuff. But they also kind of want you to apply just because1 what you're doing with it, but it doesn't seem like you it's just basically falling in lines with just disclaimers.
+MikeDrop: All right.
+Francis J Lee: Was being very transparent to users. So just talking about how that's gonna be incorporated into the final product for this slide.
+Chase Iver Madson: nice
+Francis J Lee: Then the next slide I was gonna go more into and all the team visualizations. So I was playing around a little but I just curious the data set that's used to be file. I know that you sent the Google Drive Link on I was trying to clean it up because I think It's not necessarily a clean tabular data set right? It's just output in from what I was trying to do because when I pulled it up into Tableau or prep. It's like the First Column headers It's just seems to be all mixed up so curious. that's currently how it is. Right? That's the final output of data.
+MikeDrop: Yeah, it will be mixed up necessarily. what is your formatting look like?
+Francis J Lee: I didn't pull into vs code or anything like that, which is in general just pull it right now.
+MikeDrop: to open up with CSV
+Francis J Lee: yeah, just a CSV and then
+MikeDrop: Basically, it's a straight basically every row is either a number which is either counting response time or tokens or something or…
+Francis J Lee: Yeah.
+MikeDrop: it's extreme.
+Francis J Lee: looks like he's coming in. So that's what meeting ID columns just it doesn't seem to be clean. It's all.
+MikeDrop: It's not Open it, in internet and I'll see what it actually looks like. That's weird.
+Francis J Lee: Yeah, yes. I was trying to like he's not coming in a tabular format. You know I'm saying. or just like Yeah.
+MikeDrop: Yeah, it should be a tablet format. It's kind… what it is. I think it.
+MikeDrop: 
+Francis J Lee: that's credible and…
+Francis J Lee: real child and off something else, but
+MikeDrop: maybe you have to maybe Tableau Auto formats and it doesn't really understand how I formatted it because I gave every one of those blocks like a big string it's either And might get confused. Yeah.
+Francis J Lee: Yeah, basically a full. Yeah. that's why I assumed You pushed it out to and then trying to see what the deal was.
+MikeDrop: So maybe you need to change the formatting of each row by hand to let it before you pull it into Tableau or something. I don't know.
+Francis J Lee: Yeah, either that or also maybe put in some type of processing in between because that's your final output right from the model.
+MikeDrop: yeah, so the model every time it runs it creates a data frame row and appends it to a data frame and then you would output that but I guess What I'd recommend is if you want to do a preprocessing. and then Just have your final CSV that you preprocess you process V that I have and you have just numbers in that CSV or something or I guess you could clean it up where you look at the engagement stuff. And you pull out key things from there and…
+00:25:00
+Francis J Lee: Yeah.
+MikeDrop: then you give it to Tableau to do something with it. Because Tableau might not be able to deal with any of the string rows. Very well that makes sense. So you might be really.
+Francis J Lee: Yeah.
+MikeDrop: Not even throw those string rows in there. I don't know unless I can make a word cloud or something.
+Francis J Lee: Yeah.
+Siva Chamiraju: we do some data engineering and I think Chase was asking about if we can put up an SQL database like mice equal database. through there and then Tableau that way doesn't have to do much just take the data and close output
+MikeDrop: That could work. Yeah.
+Francis J Lee: Yeah, something like that. Yeah, because it seems like some of it. office CSV Yeah, I guess what do some good engineering. this is the file.
+Francis J Lee: So it doesn't come into one.
+MikeDrop: volume
+MikeDrop: boss file is that
+Francis J Lee: Yeah, it'll cut into this is the one on the chat link. maybe it's the wrong file. But the one that the link is come into.
+MikeDrop: only yes you understand what you're confused.
+Francis J Lee: The meeting ID and the transcripts almost blend into the different rows. So I think that's why I was trying to clean but I'm not really.
+MikeDrop: Hold on. let me get a better link. I'll show you…
+Francis J Lee: Okay.
+MikeDrop: what it looks like on my end.
+MikeDrop: Share my screen.
+MikeDrop: So the transcript row is going to have a ton of stuff.
+Francis J Lee: Yeah.
+Francis J Lee: Yeah, that should make sense. Yeah.
+MikeDrop: but it's more like this.
+Francis J Lee: Yeah, that makes sense because it stays in. format
+MikeDrop: but how This doesn't actually work.
+Francis J Lee: one day I think in class like he said on the slot Channel.
+MikeDrop: How does this? I was
+MikeDrop: Sit that will work.
+Francis J Lee: something that you just
+MikeDrop: It gives what I have here.
+Francis J Lee: Yeah, that one's good.
+MikeDrop: Okay, cool. Yeah, sorry. Yeah.
+Francis J Lee: All Yeah, I was like, okay another works out perfect.
+MikeDrop: That's really annoying. But you see all the engagement row might be able to preprocess this and…
+Francis J Lee: Yeah, I have to. process Yeah.
+MikeDrop: Create something that for every meeting. gets you this number or some of these numbers and then we can analyze speaker over all the meetings. What did Speaker I do or something?
+Francis J Lee: Yeah, that makes sense. Yeah, if anything I create some type of just all these prototype or just show maybe try to identify a couple options that we might like and then from there and the pipeline figure to From this data set and then pulling it from here or splitting it before. Yeah, okay.
+MikeDrop: exactly Yeah. because I think everything else in terms of tokens and stuff and response time and things like that. it's good, but I think this row would be where we might want to do Extraction of some sort to create some of this which might be fairly involved depending on how consistent the output is.
+Francis J Lee: Yeah.
+MikeDrop: I don't know. I also have not only this one but I have GPT 3.5 turbo in the same. go here I can send you this to. Do Google Sheets? Wondering if GPT 3.5 turbo has a more consistent engagement output.
+00:30:00
+Francis J Lee: This one's llama, right?
+MikeDrop: Yeah.
+MikeDrop: So you can look at this one, too. play around with What might be possible there?
+Francis J Lee: right
+Francis J Lee: Yep.
+MikeDrop: for business
+Francis J Lee: Okay.
+MikeDrop: Yeah, I'm not sure this tab instead. Yeah, so this is the gbt one
+Francis J Lee: Okay, nice. Yep. This comes out to regular.
+MikeDrop: So yeah, this one has 89 meetings. So this is just the test set that I was running and I guess the Unseen data for what I was doing the fine-tune for I didn't run the full set for this because it's expensive.
+MikeDrop: I wanted to see if I could drive down the price before doing full set because it costs 30 bucks just
+Francis J Lee: Okay, sweet.
+Chase Iver Madson: cool All right. Thank you Francis.
+Chase Iver Madson: So the last couple of slides here, we'll jump back to Siva all we really need to do at least from the require of the guidelines. is to highlight what the remaining work what key areas to tackle are and then Do it looks like just a strong closing summary of what we're trying to do with this so. Yeah, we have remaining key areas here project management summary topics discussed design decisions. This I kind of brought over from the previous presentation from presentation one and we can give it team roles in this stuff here. But yeah Milestones coming up just be updated.
+Chase Iver Madson: and then this is identical to slide two I think but yeah, it served as you can kind of use something like this to and just resummerise what we're trying to do. Yeah, I think. Yes eBay, if you want to split it 90 seconds on either end. I think that should be strong.
+Siva Chamiraju: Yep.
+Chase Iver Madson: cool Yeah,…
+Siva Chamiraju: cool
+Chase Iver Madson: we got pretty good feedback last time around. So I think we're on a good track is especially if we can be showing a live demo of what our product looks like our website looks like I think there's going to be pretty satisfactory.
+MikeDrop: agree
+Chase Iver Madson: I think that just about covers it anybody have any other thoughts or what make sure we include anything in here.
+Chase Iver Madson: Cool, I guess we can leave it there then.
+MikeDrop: good.
+Chase Iver Madson: Yeah, let's keep working on our respective slide sections and come prepared Monday and to let's just do a dry run. each other's feedback and that one could be relatively simple too. Yeah, we don't have a whole lot to do this week in preparation of this. I think it's useful that we split it up today and Monday instead of doing a full hour hour and a half on Monday. So yeah, I think we're in good shape.
+Chase Iver Madson: We can leave it there everybody.
+MikeDrop: alright
+Chase Iver Madson: Enjoy your weekend and great work.
+Siva Chamiraju: hold on guys Hold on.
+MikeDrop: Thank you. What's up?
+Chase Iver Madson: Mm-hmm
+Siva Chamiraju: Let me stop recording
+Siva Chamiraju: Transcribe what's the stock trans?
+Meeting ended after 00:34:17 👋

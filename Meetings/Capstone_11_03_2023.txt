@@ -1,0 +1,165 @@
+﻿Capstone 11/03 (2023-11-03 16:14 GMT-7) - Transcript
+Attendees
+Chase Madson, Chase Madson's Presentation, Francis J Lee, Francis J Lee's Presentation, Siva Chamiraju
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Chase Madson: The slack then.
+Francis J Lee: Okay.
+Chase Madson: Okay.
+Chase Madson: Yeah, that's what I think at least or what came to mind for me in no particular order, but I I did a glance through of our presentation from last week or Tuesday to just make sure we're picking up a lot of these things.
+Siva Chamiraju: Yeah, I think this sounds really. the list that we wanted to attack Are there any heavy items that? Will take up majority of the time.
+Siva Chamiraju: 
+Chase Madson: It's tough now before we jump into it some of these things I know somebody's things seemed easy to me. And then when I looked into it, I was like, okay, this is actually Going to take out the rest of my day. Just soften this one little task.
+Chase Madson: That's the top thing is timing this out. We're just going to have to kind of ball park it and assume everything has the potential to be longer than we expect it to.
+Siva Chamiraju: The data pipeline that you listed there that needs to be attached to your app. The MP4 MP3 and all that thing that you mentioned there.
+Siva Chamiraju: you need to have another button for audio files. I guess, that design. We need to still discuss or how we are going to do it. We can keep it simple and just work offline for users. Not sure. Any thoughts on that? Right. Now you have upload but you take only text is it?
+Chase Madson: So right now it's expecting a txt file and then it does the prop engineering and everything. so what I have on here is we need to incorporate that data Pipeline and then update the upload feature in the user interface which in my mind means when you press the button it prompts you to select are you want to upload transcripts or do you want to upload a video and then with depending on which one you go down the system should work such that the transcript work the same as it is now and if they choose a video then it takes them through the pipeline that we will Develop for acquiring those transcripts. And then what that we have the transcripts then it goes back in the normal path that it currently is.
+Siva Chamiraju: so you is that react code that you built there to accept the upload?
+Chase Madson: N't. Yes. yes, it's a Yeah,…
+Siva Chamiraju: Okay.
+Chase Madson: it's react and then it's passing to the back end and better so fast API, it passes over and…
+Siva Chamiraju: then
+Chase Madson: then back because there's an upload endpoint that picks up and then that's in fast API, which I just realized today that fast API and react are mutually exclusive. So they're passing back and forth but react is not within my fast API. I updated the architecture diagram to show that
+Siva Chamiraju: Can you invoke a python code at that time? When you click upload button,…
+Chase Madson: yes.
+Siva Chamiraju: let's say audio file or video file you can. trigger python code with the file That is uploaded right?
+Chase Madson: Once it's uploaded what the file has been uploaded. Yes, we should be able to insert a python script between where it currently is and the upload back-end should we need it or in that upload back and I can make sure it calls upon a python script that is in the repo. That's essentially what I'm doing with the prompt engineering.
+Siva Chamiraju: Okay, then I think it's going to be easy for me.
+Siva Chamiraju: Only a couple of challenges first one is the Amazon key. I need to see how we can not expose it for. unlimited file upload you're going to keep your app open and I don't want it to go through either your account or my account and just keep eating up our credit card. So we need to figure out how we can block that at some point. the key, right? that's also sensitive it seems how do we Mask it or encrypt it even for calling your script when you call the script. It needs to go through an encryption code and get that key.
+00:05:00
+Siva Chamiraju: that is the Second Challenge. I think you mentioned this in your slack message as well. You have similar challenge to not store your key in your code. the second one is the audience identification that been pending for two weeks for me. I had to focus on that one.
+Chase Madson: can you explain the audience identification real quick?
+Siva Chamiraju: Zoom doesn't if I just pass the audio file right now AWS is giving a long text and that's not giving proper outcome for the model that Michael is running. We identification when I say speaker identification AWS has a feature but I'm not able to extract output if I can get that the output will be better. I think it's not a showstopper we can. during the demo you are just going to use a small text file, I guess or maybe a smaller audio file with the one person speaking we can create that one.
+Siva Chamiraju: Or maybe two people speaking we can in a simulate that as if it's a meeting and give it five minute video recording for the demo sake.
+Chase Madson: Okay, I'm gonna update the list. I just sent with two more. Let me finish this thought real quick. Even if that's what when not included in original traffic Okay, so I have two more bullets. I just added one is set up a secure key storage and password storage that's going to go for The open AI API keys that we've been using as well as you're talking about you have a key that's used for passing an audio file through Amazon transcribe.
+Siva Chamiraju: right
+Siva Chamiraju: Right. Yeah.
+Chase Madson: Okay, that's So though each of those are going to be Secrets. I think there's a service called Amazon Secrets or something. And basically it's a repository just for the things like credentials API Keys stuff like that interface as well. So all we have to do once we set it up is pull the key to make it work and then it's not going to be exposed. I've used something similar in Azure before super easy. If I recall correctly. It's super cheap, too. I don't think it's a pennies, at the end of the day.
+Siva Chamiraju: Yeah. Yeah. Okay cool. If we can figure those things, I think we should have a good product but next two weeks. My focus will be all that that I mentioned. and working with you to do the handshake of Once the file is uploaded.
+Chase Madson: awesome
+Siva Chamiraju: As we test, we may enhance few things there, but let's stick to minimal viable, whatever we could do with the next two weeks. I think 11:20 if we target to block out all the features after that, we'll be just testing and fine-tuning.
+Siva Chamiraju: And making sure the demo works.
+Chase Madson: Yeah.
+Siva Chamiraju: Okay.
+Chase Madson: So Francis, is there somewhere where we can store this list and then maybe add to it in the coming weeks as we continue to work on it and maybe start pushing them into different. Weeks of when we hope to get each of you done or prioritize them.
+Francis J Lee: Yeah, I have that slide deck that shared and I just copied the bullet points and then I'll clean it up to I guess make it more sense. But yeah, I'll figure out format that. Would be the most sense to organize for everyone but right now that timeline thing on the slide deck I have that's in the Google share Drive.
+Chase Madson: awesome Yeah, and so we'll be pretty active about looking at that as they're source of Truth on what work. Should we be doing. we should look at that and we should take the tasks. everyone should call their tasks or we can assign tasks. However, we want to do it and say I'm working on this thing this week. I don't know if we want to assign priority scores or just go for it. Whatever seems like the next logical item to incorporate. But I think yeah, we'll need some sort of prioritization. Just to get us keep this organized.
+Francis J Lee: Yeah, and edit this to make a little bit more sense and make flows on to create up.
+Francis J Lee: So I guess in the sense of features is there things we want to cut and not focus on at all? Or I know that's kind of what that's worth talking about or we just still more on the let's see where we get and next week. In regards to so we're gonna use audio texts. We're gonna pitch it Our audio video and text as sources to input. That's what we'll stick with or we take him out cutting any of those out.
+00:10:00
+Siva Chamiraju: Will definitely keep it for now because majority of the code is already there. Just that speaker identification part is missing. if at all,…
+Francis J Lee: mmm
+Siva Chamiraju: we have to will cut down on that speaker identification part if we are not able to I'll try my best this week to see…
+Francis J Lee: about
+Siva Chamiraju: if not We'll still have audio file upload option. But it will be like a one long text that is right now available for us.
+Francis J Lee: Okay.
+Siva Chamiraju: Whatever output comes from that will just have to look at that.
+Francis J Lee: And I guess for outputs then or just we wouldn't have anything in speaker engagement. And then we just keep something my options for Golden summary temperature and potential selecting type model. They would like to choose. I guess. Yeah.
+Siva Chamiraju: That's too much to I don't know Michael if he has already done something we can go by them.
+Francis J Lee: Yeah.
+Siva Chamiraju: Okay, all that has to come to Chase app as well. Right? It has to come on to the front and to select all those things.
+Francis J Lee: Yeah, so let's see where Mike is with that if that's even something easy or is that something that we're just talking a bunch of points on so, okay.
+Siva Chamiraju: right And how about the dashboard that you have does it need handshake with? the output
+Francis J Lee: I think it would just need to figure out a pipeline to get through and then honestly, the only thing is tablets obviously not for free, but it's with Berkeley so I was just printing out something as a visual for now. I can make it into code and try to easily something else where we don't have to rely on Tableau. But Tableau would be easy because we just put on public and then just have it on the website and just Pump it out there, that'd be pretty straightforward. But yeah, I think in the sense of cost. For if we're trying to play it as real as possible Unless Berkeley which continued to support the tableau? Page then, like that.
+Chase Madson: Here asking chair gbt real quick. I have a tableau dashboard that I would like to into this website
+Chase Madson: and it knows what project I'm working on and everything. What is a simple way to make that happen?
+Chase Madson: on a tableau server. We can embed the dashboard into our web page. Using an HTML iframe tag, okay.
+Siva Chamiraju: .
+Francis J Lee: Yeah, so it just depends on it Berkeley server would say I guess. Are we playing this product as a real product at the very end for business sales or if we're just doing it more of a school project. Then we can get away with embedding the Tableau dashboard and using Berkeley server and then Can easily just print out that URL and just have it displayed on the website? Yeah, that's just
+Siva Chamiraju: we can assume that it is on Berkeley website or…
+Francis J Lee: okay.
+Siva Chamiraju: Berkeley server, but How is the handshake happen for example, I upload a meeting if we talk about enter and flow. I uploaded a audio meeting it converts to text and it sends to the model we get the output now We need to handshake between Tableau and that output at that time. very that part. I'm not sure if I'm clear on that we
+Francis J Lee: Yeah automated. yeah, because I can sync from a tableau we can do it engineer and…
+Siva Chamiraju: yeah.
+Francis J Lee: then Embed that output into a server location and then it'll pump out but I gotta figure out I guess I'll have to figure out a little bit more than nuances exactly when they would pull when it would actually display and what I would have to do to make that happen, but In the sense of that portion. I don't think that's gonna be that heavy. But yeah, I'll look into it because I'll just talk into a server.
+00:15:00
+Francis J Lee: Let me see.
+Siva Chamiraju: I mean, I'm not suggesting that we have to do one way or other. I'm just trying to understand do we have enough time to get that end to end product including the Pablo dashboard?
+Francis J Lee: Yeah.
+Siva Chamiraju: Considering we have to weeks.
+Siva Chamiraju: ideal is taking that output should go into some data structure and your tablet dashboard is suffering to that data database and
+Francis J Lee: Towards where was the models gonna be I'll put it to the data set model after it's processed through mic. Where is it going to feed it back into again?
+Chase Madson: right now we don't have any storage set up. So what we were thinking of doing is storing that information the model into and S3 bucket just to kind of a generic blob storage. We have the option to set up something more structured like relational database in addition. That would be a little more overhead and more like setup Workforce to do but it would probably give you the formatting or needs that you have for the data. So that's sort of What we've broadly been thinking in the high level we haven't super looked into it.
+Francis J Lee: Yeah, I guess.
+Siva Chamiraju: That should be able to get from S3.
+Francis J Lee: Yeah, there's a server we could go Dev even their own.
+Siva Chamiraju: if word
+Francis J Lee: I think yeah Amazon There's a beta by Tableau as well, but Yeah.
+Siva Chamiraju: yeah, I mean we can give it a try one day and if we are not successful just more of it and
+Francis J Lee: Yeah, so I guess right now the data isn't being stored. It's just automatically being pumped through to the website the front end that's being developed. And if we want the dashboard that we have to find storage so even Do want the dashboard? Mercury test that later after I guess we should prioritize just focusing on front end development and then just output without saving the data and then from there decide if we want to add into dashboard, right?
+Chase Madson: Yeah. Yeah, let's keep that on the list.
+Francis J Lee: Okay.
+Chase Madson: But then consider that potentially for if we don't have time that might be a thing for us to cut a good reason to keep it on the list is I think the way we have it set up. There's a lot of tasks at least that I'm aware of that are a little bit bottlenecked by me like that because I have all the code base and I've been working on the code base and I'm the one that's most familiar with it. Lot of these things just have to be kind of done by me unless one of you wants to do all the work of. getting the repo Committed locally and setting up your vs code and everything which would be a bit of work. I think so, which if you want
+Siva Chamiraju: I'm not motivated to do that unless you want us to do.
+Chase Madson: I'm happy to hold on to these tasks and focus on it if you guys are happy with keeping us on track and thinking about what needs to get done and everything. So yeah, I was gonna say is the Tableau dashboard is a good one to be on there. That's not bottlenecked by me per se. I mean I have to do some work on that, but it's mostly getting the Storage to feed the dashboard and then displaying the dashboard and designing the dashboard. Now those are things that I only have a little bit to do. So it's a good one to keep in to have work be done. That's not bottlenecked.
+Francis J Lee: Yeah, yeah, if for the dashboard that's really easy. So in the sense of embedding it as long as you have the website, then we can just easily just place it on there. So you don't yeah. We just work on that on the back and see I guess what if S3 bucket would work and just integrate that. Yeah.
+Siva Chamiraju: Okay, so just to summarize from me. I'll work on that Python scripts to give you a final version Chase so that you can plug it in your handshake with AWS. I'll give you multiple scripts just like how I did last time but they were not production ready. I will make it production ready along with audience identification. That will be my goal for next one week or 10 days.
+Chase Madson: awesome That's the data pipeline for video to transcript. And audience identification awesome.
+Siva Chamiraju: Yeah. right
+Chase Madson: I'm going to work on deploying the working version of the application to Amazon eks, I've been working on the last two days. I'm feeling good about progress. I'm making and container and I give my Docker file instructions set up correctly. I just need a little bit more time and then once I can get that online. What do I want to pick up from this? I might just move on to the user login is that an essential thing? I thought it's essential thing it probably is…
+00:20:00
+Siva Chamiraju: No user login only benefit out of that is you can add previous files.
+Chase Madson: but what do you guys think?
+Siva Chamiraju: Then we are getting into the storage and all that. depends on how much time we are left with it again falls on your bucket where you have to go back to S3 to bring in older files attach them together and send it to the model.
+Francis J Lee: yeah, I think maybe login password if it's something we could just add later. I think we just need to create that initial process of. We just put in the file texts and it produces a summary and then we refresh it and it disappears and then I guess from there. We can. Start trying to see about login and adding those extra features.
+Chase Madson: in that case, I'll probably just move on to just formatting what the API returns to us so that it looks prettier because right now it doesn't look pretty the website itself. So I'll get it online share it so that everybody can use it and then start making it look more presentable and then by that time we'll probably recap or reconvene as a team and figure out. What are we gonna try to do whatever the tasks? We're all going to try to do over the next week and stuff every cool.
+Chase Madson: And in Francis you want to take these tasks get that presentation you have organized and yeah.
+Francis J Lee: but yeah, I all do that and
+Francis J Lee: then I guess when's the next meeting we would like to have you guys we're gonna be immersion. There's no class this week, right? So then one whole week from now, you guys want to do that Friday. or is there another time frame?
+Siva Chamiraju: and it's
+Chase Madson: I'd like to do sooner if possible, but I understand. Yeah, the emergence gonna be a big mess. Maybe when you're on together and you have Mike with you if you guys could talk about scheduling and I'm pretty open this week too. but if we can't get sooner than Friday, I'm happy with this Friday, too.
+Siva Chamiraju: yeah.
+Francis J Lee: Yeah, that sounds good. So also one for next week Friday same time this work for everyone. I'll do that. And then if anything maybe see one Siva myself and Mike get LinkedIn person. when are you leaving Siva? You leave Tuesday night, or At least using that okay,…
+Siva Chamiraju: Yeah.
+Francis J Lee: so maybe we'll see if you get a time where we can get all together. maybe me and my commute up on Sunday and try to see each other when we all link up at the beginning. Okay. Yeah,…
+Siva Chamiraju: Okay, sounds good.
+Francis J Lee: I don't know what this is there a schedule for the whole kept immersion or
+Siva Chamiraju: I don't know either trying to look into that. There is flag that we got added. I think they have been sending messages there. I didn't get a chance to look into it.
+Francis J Lee: yeah.
+Siva Chamiraju: I have some calls on Monday which are unavoidable. So I don't know how it's gonna work. can I step out Chase based on how you did last year? Will you be support? Okay.
+Chase Madson: Absolutely. Yeah easy.
+Francis J Lee: Is it more like just speakers and everything or are we actually gonna be doing things?
+Chase Madson: if it's like how it was for me a year ago. Sunday there's going to be I think a mingling event where you go to the top floor of the hotel. I gave a nice Overlook and it's just drinks and snacks or served. I think some people will speak here and there but it's more like a mingling event for And then Monday is where you all go to. There's a lecture room. There are probably two or three lectures in the morning at lunch time. There is a hosted lunch and you'll have more mingling opportunities there followed by an afternoon of more lectures and I pretty sure Tuesday follows the same formula just a little bit lighter. that's what I experienced.
+00:25:00
+Siva Chamiraju: And evenings, they are done around like six o'clock or
+Chase Madson: I remember it being done around four or five. But yeah, I got it. I don't call me on that.
+Siva Chamiraju: okay, there are no breakout sessions or group activities or anything like that, right? It's mostly listening from our side.
+Chase Madson: There could be an optional after the schedule events meet up things, but I don't think those are gonna appear on the itinerary.
+Francis J Lee: Auntie, I think I found a schedule.
+Siva Chamiraju: Okay.
+Francis J Lee: It seems like we could potentially do something. I don't know
+Francis J Lee: yeah, maybe. You could do something Sunday night after the welcome reception, or even I don't know if you're gonna get headshots or 8:30. Yes, so we can maybe something right after the welcome reception. Or find something.
+Francis J Lee: Or you do something.
+Siva Chamiraju: Did you get this from this lack or? Okay.
+Francis J Lee: yeah, I just found this maybe even this end of agree on. We could do it right after. programs completely so Yeah, yeah Siva myself and Mike once we get together on Sunday we'll figure out what works best Yeah, okay.
+Chase Madson: Can I get your emails again for GitHub the ones you sent me to invite you to the repo? Those are your Berkeley accounts? And I couldn't find you on when trying To give you the emails or…
+Francis J Lee: We're trying to
+Chase Madson: count or whatever you run over. Your username is on GitHub and I'll invite you to the repo.
+Chase Madson: That way you can really see the code and the readme and stop even if you don't cool actually.
+Siva Chamiraju: I said somewhere else on the slack.
+Francis J Lee: Pakistan, that's slide.
+Chase Madson: Here it is.
+Siva Chamiraju: and while I log into my Berkeley kit Let me see if that's the right.
+Chase Madson: Weird, you're not showing up Francis on. when I try to type your username in let me share my screen.
+Francis J Lee: Really?
+Chase Madson: Yeah.
+Chase Madson: Yeah, it's this FJ Lee 20.
+Francis J Lee: Yeah.
+Chase Madson: weird
+Chase Madson: let me say let me see something.
+Chase Madson: So if I go to my profile it's just this so if I did that it should be you.
+Francis J Lee: Yep, that is me.
+Chase Madson: for some reason I can't and That's weird. If you give me your email, maybe that'll probably pop up.
+Francis J Lee: Yeah, Francis.
+Francis J Lee: Dot Lee At berkeley.you.
+Chase Madson: you know what? I'm doing wrong. m but I need to press that ad people, my bad.
+Siva Chamiraju: My ID is different. Okay.
+Chase Madson: Yeah, you do show up and you were invited Okay, and then did you put yours in here or okay.
+Siva Chamiraju: yeah, if you can't find that I will give my user ID. Yeah, that's me.
+Chase Madson: I guess yeah, I don't know why it didn't work when I tried before my bad. anyways, yeah, so this is the repo I'll be committing to it over time. But one thing that might be useful is I'm going to try to make this read me more descriptive over time including I'm gonna continue the update this architecture diagram as we build new features so that whatever the current version is if you scroll down, Here, it'll show you what it actually looks like back into. So That's what I'm trying to do plus all the standard nicely formatted readme stuff. I'm going to eventually want that to be looking good too. But
+Francis J Lee: Also, yeah, I just accepted.
+Chase Madson: Alright, thanks for meeting. I hope you guys have a great Friday and happy travels.
+Francis J Lee: Hey, thank you. and of course you but
+Siva Chamiraju: Thank you. one. Yeah, but
+Chase Madson: Yeah,
+Meeting ended after 00:30:09 👋

@@ -1,0 +1,54 @@
+
+spk_0: Good morning everyone .
+spk_0: Uh Thanks for joining this quick session .
+spk_0: We are here to discuss and identify methods to streamline our meetings .
+spk_0: I want everyone's input .
+spk_0: Let's keep our comments ,concise .
+spk_0: Uh Frances .
+spk_0: Would you like to start ?
+spk_0: 
+spk_1: Yeah ,sure .
+spk_1: See that .
+spk_1: Uh First ,I think having a predefined agenda sent out a day before the meeting would help us stay on topic .
+spk_1: Also ,we should have a clear objective for each meeting .
+spk_1: 
+spk_0: Good point .
+spk_0: Francis .
+spk_0: Let's note that down ,Mike your thoughts .
+spk_0: 
+spk_2: I agree with Francis on the agenda .
+spk_2: Also ,I think we can limit each speaker's time depending on the agenda's complexity .
+spk_2: This will encourage more focused discussions .
+spk_2: 
+spk_3: And what about the follow ups ?
+spk_3: We should have a system to track action items and post meeting to ensure that decisions are implemented .
+spk_3: 
+spk_0: Great .
+spk_0: Yes .
+spk_0: Um That's a crucial aspect .
+spk_0: Francis .
+spk_0: Can you elaborate a bit more on your idea of a clear meeting objective ?
+spk_0: 
+spk_1: Yeah ,sure .
+spk_1: So ,but uh for instance ,if it's like a problem solving meeting ,we focus only on that no updates or off topic discussions that uh this way we can have more productive meetings
+spk_0: very well .
+spk_0: Mike any additional points .
+spk_0: 
+spk_2: Yes ,I think we should also have a rule where if the discussion diverges significantly ,we take it offline .
+spk_2: This way we respect the meeting's time limit
+spk_3: and maybe using a collaborative tool for meeting notes .
+spk_3: Uh So everyone can access and add points in real time .
+spk_3: How about that ?
+spk_3: 
+spk_0: Excellent suggestions ,Mike ,could you summarize the actionable items ?
+spk_0: 
+spk_2: Certainly ,here's our action plan ,predefined and circulate agendas before meetings assign clear objectives for each meeting limit .
+spk_2: Speaker time based on agenda complexity .
+spk_2: Implement a tracking system from post meeting action items ,take divergent discussions offline and use a collaborative tool for real time note ,taking ,adding visuals ,
+spk_0: brilliant .
+spk_0: Uh Let's implement this in our next meeting .
+spk_0: Thank you everyone for your valuable inputs .
+spk_0: Meeting adjourned .
+spk_0: Thank you .
+spk_0: 
+spk_1: Thank you .

@@ -1,0 +1,369 @@
+﻿meetinggpt (2023-10-09 18:10 GMT-7) - Transcript
+Attendees
+Chase Madson, Chase Madson's Presentation, Francis J Lee, Michael Townsend, Michael Townsend's Presentation, Siva Chamiraju, Siva Chamiraju's Presentation
+Transcript
+This editable transcript was computer generated and might contain errors. People can also change the text after it was created.
+Michael Townsend: That's pretty cool.
+Siva Chamiraju: So far, we've been thinking, Okay, I attended meeting I want summary and my manager has to see, but why do I have to attend meetings? especially large meeting Sometimes. It doesn't even make sense to go and just sit there and come out doing nothing.
+Chase Madson: Yeah.
+Michael Townsend: It's like basically you can I guess optimize the meeting who actually attends the meeting and who just gets the notes at the end? By and reduce the amount of overall meetings that everyone has to attend. To only the people that need to engage with the content. On the fly.
+Siva Chamiraju: Yeah. Maybe for next call. I'll try to get this activated for us and have a assistant joining us here.
+Michael Townsend: Yeah, that'd be pretty sick. Now.
+Siva Chamiraju: Anyways, I don't know if it helps us but I got a hospital looking at that if
+Chase Madson: It's definitely good and for us to be aware of Third party potential competitors in the space. Yeah, because the first party I think we have a good answer for, but if there's somebody kind of doing what we're doing, I think we'll probably find and we can just always lean back on. Hey, this is just cutting edge stuff but yeah.
+Siva Chamiraju: Yeah, that's one project.
+Michael Townsend: Yeah.
+Siva Chamiraju: We are not getting into the market with the product. although Michael had dreams of going as a product,
+Michael Townsend: Right.
+Michael Townsend: yeah, at one point, I'm pretty encouraged by how powerful this turbo is the
+Siva Chamiraju: yeah.
+Siva Chamiraju: I'm sure you can find the differentiation factor between this and…
+Michael Townsend: we get
+Siva Chamiraju: the other one.
+Michael Townsend: Yeah, we can probably use it and then see where it's cracks are and then maybe try to kind of that stuff that gets around that.
+Siva Chamiraju: Yeah. I think I did.
+Chase Madson: Are we recording?
+Siva Chamiraju: Yeah, you don't see.
+Chase Madson: I do see it. Okay, Yeah, awesome. I'll go ahead and share my screen here to do. We have not much, but in the way of notes this week, But let's kind of follow up on our tasks that we decided on last week and just get prepared for tomorrow. There are a couple of to do for tomorrow but I think the relatively easy I'll just start with and I'll kind of take notes as I go building the application that's thing that I've been working on.
+Chase Madson: Zoom in a little more than that. So, I'm working on my code base. I'm adopting the code base from 255, The Machine Learning Systems, engineering class where basically this is going to be the deployment code where I defined a bunch of endpoints that we talked about in our diagram of here are the prediction endpoints That's basically our back end in the website. And then here's what the actual users seeing and how they connect with each other. So, I'm working on building, all of that out right now on the containerization, just the whole code base. I'm almost halfway done. I'm gonna probably try to commit a good chunk of time tomorrow. To just Getting most of it done.
+Siva Chamiraju: this one thing on that,…
+Chase Madson: 
+Siva Chamiraju: while going through the AWS, Trainings / In all the pdfs that they shared.
+Siva Chamiraju: I think in 255, you probably created your own image with all the code that you pass on the modules and stuff. With AWS, you could do similar things. with once you do all the things once, there is a command to store that As an image. And you can reuse any number of times.
+Siva Chamiraju: Slightly different areas than what we did in 255.
+Chase Madson: Do you know where I could look that up, I guess. Yeah. Aws.
+Siva Chamiraju: Aws Ami, I think that's what they called.
+Chase Madson: I think I remember this from 205. We use these. Okay. I'll look at that.
+Siva Chamiraju: Yeah.
+Chase Madson: Yeah. In the air, make sure that what we have here because activity that we used azure. That was a big difference. So I'm hoping that a lot of the principles of the code base that we have that I have to work with is our interchangeable, their cloud agnostic, but I'm sure that I'm gonna run into some photos. again, I want to try to get By piece of this done this week, I'm gonna hold myself with that.
+00:05:00
+Siva Chamiraju: Yeah, one other thing is, we are going to AWS only for credit sake, Otherwise, no one can stop us going to Azure or Google Cloud whatever you want. Only reason we are going to eat obs, is that 1000 dollar credit for all four of us, I will leave it up to Michael to decide whether it's what going that route or not. I'll tell why if you're very comfortable with Google May and your resources are not so intense, maybe you can just continue there.
+Michael Townsend: Yeah, there's a chance. I mean with I don't know the step changing improvement in this model. Now that the tuning will be more on the prompt engineering than it would be on the fine tuning. and show you guys how it kind of works when I get to that section.
+Siva Chamiraju: Yeah, okay, so it interrupt, your flow, chase, go back. I will, give more update on AWS and Michael.
+Chase Madson: Yeah and I think I mean mine is really not a whole lot of show, just getting my Linux set up in the background and getting the code base initialized I've gotten there, there are more speed growth bumps and I was expecting but again' get that. I'm setting a personal goal of trying to get a working application that we can start Playing with. Here's a pickle file of yeah, I don't know if we're even using that anymore. How we need to code that into the system, but I'll get to that point where we can have that conversation by the end of this week. And before the next meeting, that's all I really have on my end.
+Chase Madson: Mike. Yeah, you want to talk about? What you've been looking into?
+Michael Townsend: Yeah, Yeah. I can share my screen.
+Chase Madson: Sure.
+Michael Townsend: Let's say. We can do this correctly. Yes, then
+Michael Townsend: We'll start.
+Michael Townsend: Although, if I Share this time instead. Okay, so it was actually fairly easy to just take a lot of the code that is in This link here in the tutorials, but one of the roblox I hate was just being able. Or I don't even know if I'm sharing my whole screen. But essentially, there was this link that showed in an open AI, that you could do a number of these built-in functions.
+Michael Townsend: but these built-in functions are really just a template for if you think of it this content here you are a highly skilled AI, whatever, this is what you would type in to GPT 3.5 on the Web basically. And it uses Hey, you have this transcription? and so if you tailor, I guess this prompt differently, you might get different results but Basically there's a GPT 3.5 turbo that can handle the 16k tokens. And the meeting that we had last time was 10K tokens and it was an hour long or something like that. So, I'm pretty sure that this model can handle. Most full meetings basically.
+Michael Townsend: Without having to do any truncation or anything. and then how it works is, you have a series of subsections. That you can ask different things of the transcription. so I could imagine that it's fairly easy to implement something, using this code base where the input is
+Michael Townsend: instead of this content spot, it's just like whatever the user's question is, So you could make a QA function like that says, Question. and then you could put in this content area, Like question.
+Michael Townsend: And then basically that would be extraction. And this would simply. Be able to be run off within our UI Fairly easily they could write the question, then you can format it correctly, and then pass it to this function and get a response with an API call. It seems like as simple as that, honestly.
+00:10:00
+Michael Townsend: So it has a number of built-in functions and then I just was playing around with whether that would be really easy to just add sections to what it gives you. And I just made up this prompt where I'm asking them to do to, basically, analyze how much people are speaking the interactions that they have with team members, the active listening whether they are engaging with others ideas and stuff, And their contributions overall. So I wrote that out. and then, I asked This question just to see if I could just build something without basically these other ones are just directly from the website is wanted to see if this just could be added on.
+Michael Townsend: and basically, for every sub function up here, it's just calling each of those. And then it's got a Dictionary output that. You get it in and then this is the ability to kind of format it and save As you know, some document. and at the end here, I just brought in our Google Meet text file from the last meeting. And then basically it's just you give it the entire string you make that in that whole thing of string. And then it says, simple as meeting minutes with the string. Is equal to minutes and then I can just save it as a document. With this line. and then, What that turns into is? Pretty impressive.
+Michael Townsend: So, this is for our last meeting. formats it nice and I don't know, gets it in a pretty good and pretty much covers the points that we had last meeting. Fairly well.
+Michael Townsend: I don't see it really missing a lot of topics.
+Michael Townsend: and I guess what we might be able to do is different key. Things about the meeting if we want to I think from here, we have a good baseline of some of this stuff because it feels like this is fairly robust and then now we can tune it to Easily make it a little bit more brief, or a little, more information. But It has the sentiment here neutral focuses on technical top aspects, integrating models planning. and then this is kind of interesting, figures out the percentage of time. People are speaking and what people are reacting to. whether people follow questions or actively listened, and kind of a
+Michael Townsend: Recap from the perspective of each. Individual contributing to the meeting. And then I guess from here, what I was thinking is with respect to what we just said. you can see how there might be 10 people in a meeting and four or five of them. Are people that are really engaged and then in a big meeting at work, you might have eight people just listening in So, maybe you have, the situation where They could just literally just be sent this document instead of attending the meeting. so when they're engagement is at a certain level, they can be alerted hey if you don't want to attend the meeting, you have this, thing that you can just, get all the content from So you don't have to attend the meeting and then the meetings will become smaller.
+Michael Townsend: Which usually leads to a more open discussion. And a more, I guess, productive discussion.
+Michael Townsend: But that's just the thought that I had. But yeah, I think basically if we can take this script and put it somewhere in the area that we're working that you just showing I feel like, That's gonna be. our first step in just having an end like MVP and then we can Build it out from there, but I see a lot of potential and what we could pull out from the meeting and I guess maybe we could run some of this on the API Corpus or AMI corpus to I guess see what kinds of
+00:15:00
+Michael Townsend: What kind of things we can do with hundreds of 50 to 100 meetings? And evaluate people over the course of several meetings or something. Get statistics going or something. I feel like I was thinking of ways we could integrate the data set so that we're not using any data.
+Chase Madson: 
+Michael Townsend: That makes sense.
+Siva Chamiraju: Wait. So, how sorry if I missed training is still based on the data sets that you had, right?
+Michael Townsend: Training. right now it hasn't been trained at all it's just the GPT 3.5 turbo and…
+Siva Chamiraju: The API.
+Michael Townsend: then it gives it the meeting minutes.
+Siva Chamiraju: So it takes its own training to data, I guess.
+Michael Townsend: yeah, it's just a large language model and it's been tuned to answer questions Based on content. And it's able to take the content and…
+Siva Chamiraju: Yeah.
+Michael Townsend: And map in. the answers. So it becomes more similar to the diary team, it becomes more of a prompt engineering exercise than it is a fine-tuning exercise. Where you kind of tune…
+Siva Chamiraju: Right.
+Michael Townsend: what you're asking? To get exactly what you want.
+Chase Madson: This is really cool I guess to think about it in terms of the diagram that I put together that shows to how we're going to deploy this thing. Basically, it seems like instead of having our own. We built this endpoint for summarizing and QA models. It seems like we just have a lot of Python code that I can just include in a code base that just essentially sends our queries to an external API that being of open AI's, what you're communicating with here. So somebody else is we're using their model that they train and it just works great.
+Chase Madson: And so, all we need to do is set something up that passes back and forth queries and getting and get requests formats, those requests and results in we've had to worry about making sure the user experience is nice. that we have developed a decent working prototype that kind of matches how we explain so,
+Michael Townsend: And maybe some level of this is kind of statistics from the meeting or some visualization or some type of I don't know. seven more user experience than it is fine-tuning of some model.
+Michael Townsend: But I don't know what the other team is doing with prompt engineering or how to change some of this stuff but Hey, I'm wondering if I should. I did pick one of their brains earlier today to try to see what they were doing. But
+Michael Townsend: If we do, go this route we're pretty much very similar. I guess methodology to that other group in terms of The evolution of the project I guess where it's product focused using an external API. Etc. So
+Siva Chamiraju: Francis, you have a question.
+Francis J Lee: I'm in between some more conflicts but I was curious on the API so it'll just feed right into a meeting or chat GPT and then they'll feed the meeting straight to there and I guess just want to make sure that pipeline I understood just in the privacy side. So our Regis is that something that meeting or chat? GT is going to collect and process through?
+Michael Townsend: I'm unsure of how that would work, exactly but Yeah, I wasn't sure because basically, the way that the API works right now is I'm just asking the endpoint, I'm giving it a prompt and giving it a reference document to use for said prompt. But I don't know if all that information is being collected. and maybe able to be used externally and if it is, I guess what we'd have to do is potentially make a model or tuna model to data that has basically been generated by this system. So is we could generate a bunch of meeting minutes from AMI and then tune a model to those meeting minutes to create our own model of.
+00:20:00
+Michael Townsend: What GPT 3.5 comes out to get around the security aspect. If that makes sense.
+Francis J Lee: Yeah. Yeah,…
+Michael Townsend: There's a Good.
+Francis J Lee: On the start, yeah, I guess if we understand the pipeline of the API and how that side is in the sense of what they're gonna do at the meeting transcripts, we could just tailored our privacy policy along with, chat GPT or GPT 3.5. So that way it's a little bit more streamlined. I know we talked about make you making enterprise level for a paid account in the sense of a future level, but for the initial, we could just try to tailor it along or ensure that we have very similar privacy policies as Chat GPT 3.5. So they know where the data is going to go at least just my Quick fix for now.
+Michael Townsend: Yeah. That makes sense. And then from a perspective of what do we do? So one of the things I was thinking about is What do we do, I guess. With the summaries and the key point. you have this document but a team has been using our tool for a month and they have 10 to 20 of these documents. I feel like it might be helpful to have the ability to reference or, use these documents to ask. yeah. Did we cover this topic in any other meeting recently or something? Or, be able to have a team like query the outputs of the model that they've seen in the past?
+Michael Townsend: Maybe not the inputs, but the outputs. I was curious if you guys I don't know that part of the application would be interesting.
+Siva Chamiraju: Yeah, make sense. I think we can. Difference between 3.5 and 4. It's sounds like they added.
+Michael Townsend: Good.
+Siva Chamiraju: Some UI functionality. I took subscription just to test out how the four version of. Open AIs. Will keep monitoring and saying I didn't see much difference actually but it may be just the UI functionality have changed. You can upload an image, that's the only difference. Maybe we can add more functionality around fine metrics and some charts and stuff. But I have another question,…
+Michael Townsend: Yeah. Good.
+Siva Chamiraju: the openai has, if you are not paid subscriber, they do limit your usage. I did encounter for something at some point and I was reading their policy and looks like they do have some limits
+Siva Chamiraju: If it is individual usually user. It may work for all our meetings but then if you're building a product, if you're sending multiple meetings at the same time, we mean that limit sooner than the individual user.
+Michael Townsend: I see, yeah. I haven't looked too much into that. I was talking to.
+Michael Townsend: Madhu from the other group. And he said, He's used a very little amount, but yeah, to your point, it's maybe just because, it's been used on a single user scale at that point. Scalability is kind of an interesting. question for this.
+Michael Townsend: You can't use the API unless you put money into your account. but it only uses fractions of sense or sense, every time you run it it's a very small amount.
+Siva Chamiraju: No matter how long the text is.
+Michael Townsend: I think it's based on the scale of the text so ours is gonna be more Pricey. But only maybe, Let's see how many times we check real quick.
+Siva Chamiraju: You did provide your credit card over there is a
+00:25:00
+Michael Townsend: Yeah, I provided my credit card because that's how I had to update it.
+Siva Chamiraju: Okay, Maybe we may not hit the limit but it's just the money will be. Getting accumulated over there.
+Michael Townsend: how much have I spent on it so far probably very little. Let me check.
+Michael Townsend: Usage. so, I think it's about 10 Cents. Every time I run this, but if you I'm running several different queries, because I'm doing the.
+Michael Townsend: Yeah. What am I sharing? so, the one thing I don't really Either. so if you think about it, I'm doing a query for this. I'm doing a query for this and I'm doing a queer for this. And each time I run this script. and every time you I guess, ask it with A certain amount of tokens, which this one has 10,000 tokens. It costs a certain amount. So it turns out to be good.
+Siva Chamiraju: okay, you are using 3.5 turbo or
+Michael Townsend: I'm using 3.5 turbo right now. 16.
+Siva Chamiraju: That says, for I'm looking at the pricing openai.com/pricing everything is listed there. 4k context is about.
+Siva Chamiraju: How do I read this 0.0015? that's, 100 of a cent for 1000 tokens.
+Michael Townsend: 100. So is that generated or input?
+Siva Chamiraju: Let me see, my screen right here.
+Michael Townsend: Yeah.
+Siva Chamiraju: It's Less 100th of a cent one to one k tokens input. And
+Siva Chamiraju: 200 of a cent. For one keto currency, it is pretty cheap.
+Siva Chamiraju: I guess.
+Michael Townsend: Yeah, and then I had to use 16k context. Because of the length of our meetings.
+Siva Chamiraju: Okay.
+Siva Chamiraju: And this is much expensive than that. It's six and every or three cents and UK.
+Michael Townsend: it's 20 times the amount.
+Siva Chamiraju: yeah, so you must be sending about 16,000 tokens, and that's coming to Townsend. Is it for you?
+Michael Townsend: It's about 10 cents each time, but I think it's because I'm sending. Five inputs that are of 16k. and then, I'm getting Five outputs that are less than that.
+Siva Chamiraju: I think we should be very cheap.
+Siva Chamiraju: They have this one also fine tuning models. Did you check this like Davinci.
+Michael Townsend: I have not. Create your own by fine-tuning with your training data. Once you find your model, you've been build.
+Chase Madson: Six.
+Siva Chamiraju: And better more into this moment.
+Michael Townsend: I'm wondering what the benefit will be to fine-tuning because of,
+Michael Townsend: What I'm worried about. I guess, with our data set is that it's very small, and it also could maybe make the flavor of the minutes, Kind of less exciting. Even then the version that is just created out of the box, if that makes sense. so, he almost don't have a data set…
+Siva Chamiraju: Yeah.
+Michael Townsend: where We really can point to that data set makes a better version of what we want or something we want to have.
+Siva Chamiraju: Yeah.
+Michael Townsend: So, it's hard to, unless But I guess, you're kind of training it with them with the meeting that you just had almost on the fly.
+Siva Chamiraju: Okay, I guess we never hit the limit because it's paid subscription. They may not stop your guess for free account. They did stop me once at least in last six months. They asked me to come back. Maybe on that day. They have some maintenance or something. I don't know why.
+00:30:00
+Chase Madson: Are you using the main Web app for attach ept or something in the back?
+Siva Chamiraju: Yeah. Right.
+Chase Madson: Yeah, I've experienced that too. you put too many queries in and then just really slows down, And never told me explicitly …
+Siva Chamiraju: Yeah.
+Michael Townsend: Yeah.
+Chase Madson: Hey, you've done too much but I can tell when it's had enough of my questions.
+Siva Chamiraju: Okay.
+Chase Madson: alrighty, so it sounds like this approach. We have two question marks. That. aren't necessarily deal breakers or anything, but definitely I think think through one is we need to think about what is the scale of the product that we are advertising, and that we're presenting here, because somebody's gonna ask that might work for one simple prototype, but in theory, this in production is going to be serving, X number of users
+Chase Madson: In that case, them doesn't math out to something that makes sense, or is explosively expensive, and it's a scalability. And I guess also scale not just scalability of costs, but we should also be conscious of How many requests we are sending back and forth. I guess if we were s everybody sending requests over the Internet from their respective. Places where they're running this application from.
+Chase Madson: That's not going to potentially be a concern, but we should think about how exactly it would work. If theoretically a hundred people at a time, we're using our application. I don't know what kind of load testing or what have you expected user base. We need to anticipate And then I guess thirdly what? Francis brought up I think the privacy can thing we need to be confident about. I think when we explain it how? Because in theory one of the intended, customers of this are gonna be companies that share, highly confidential information, or proprietary information. They could be a lot of concerns about and policies about not letting that information get out there and
+Chase Madson: In theory, I don't know what does Chad Gb2 do with our data.
+Michael Townsend: Here. Yeah.
+Chase Madson: I think they do log in, they can do whatever they want With that. I haven't really dug through their privacy policy
+Michael Townsend: if we have to write around that, I don't know if this would work, but we would have to basically generate a bunch of so we take all the corpuses we have and we'd run our API unlike 350 meetings that we have right from the leader corpus and all the corpuses, and then we'd have basically, a uniform data set of Golden Summary, transcript combos. And then we can use that to tune another model and then not use GPT, but use it to create. I guess a normalized version of the meeting minutes to then tune a different model on which we could try. But It would mainly just be to get around the fact that we'd not be using GPT at that point.
+Chase Madson: Yeah, in that case, we'd be hosting the models internally to the application. We have our own API, we'd set up that we're never working in the back end of the website and the privacy issue kind of goes away At that point. I mean we have data steward responsibilities in terms of privacy. But yeah,…
+Michael Townsend: Yeah.
+Chase Madson: I think that's a lot easier to defend that if we don't feel comfortable at the end of the day, with our privacy justification using chat GB. Again, I'm not against So, I'm not saying that kills the channel GPT API thing. I think we should definitely try to use it. If we can just, we need it. I think we need to preempt that question of privacy. So That's a good fallback. I think
+Siva Chamiraju: What?
+Michael Townsend: Yeah.
+Siva Chamiraju: One question slash comment for let's say, 100 requests from our app code, the same time. 100 one person would not send 100 meetings at the same time, unless they're doing perfect test or something. If 100 different users are attacking going through our
+Siva Chamiraju: Will be calling the same API with the same account, or is there any possibility of setting through multiple accounts?
+00:35:00
+Michael Townsend: I don't see why you wouldn't be able to do it to multiple accounts if you set up but the accounts would have to Either set up. You have to have them internal where you're saying, someone else would use their account. the user.
+Siva Chamiraju: yeah, just it,…
+Michael Townsend: Or we would have our four accounts.
+Siva Chamiraju: it's doing an idea here, either user, or we have a bunch of accounts, not just one account and you put a Balancer or something to figure out based on the input traffic. You route through different APIs instead of just hitting the same one, if there is a problem using the same API.
+Michael Townsend: Yeah, I think either would work, it's just that you need to create your own secret API key. For each account, and that needs to be tracked by the system. And actually utilize. So it'd be a little tricky to have the users. Use it because they would have to basically do,…
+Siva Chamiraju: Right.
+Michael Townsend: give us their API key. So we would almost have to, internal to our platform, have some environmental variables that are defining our API keys for 30 and…
+Siva Chamiraju: Right.
+Michael Townsend: then just using those environmental variables with a number of different accounts.
+Siva Chamiraju: Okay.
+Chase Madson: And each account would have to be set up with each user's credit card So we'd have to tell them. get your key and also put associated credit card with your account too.
+Siva Chamiraju: No, I don't think we had recommending that way we land into 231 problem. Francis will not be happy. You're taking customer.
+Michael Townsend: Yeah. Yeah.
+Siva Chamiraju: I think
+Michael Townsend: Making everyone pay for it, as they go.
+Siva Chamiraju: Let them pay us and then we'll pass on that.
+Michael Townsend: yeah, I we have to basically focus our efforts on the product instead of the model which I think is I don't know, it feels more like, something that could be deployed, then if we just banged our head against the wall, with the old modeling method and just had something that made some cohesion of sentences rather than this which feels like it could just be used out of the box almost. so,
+Chase Madson: All thank you Mike. That those most thank everybody for. I think there's a very important discussion we're having and just personally I think it's more reason for me to put the jets on in terms of getting an application running. So we can actually start looking at it and thinking about how it's going to work in more tangibly because, yeah, we need to probably like it's nice that we have that fall back but also that's gonna take time and energy, And it's time potentially wasted taking route a that we end up taking out the instead.
+Michael Townsend: Yeah.
+Chase Madson: So I think we can get to making those decisions faster. If we have something close to an MVP. Yeah. So I'm gonna
+Chase Madson: More balls in my court to get that application running but with that, I will head over to Siva.
+Michael Townsend: One more thing did we want to just come out and…
+Chase Madson: Did you want to cover? sorry before I did Mike. Did you want to
+Michael Townsend: ask about the privacy or, some of the concerns we have with using the chat gbt In the update and kind of get everyone's thoughts on. How it should be addressed. Just based on the conversation last week.
+Chase Madson: I think it's useful to ask the instructors that we mean.
+Michael Townsend: yeah, whether ethics or, the not ethics business, early security and ethics combined how to use the platform of an external chat TBT, but still Maintain user confidentiality or any type of, I don't know. Is there a way to get around that?
+Francis J Lee: was it health plans that Is doing the API as well.
+Michael Townsend: 12 diaries doing.
+Francis J Lee: Okay.
+Michael Townsend: They're doing so I think these exact same issues are definitely something that they're gonna have to answer to too. so,
+Francis J Lee: Yeah, I know someone that's in that group so I can reach out to him just kind of be like, Hey, What do you guys have? You guys even thought about this piece or you guys just More focused on Mvpn and…
+00:40:00
+Michael Townsend: Yeah, that'd be great
+Francis J Lee: we'll figure out privacy and constraints later in the sense of because I feel like you could always cut down from once the MVP created. So if we need to forge add things, such privacy policy like people know up front. Hey This your data is not secure necessarily or disinformation is going to be in a shared space and then we'd have to figure out the novelty factor of the enterprise section of. we want it to be focused also for, big businesses where they want safety and in their privacy of proprietary information. But if we have an MVP, I feel like we can always
+Francis J Lee: Modulate, the privacy policy accordingly to, we just have to be transparent. That's the baseline. I think in privacy policy. It's like we just don't want to do anything that They don't know that we're doing with their data in the grand and state of everything so I'll reach out to him too though and see Hey you guys even thinking about healthcare data? It's a lot more,…
+Michael Townsend: Yeah.
+Francis J Lee: important. it's very private versus say just a meeting transcript so we all shouldn't message right now.
+Michael Townsend: That's great. Yeah.
+Chase Madson: Perfect.
+Siva Chamiraju: okay, so or for she's,
+Siva Chamiraju: Not able to share my screen. For some reason, let me share. So some of this that I have worked probably not needed anymore with all the magic that Michael has done. But I just shares still because I worked on it. So I have set up my AWS with. An instance running G5 X large, that seems to be a powerful machine that we can use if we want.
+Siva Chamiraju: some instances and then, their series of commands that you need to run and you can control security and all that I was stuck on Saturday for quite some time on opening up some security ports. But finally, I figured it out with the help of Robert At the end, the Jupiter lab is up and running. But the thing is, this is for me. I can pass on the Dot Pam file. I don't know if you guys are aware of it, maybe you used it in two or five PEM file is more like a security code similar to your transgbt code. If I pass that on to you, you should be able to log in from your machines into this instance and run your digital lab. And, everything is available for you.
+Siva Chamiraju: the usage pounds towards my account and it will be deducted from my credit. Robert was he mentioned three times at least not to share Pam file within the team. Even though we are doing capstone He was like all your teammates should set up their own instance and they should be working on their own and credit should be only shared if let's say Michael is running majority of the work and through the organization when he runs out of his credits, other person credit will be automatically at it or we had to open a ticket to add my credit to Michael Credit. But he strongly discouraged to share the FEM files. So essentially, if you want to run this on AWS at some point, I can help you bring up your AWS. Just like how I have here. in case, if we, want to fall back in AWS
+Michael Townsend: yeah, I definitely want to set it up at some point and try to maybe play around with the capabilities for sure.
+Siva Chamiraju: Yeah, they do have some new models and bedrock I believe. If you just search in, Bedrock.awson He was very happy that I'm AWS released those models very recently, he was claiming it was as of previous night when he sent this recording out to us.
+Siva Chamiraju: Generator I don't know, I didn't try it much, but if you're interested maybe you can, browse around Just search bedrock on AWS, you'll get to this page and get started with Amazon If you are more interested, we can dig into it but it was there on the recording as well.
+00:45:00
+Michael Townsend: I mean, If it's as easy as doing …
+Chase Madson: 
+Michael Townsend: just seeing what other models can do and comparing Gpd 3.5 turbo. And this guy generating the same Stuff with the same prompt, it'd be kind of interesting. just have some leveling idea of …
+Siva Chamiraju: Yeah.
+Michael Townsend: I don't know what the difference between the models is.
+Siva Chamiraju: Text, and it means.
+Michael Townsend: It seems like this guy can do similar stuff. So,
+Siva Chamiraju: Yeah. You can sell it.
+Siva Chamiraju: No Yeah, I haven't explored this part but we can give it a try and see If you start your account first, to make sure that you are an organ. This is where your free credit card and all this settings are done for this Instance.
+Michael Townsend: Nice.
+Siva Chamiraju: Okay, that's one thing. And then this probably will reuse this code. I do not claim my wrote 100% of this code, but I took charge EBT health So what this one does is it takes an audio video file. And connects to transcribe service. And converts it into text. of course this also comes with some cost. So far I accumulated three dollar fifty cents or something for running it three times. It's probably like a dollar per every time I Send the audio file to convert to text. They go by many of audio, our recording was almost an hour long And I send to three times of just to try it out. And it does the same thing as what I shared the file long time ago by running manually on the transcribe.
+Siva Chamiraju: Through API, it does the same thing, it's just automated code. so, I guess we will be using this for As a start point, we may not always have the Google hangout Google Meet transcript. We may have to work around on the zoom files as well or other sources as well.
+Michael Townsend: Yeah, we can play around with how well, We can generate the meeting minutes without the speaker identification. Every really interesting actually want to do it now just to give it did the same thing. I just did for the Google meet but with the AWS transcription and…
+Siva Chamiraju: Yeah.
+Michael Townsend: if it can just pick up who's in the meeting by when we mention people's names and deducing how to piece everything together
+Siva Chamiraju: Yeah, that I think last time also I tried Google meet regarding. It's not really identifying a speaker. there is a AWS doesn't have anything like that,…
+Michael Townsend: Okay.
+Siva Chamiraju: but some other service has it will try to see if I think IBM Watson has a service like this to identify the speaker There are some small companies around, but everyone is asking to give credit card. So I didn't bother to give that.
+Michael Townsend: Makes sense.
+Siva Chamiraju: But at the time, I figured out that auto Dot Ai and I was amazed at what it can do.
+Siva Chamiraju: Yeah,…
+Michael Townsend: And hotter things so amazing.
+Siva Chamiraju: I'm actually going to try in one of my meetings this week with daughter join as a robot and see how Transcribe and help. We'll share more information.
+Siva Chamiraju: So Chase, this is to address the end pipeline. Maybe we can really reuse some of this, I'm not expert in writing this kind of code, but I'll pass it on to you guys to streamline and make sure it is in good shape. I think it's basic work.
+Chase Madson: Okay.
+Siva Chamiraju: We can tune it.
+Chase Madson: Yeah. Actually yeah. Yeah. I'm assuming that when we deploy the application. This we're going to use it AWS. I will probably set up a lot that the do some research on what are the architectural needs? We need what tools we need in AWS to have the deployment. We want set up And yeah, that it's gonna be a matter of putting the pieces together, Siva the code that you just showed that goes from video to transcript, and then passing that transcript mic to attach EBT and back getting the response back. So we're going to start plugging those LEGO pieces together from there. Yeah.
+00:50:00
+Siva Chamiraju: And if all of you want to set up your AWS anyways just for the sake of learning or in case if we feel that malleable we can have another session. I can walk you through step by step instead of going through that recording that guy really confused to multiple places. I have to go back and forth many times to figure out what exactly to be done. He focuses on something. That's not really relevant but The actual thing, he actually, skips he goes super fast that we miss, what to be done there. I had to pause video multiple times to understand what he's trying to do. but I learned I spent more than five six hours so far on this so I can help you guys to set up…
+Chase Madson: That might be really great.
+Siva Chamiraju: if you need
+Michael Townsend: I would think that would be great.
+Chase Madson: Yeah. is,…
+Siva Chamiraju: Yeah.
+Chase Madson: is the end goal to just have a Jupiter notebook and with a compute or I think it might because I think I'm gonna have a bunch of other really niche needs for deploying the application itself. I have a feeling it doesn't touch on that stuff with AWS.
+Siva Chamiraju: Yeah, but he does give some background of how to create an image and deploy it. So if one click every time when you start your instance,…
+Michael Townsend: Yeah.
+Siva Chamiraju: all the setup that you need can be, done with the one image and you can deploy it as well. And there are further workshops, this is just a basic one to set up your environment. I don't know what he covers in future thing. I forgot to also set up our S3 bucket, let me quickly, share that also, This is our S3 bucket again, it's in my account. I can open it up with, are you able to see my screen, right?
+Chase Madson: Yes.
+Siva Chamiraju: Let me go back to the root node. This is the data set as a S3 bucket. And I can share it with all of you and with your AWS access you can still reach to this data set. Meaning you can read my data from your account, you don't have to upload, all your data, I have everything uploaded, some files, It's like a upload button that I have to use and there are so many files Michael. I think what I'm talking about. Some of them failed I would say less than 1% of the files failed.
+Michael Townsend: Yeah.
+Siva Chamiraju: So I don't know
+Michael Townsend: That's okay.
+Siva Chamiraju: how Yeah.
+Michael Townsend: I think I extracted enough from the files that we don't necessarily need the subfolders in there anymore.
+Siva Chamiraju: Okay.
+Siva Chamiraju: you're not using this as the training data right anymore, so this is probably not even relevant.
+Michael Townsend: I do think though we can use all of that data. to generate a ton of results that we can…
+Siva Chamiraju: Okay.
+Michael Townsend: then use to evaluate how it would be used in practice or make some type of visualizations or, just simulate how it would actually work. I think that's…
+Siva Chamiraju: No. Okay.
+Michael Townsend: where I think we can still use. All three data sets. In my opinion.
+Siva Chamiraju: Okay.
+Michael Townsend: I think.
+Siva Chamiraju: So data is available, I can open it up although he said I should not be sharing the AMP file, I trust you guys and we can just use my pen file to connect to these. if it comes to that or I can set up all your accounts and you can also upload the same files into your AWS but I almost hit 90% of the limit that they have. So just be aware that you may be hitting the same limit. The free tier limit is pretty close to the data sets that we have. And you may not have any more left to add. Beyond this.
+Siva Chamiraju: Unless you are willing to pay a more and use your credits towards that.
+Chase Madson: Thank you va. probably take you up Getting help. Setting up Our AWS individual accounts. Yeah, just to move things along here. Francis. I think we can the privacy on it. You mentioned earlier,…
+00:55:00
+Siva Chamiraju: To.
+Chase Madson: and we're just waiting for the 231 team to reach out to us. So we are kind of expecting a message to. Hey, can we meet and interview you guys about the ethics of your product? You're capstone. And I think that it's probably gonna be the next week or so, is that right?
+Francis J Lee: Yeah, I haven't gotten any contacts from anyone, unless any of you have, but I'm pretty sure I put myself as the main poc. Everyone else's information is on there as well, but I haven't gotten anything out of. in the actual course, I haven't Received the assignment Even yet this week, we just finished up a privacy policy analysis and I'm assuming my classes tomorrow as well. So I'm assuming tomorrow, might uce these are options, pick one and Start reaching out to them because that's tomorrow's week seven. And then after a week eight, so not this week. But next week is when the assignment of the first drafts do
+Siva Chamiraju: Yeah.
+Chase Madson: Yeah. Keep us posted and I guess we're just waiting for the balls in their court. Just to jump to tomorrow's class. Here's what my understanding of the deliverables are one. There's a team peer evaluation. I think we just rate each other how good we've been as a teammates so far. I think I'm getting too conflicting. Things one is to send it to the instructor over email and the other is complete, the peer evaluation form for the members of your capstone team. Your instructor will share the link to the evaluation so,
+Chase Madson: there's a form. We have to fill it out, send it back, or maybe it's like a form. You just click submit and they get it already. I haven't seen any news. I, let me just look at the slack real quick. I didn't see anything from the all sections. And I didn't see it in digital campus unless I am blind. But yeah, that's a thing that we're gonna probably get tomorrow is the team peer valuation and we'll fill it out.
+Chase Madson: unless either any different I'm going to say there's nothing we need to do at this point, we just are going to get a form when we do let out to do the actual thing that we need to have.
+Siva Chamiraju: Yep.
+Chase Madson: Tomorrow is an elevator pitch. It says, we need to coordinate with our team to prepare 30 to 60 seconds, elevator pitch that effectively communicates and gives an overview for the Capstone project. Not too difficult. And I have a feeling that whoever gives the team check-in can also just, Handle that as well. I don't know. Yeah, so we need someone to do our check-in and then we also need someone to do the elevator pitch and if someone wants to volunteer to just do both, they probably will be not too much I think.
+Francis J Lee: What's the elevator pitch is there a task list on that, or
+Siva Chamiraju: From.
+Chase Madson: I saw that in the syllabus.
+Chase Madson: Somebody's double check. It is in the digital campus. Let me send the link to it, but there's not much information about it other than it's got to be. Basically an elevator pitch between 30 seconds to a minute.
+Francis J Lee: so it's more like a business pitch to versus a update pitch more just like, hey,
+Francis J Lee: What? Yeah, it's just basically pitching about beating GPT and how awesome it is and how it's going to solve their problems.
+Chase Madson: Yeah, it's a very, very condensed version of what we presented two weeks ago. With none of the details.
+Francis J Lee: Yeah, no slide. Right? Okay.
+Chase Madson: No slides. Yeah.
+Francis J Lee: Yeah, I couldn't do that. Unless anyone else wants it.
+Siva Chamiraju: Go for it.
+Michael Townsend: That's great. Thanks. Yeah. I don't like speaking that much.
+Francis J Lee: You're good very well lost.
+Chase Madson: I'll go ahead and do the check-in because all we're really going to say is because Stevie last week you gave a little bit the check-in but I think he kind of things short. So I have some notes on what we were going to say that time. I'll update it with what we talked about today too and where we plan to be in a week. Yeah, so I can get that as well. If I'll have that prepared in for some reason they say Screw it. We don't want to check-ins and they move on So,
+01:00:00
+Siva Chamiraju: I think tomorrow class is also about ethics, right? He said two weeks will be on ethics.
+Chase Madson: This week 8, if I'm not mistaken, are we in week seven or eight? okay.
+Francis J Lee: Think seven.
+Siva Chamiraju: Seven.
+Chase Madson: Then the nevermind the elevator pitch. The team here of calculation. I'm I apologize. Yeah, no privacy and digital identity. Is the topic of week seven.
+Siva Chamiraju: There. He may have.
+Michael Townsend: That's a perfect topic for this week. that's like,…
+Chase Madson: Exactly. Yeah.
+Michael Townsend: literally what we're just
+Siva Chamiraju: Okay. Yeah.
+Chase Madson: Let me just skim through the page here if there's anything we need to submit by that.
+Francis J Lee: So, Tim peer evaluation one's not until next week.
+Chase Madson: That's right.
+Chase Madson: Yeah, I'll go ahead and just share my screen real quick. Look at what's on here.
+Siva Chamiraju: Take the schedule. And number fifth is the week of I guess. It's because of the Meetup, right?
+Chase Madson: Yeah, the immersion I think. So data privacy in your capstone reflect how David Privacy plays into your capstone project now to the future, what a great topic for this week. What's the next thing recommended content data pipeline? Part of this week's session, check out the content for constructing data pipeline folder for this course. Not all students will develop their capstone projects in a consistent face but blah. Okay cool. No, it sounds like we have even less to worry about tomorrow. So yeah. Cool.
+Francis J Lee: Elevator pitch tomorrow.
+Chase Madson: Yeah, let's note a little bit tomorrow. Cool.
+Francis J Lee: okay.
+Siva Chamiraju: This.
+Michael Townsend: That'll be in a week from now.
+Siva Chamiraju: I think You attended this Meetup earlier, Last year sometimes
+Chase Madson: The immersion and…
+Francis J Lee: Yeah.
+Chase Madson: on campus. Yeah, I was there in August of 22.
+Siva Chamiraju: Yeah.
+Chase Madson: Way too early, I think.
+Siva Chamiraju: Are we supposed to be there? Or I was wondering I can just go and come back by evening or
+Chase Madson: Yeah, You're not too far. So what?
+Siva Chamiraju: Top and San Jose. I wouldn't have to Burger King
+Chase Madson: that's not a yeah. So I think it's going to be Sunday night. So you'd have to drive home probably late on Sunday night and then drive back early on Monday, and then spent all day and drive back again, Tuesday spent all day coming back home. You don't necessarily need to stay in near Berkeley. I don't think
+Siva Chamiraju: What do they do? in Tuesday. What's the agenda? they haven't discussed anything yet.
+Chase Madson: the agenda that I had was a series of Discussions and more lectures I guess and presentation. In basically classrooms and then you'll have a lunch that they'll give out goodies. It's mostly meant to be networking and talking with people you've done projects with if we were all going you'd be a perfect opportunity. Fresh hi and yeah.
+Chase Madson: Yeah, I think it's going to be a mix of meeting people talking to people a type of events and then just having speakers. Yeah.
+Siva Chamiraju: Okay, I'll…
+Michael Townsend: I'm going to.
+Siva Chamiraju: if I can just find a hotel there. Convert seems to be scary like three hours every day. I will get super tired.
+Michael Townsend: I found an airbnb really close.
+Siva Chamiraju: Okay.
+Siva Chamiraju: How about you? Francis are you flying? You have to guess.
+Francis J Lee: Yeah,…
+Siva Chamiraju: I need to rewrite.
+Francis J Lee: yeah, yes, I'll be flying and I think I'm gonna try to maybe stay a little bit longer and make a trip a little bit longer because I can work remotely semi. So I was gonna Yeah, I'm probably go down Find a place in Berkeley happen that in yet though. Yeah. Did you guys get invited to that slack channel, too, right? Yeah, I think there's something about it.
+Siva Chamiraju: Yeah.
+Michael Townsend: Yeah.
+Francis J Lee: No, submitting a photo for
+Francis J Lee: online, for some Yes,…
+Siva Chamiraju: Okay.
+Michael Townsend: I didn't see that part.
+Francis J Lee: cut Cal card one, deer immersion attendees were excited. Off our current students opportunity. They're calm card I don't think we really need a Cal one card if there are last semester but Yeah,…
+Michael Townsend: Yeah. What are Cal 1 cards for?
+Francis J Lee: you're not on. Yeah, I think it's just the night.
+01:05:00
+Michael Townsend: and just …
+Francis J Lee: He Okay.
+Michael Townsend: student discounts, you might get
+Chase Madson: Student discounts. Yeah, perks.
+Francis J Lee: All right, why not? Yeah.
+Michael Townsend: Nice.
+Chase Madson: And I got it last year, I never used it once to our reference. I've never needed a furnish it So you're not losing much, but if you were in a discount, I think you could probably find a bunch. There's that channel on slack that they talk about all the different student discounts you can get. I think it's just called student perks.
+Francis J Lee: Nice.
+Siva Chamiraju: Yeah.
+Francis J Lee: So nothing for tomorrow besides just an update, right? Require.
+Chase Madson: Pretty much.
+Francis J Lee: Okay, yeah, I still haven't got a word back from the guy in health one, so hopefully, I'll get something. And then all I can review, I'll take a look into gpt's policies, just so we can kind of cross reference any of that stuff. Yeah.
+Chase Madson: Maybe excellent. I'll keep working on the deployment code base and hopefully, I can make a significantly. Tomorrow is my personal goal, so All right. I think we can leave it there. Yeah, we'll all talk again tomorrow and that, have a good night.
+Siva Chamiraju: Thanks.
+Francis J Lee: Thank you.
+Michael Townsend: One thing I wanted to mention that I posted what the meeting summary was for the AWS transcription. And that transcription doesn't have speakers and you'll notice in there, it's a little lower quality just in general. But it's still pretty good but it can't really come up with who said what. So, a lot of the key points are repetitive And then some of the action, items are a little less clear? I'm like who is supposed to do it? and then there's a couple of assigned tasks, but generally speaking, it's a little bit. I think we'd have to
+Michael Townsend: I don't know, we have to figure out whether ours is gonna have labels or not labels. And I guess maybe ask it in different ways if we don't have labels or something like that.
+Michael Townsend: So just thought that was interesting. Because the stakeholder engagement, it just says Great job team doesn't come up with who spoke when and That this one did. all this stuff.
+Siva Chamiraju: Yeah.
+Michael Townsend: It'll be pretty magical if it came up with that. So, it's probably not too big to surprising.
+Chase Madson: Awesome.
+Siva Chamiraju: But I'll send this recording later today tonight.
+Michael Townsend: Perfect.
+Chase Madson: I don't think everyone and see you tomorrow.
+Siva Chamiraju: Thank you.
+Francis J Lee: Okay. but,
+Meeting ended after 01:08:29 👋
