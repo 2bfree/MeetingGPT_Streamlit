@@ -15,7 +15,7 @@ from plotly.subplots import make_subplots
 import plotly.express as px
 import requests
 
-
+export STREAMLIT_SERVER_MAX_UPLOAD_SIZE=1000
 os.environ["AWS_ACCESS_KEY_ID"] = st.secrets['AWS_ACCESS_KEY_ID']
 os.environ["AWS_SECRET_ACCESS_KEY"] = st.secrets['AWS_SECRET_ACCESS_KEY']
 os.environ["AWS_DEFAULT_REGION"] = st.secrets['AWS_DEFAULT_REGION']
