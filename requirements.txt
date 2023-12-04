@@ -1,4 +1,4 @@
-boto3==1.29.76
+boto3==1.33.0
 openai==0.28
 pandas==1.5.3
 plotly
