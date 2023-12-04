@@ -21,7 +21,6 @@ os.environ["AWS_SECRET_ACCESS_KEY"] = st.secrets['AWS_SECRET_ACCESS_KEY']
 os.environ["AWS_DEFAULT_REGION"] = st.secrets['AWS_DEFAULT_REGION']
 
 
-
 # AWS Transcribe Functions
 def upload_to_s3(uploaded_file, bucket_name, object_name=None):
     s3_client = boto3.client('s3')
@@ -33,6 +32,7 @@ def upload_to_s3(uploaded_file, bucket_name, object_name=None):
 
 
 # Function for processing transcribe result with speaker identification
+@st.cache_data
 def convert_to_text(data):
     text_content = ""
     current_speaker = None
@@ -70,17 +70,18 @@ def download_and_extract_transcript(transcript_uri):
     else:
         raise Exception(f"Failed to download transcript: {response.status_code}")
 
-
-def transcribe(uploaded_file, st_progress_bar, bucket_name):
+@st.cache_data
+def transcribe(uploaded_file, bucket_name):
     # Initialize the Boto3 AWS Transcribe client
     transcribe_client = boto3.client('transcribe')
 
     # Create a unique name for the transcription job
     job_name = "transcription_" + str(uuid.uuid4())
 
-    st_progress_bar.progress(2)
+    # st_progress_bar.progress(2)
     s3_uri = upload_to_s3(uploaded_file, bucket_name)
-    st_progress_bar.progress(5)
+    # st_progress_bar.progress(5)
+    progress=5
 
     # Start the transcription job
     transcribe_client.start_transcription_job(
@@ -95,27 +96,55 @@ def transcribe(uploaded_file, st_progress_bar, bucket_name):
     )
 
     # Update progress bar while waiting for the job to complete
-    for _ in range(10, 100, 10):
-        st_progress_bar.progress(_)
+    while True:
+        progress = min(progress + 5, 95)  # Increment progress, but don't exceed 95%
+        # st_progress_bar.progress(progress)
+        #st_progress_bar.progress(min(st_progress_bar.progress + 5, 95))  # Increment progress, but don't exceed 95%
         time.sleep(10)
         status = transcribe_client.get_transcription_job(TranscriptionJobName=job_name)
-        if status['TranscriptionJob']['TranscriptionJobStatus'] in ['COMPLETED', 'FAILED']:
+        if status['TranscriptionJob']['TranscriptionJobStatus'] == 'COMPLETED':
+            transcript_uri = status['TranscriptionJob']['Transcript']['TranscriptFileUri']
+            return download_and_extract_transcript(transcript_uri)
+        elif status['TranscriptionJob']['TranscriptionJobStatus'] == 'FAILED':
+            st.error("Transcription job failed.")
             break
 
-    transcript_uri = status['TranscriptionJob']['Transcript']['TranscriptFileUri']
-    transcript = download_and_extract_transcript(transcript_uri)
-    return transcript
+    #transcript_uri = status['TranscriptionJob']['Transcript']['TranscriptFileUri']
+    #transcript = download_and_extract_transcript(transcript_uri)
+    return None
 
 # Streamlit Interface
 openai.api_key = st.secrets['OPEN_API_KEY']
 bucket_name = st.secrets['AWS_BUCKET_NAME']  
 
-# Initialize session_state variables
-if 'response' not in st.session_state:
-    st.session_state['response'] = "Incomplete"
+if "response" not in st.session_state:
+    st.session_state["response"] = "Incomplete"
 
-if 'processing' not in st.session_state:
-    st.session_state['processing'] = "Not Ready"
+if "processing" not in st.session_state:
+    st.session_state["processing"] = "Not Ready"
+
+def change_user_input_state():
+    st.session_state["response"] = "Incomplete"
+    st.session_state["processing"] = "Ready"
+
+@st.cache_data
+def user_input_cache(input):
+    return input
+
+@st.cache_data
+def first_api_call(transcript):
+    input_tokens, output_tokens, answer, response_time = gpt35.gpt35_meeting_analytics(raw_text)
+    return input_tokens, output_tokens, answer, response_time
+
+@st.cache_data
+def second_api_call(transcript):
+    reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = gpt35.reformat_gpt35(answer)
+    return reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time
+
+@st.cache_data
+def reformat_df(df_in):
+    df, main_topics_df, engagement_df = post_process_output.reformat_for_visuals(df_in)
+    return df, main_topics_df, engagement_df
 
 st.set_page_config(page_title="MeetingGPT", page_icon=":tada", layout="wide")
 
@@ -132,44 +161,49 @@ st.markdown("""
          5. **Sentiment** - One-word sentiment classification for meeting labeled by color as Positive (Green), Neutral (Gray) or Negative (Red)
          """)
 
-user_input = st.file_uploader("Upload a Meeting Transcript or Meeting Video File for Processing:", type=['txt', 'mp3', 'mp4', 'wav', 'avi', 'mov', 'mkv', 'flv', 'wmv'])
+user_input = st.file_uploader(" ### Upload a Meeting Transcript or Meeting Video File for Processing:", on_change=change_user_input_state,
+                              type=['txt', 'mp3', 'mp4', 'wav', 'avi', 'mov', 'mkv', 'flv', 'wmv'])
 
-if user_input is not None:
-    progress_bar = st.progress(0)
-    raw_text = None
+if st.session_state["response"] == "Incomplete":
+    st.session_state['messages'] = []
 
-    # Handle audio/video files
-    if user_input.type in ['audio/mpeg', 'video/mp4', 'audio/wav', 'video/avi', 'video/mov', 'video/mkv', 'video/flv', 'video/wmv']:
-        transcribe_text = transcribe(user_input, progress_bar, bucket_name)
-        # Debugging: Print the raw transcription text
-        #print("Raw Transcription Text:", transcribe_text)
-        try:
-            #transcribe_json_text = json.loads(transcribe_text)
-            raw_text = convert_to_text(transcribe_text)
-        except json.JSONDecodeError as e:
-            st.error(f"Error parsing transcription result: {e}")
-            print("Error parsing transcription result:", e)
-            raw_text = ""  # or handle the error appropriately
-
-        # Handle text files
-    elif user_input.type == "text/plain":
-        raw_text = str(user_input.read(), "utf-8")
-
-    if raw_text:
-        #print("Raw Transcription Text:", raw_text)
-        # Process the text transcript
-        file_name = user_input.name
-        progress_bar.progress(25)
-        input_tokens, output_tokens, answer, response_time = gpt35.gpt35_meeting_analytics(raw_text)
-        progress_bar.progress(50)
-        reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = gpt35.reformat_gpt35(answer)
-        progress_bar.progress(75)
-        df = pd.DataFrame({"meeting_id": [file_name], "final_response": [reformat_answer]})
-        df, main_topics_df, engagement_df = post_process_output.reformat_for_visuals(df)
-        fig = meeting_analytic_visuals.generate_website_visual(df, main_topics_df, engagement_df)
-        progress_bar.progress(100)
-        st.plotly_chart(fig)
-        st.session_state['response'] = "Complete"
+if st.session_state["processing"] == "Ready":
+    st.markdown("# MeetingGPT Processing")
+    if user_input is not None:
+        file_details = {"filename":user_input.name,
+                "filetype":user_input.type,
+                "filesize":user_input.size}
+        # st.write(file_details)
+        if user_input.type == "text/plain":
+            progress_bar = st.progress(0)
+            raw_text = str(user_input.read(), "utf-8")
+        if user_input.type in ['audio/mpeg', 'video/mp4', 'audio/wav', 'video/avi', 'video/mov', 'video/mkv', 'video/flv', 'video/wmv']:
+            progress_bar = st.progress(0)
+            raw_text = None
+            transcribe_text = transcribe(user_input, bucket_name)
+            # Debugging: Print the raw transcription text
+            #print("Raw Transcription Text:", transcribe_text)
+            try:
+                #transcribe_json_text = json.loads(transcribe_text)
+                raw_text = convert_to_text(transcribe_text)
+            except json.JSONDecodeError as e:
+                st.error(f"Error parsing transcription result: {e}")
+                print("Error parsing transcription result:", e)
+                raw_text = ""  # or handle the error appropriately
+        if raw_text:
+            file_name = user_input.name
+            raw_text = user_input_cache(raw_text)
+            input_tokens, output_tokens, answer, response_time = first_api_call(raw_text)
+            progress_bar.progress(25)
+            reformat_input_tokens, reformat_output_tokens, reformat_answer, reformat_response_time = second_api_call(answer)
+            progress_bar.progress(50)
+            df = pd.DataFrame({"meeting_id": [file_name], "final_response": [reformat_answer]})
+            df, main_topics_df, engagement_df = reformat_df(df)
+            progress_bar.progress(75)
+            fig = meeting_analytic_visuals.generate_website_visual(df,main_topics_df,engagement_df)
+            progress_bar.progress(100)
+            st.plotly_chart(fig)
+            st.session_state['response'] = "Complete"
 
 
 if st.session_state['response'] == "Complete":
