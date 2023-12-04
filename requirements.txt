@@ -1,9 +1,10 @@
+boto3==1.33.6
 openai==0.28
 pandas==1.5.3
 plotly
 numpy
 tiktoken
 requests
-boto3
+
 
 
