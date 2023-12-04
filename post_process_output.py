@@ -57,7 +57,7 @@ def determine_sentiment(text):
         return "Neutral"
 
 def reformat_for_visuals(df):
-    df[['Summary', 'MainTopics', 'ParticipantContributions', 'ActionItems', 'Sentiment']] = df['final_response'].str.split('\n\n', 4, expand=True)
+    df[['Summary', 'MainTopics', 'ParticipantContributions', 'ActionItems', 'Sentiment']] = df['final_response'].str.split(pat='\n\n', n=4, expand=True)
 
     c1 = df['Sentiment'].isna()
     df.loc[c1, 'Sentiment'] = df.loc[c1, 'ActionItems']
