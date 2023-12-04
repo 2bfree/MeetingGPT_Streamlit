@@ -1,6 +1,6 @@
-boto3==1.33.0
+boto3
 openai==0.28
-pandas==1.5.3
+pandas
 plotly
 numpy
 tiktoken
