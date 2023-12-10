@@ -17,6 +17,80 @@ def preprocess_text(input_text):
     processed_text = input_text.replace('\n', '<br>')
     return processed_text
 
+
+def generate_website_visual_images_only(df, main_topics_df, engagement_df):
+    main_topics_df = main_topics_df.sort_values(by='Percentage', ascending=False)
+    engagement_df = engagement_df.sort_values(by='Interactions', ascending=False)
+
+    main_topics_df['Topic_Length'] = main_topics_df['Topic'].apply(len)
+
+    # Find the maximum length
+    max_length = main_topics_df['Topic_Length'].max()
+    fontsize = (200-max_length)*0.1
+    fontsize = max(12,fontsize)
+
+    ordered_speakers = engagement_df.sort_values(by='Speaking Time', ascending=False)['Speakers'].tolist()
+
+    fig = make_subplots(rows=1, cols=3, horizontal_spacing=0.01, vertical_spacing = 0.2, subplot_titles=['Sentiment',
+                                                    'Key Topics - % of Meeting', '% of Speaking Time by Participant'],
+                      specs=[[{'type': 'scatter'}, {'type': 'bar'}, {'type': 'pie'}]])
+    
+    bar_colors = px.colors.qualitative.Plotly[:len(ordered_speakers)]
+    sentiment_colors = {'Positive': 'green', 'Neutral': 'gray', 'Negative': 'red'}
+
+    # Add Bar Chart to 1st subplot
+    fig.add_trace(go.Bar(name='Topic', x=main_topics_df['Topic'].tolist(),  y=main_topics_df['Percentage'].tolist(),
+                       marker_color=['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']), row=1, col=2)
+
+    custom_colors = ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f']
+    # Add pie chart to the second subplot
+    fig.add_trace(go.Pie(name='Participant', labels=ordered_speakers, marker=dict(colors=custom_colors), values=engagement_df['Speaking Time'].tolist()),
+                       row=1, col=3)
+
+    # Add scatter plot to the fourth subplot
+    fig.add_trace(go.Scatter(
+      x=[2],
+      y=[2],
+      mode='markers+text',
+      text=df['sentiment_category'].iloc[0],
+      marker=dict(
+          color=df['Sentiment_Color'].map(sentiment_colors),  # Map category to color using the color_map
+          size=200  # Specify marker size
+      ),
+      textfont=dict(size=35, color='white')
+    ), row=1, col=1)
+
+    # Update layout for better visibility
+    fig.update_layout(
+      height=600,
+      width=1200,
+      legend_tracegroupgap=180,
+      legend=dict(font=dict(size=12)),
+      font=dict(size=16, color='white')  # Set the font size for axis labels, legend, etc.
+    )
+
+    labels_to_show_in_legend = ['Participant']
+
+    for trace in fig['data']:
+      if (not trace['name'] in labels_to_show_in_legend):
+          trace['showlegend'] = False
+
+    # Hide axes, grid, and ticks for the first subplot
+    fig.update_xaxes(showline=False, showgrid=False, zeroline=False, showticklabels=False, row=1, col=1)
+    fig.update_yaxes(showline=False, showgrid=False, zeroline=False, showticklabels=False, row=1, col=1)
+    fig.update_layout(scene=dict(xaxis=dict(backgroundcolor='rgba(0,0,0,0)'), yaxis=dict(backgroundcolor='rgba(0,0,0,0)')))
+
+    # Update subplot titles font directly in subplot_titles
+    fig.update_annotations(font=dict(size=20))
+
+    fig.update_xaxes(
+    tickfont=dict(size=fontsize),  # Set the font size for x-axis labels
+    )
+
+    return fig
+
+
+
 def generate_website_visual(df, main_topics_df, engagement_df):
     meeting = str(df['meeting_id'].iloc[0])
     main_topics_df = main_topics_df.sort_values(by='Percentage', ascending=False)
@@ -175,30 +249,6 @@ def generate_website_visual(df, main_topics_df, engagement_df):
     fig.update_xaxes(
     tickfont=dict(size=fontsize),  # Set the font size for x-axis labels
     )
-
-    # temp_directory_for_files = 'C:\\Users\\miked\\OneDrive\\Desktop\\W210\\Streamlit\\plots'
-
-    # # Change the working directory
-    # os.chdir(temp_directory_for_files)
-
-    # file_name = str(meeting)+'_GPT.html'
-    # file_name_jpg = str(meeting)+'_GPT.jpg'
-    # full_file_path_jpg = os.path.join(temp_directory_for_files, file_name_jpg)
-
-
-    # fig.write_html(file_name) 
-
-    # hti = Html2Image()
-
-    # shot = WebShot()
-    # shot.quality = 100
-
-    # img = shot.create_pic(html=file_name)
-
-    # hti.screenshot(html_file=file_name, save_as=file_name_jpg)
-    # img = hti.screenshot_as_image(file_name)
-    # img = hti.screenshot_as_png(html_str=html_content)
-    # img = hti.to_image(fig.to_html(full_html=False), format="png")
 
     return fig
 

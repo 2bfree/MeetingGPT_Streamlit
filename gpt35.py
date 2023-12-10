@@ -53,10 +53,12 @@ def gpt35_meeting_analytics(transcription):
                   Please provide this output in a comma-seperated format that lists the contributions for each participant including their speaking time percentage & interaction count.  Be sure to include specific numbers to \
                   express speaking time percentage & interaction count for each participant and that the speaking time percentages add up to 100%. \
             Question 3: You are a proficient AI with a specialty in analyzing conversations and extracting action items for each meeting participant. \
-                     Please review the text and identify key tasks, assignments, or actions that were agreed upon or mentioned as needing to be done. \
-                     These could be tasks assigned to specific individuals, or general actions that the group has decided to take. \
-                     Please provide a bulleted list of action items seperated into sections by participant; First specify the participant  who owns each action item followed by a colon then the action item description. \
+                     Please review the text and identify any tasks, assignments, or actions that were agreed upon or mentioned throughout the meeting. \
+                     Please focus on tasks that are assigned to specific individuals. \
+                     Provide a bulleted list of action items seperated into sections by participant; First specify the participant  who owns each action item followed by a colon then the action item description. \
                      Be sure to refer to the participants by their speaker alias from the meeting transcript as opposed to their name. \
+                     Attempt to determine at least one action per participant from the transcript, but if a participant doesn't \
+                     have an action item don't include them in the list. \
                      Please make sure that your responses avoid repeating the same points multiple times, remain clear and concise, and include \
                      specific numbers to express each participant's # of action items in parentheses in each block of action items. \
             Question 4: As an AI with expertise in language and emotion analysis, your task is to analyze the sentiment of the following text and label it with one of the following 13 categories: \
@@ -170,7 +172,7 @@ def reformat_gpt35(answer):
                 Collaborative``` \
                 \
                 Be sure to pay special attention to ensuring the percentages and numbers are included in the reformatted \
-                answer in the same way as the example."
+                answer in the same way as the example.  For the Prompt #3 Answer, please eliminate participants from the list if their action item mentions 'None'."
             },
             {
                 "role": "user",
