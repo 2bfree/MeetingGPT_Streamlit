@@ -8,7 +8,7 @@ load_css()
 
 icon_size=8
 
-st_button('', "https://docs.google.com/document/d/1h3hvs7o-uPTZ5R6QPRmngyTGok0RbX1JEWdo1J7fpdo/edit?usp=sharing", "Full Privacy Policy Document", icon_size)
+st_button('', "https://drive.google.com/file/d/11Dl2qCtVYsmvVTegQMFoJ0cAoviZStsN/view?usp=drive_link", "Full Privacy Policy Document", icon_size)
 
 st.markdown("### **Mission Statement**")
 st.markdown("""MeetingGPT is committed to enhancing the efficiency and effectiveness of virtual meetings by providing \
