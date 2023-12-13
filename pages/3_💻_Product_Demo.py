@@ -8,7 +8,7 @@ load_css()
 
 icon_size = 20
 
-st_button('youtube', "https://www.youtube.com/watch?v=r0AuybktDXY", "Product Demo", icon_size)
+st_button('youtube', "https://www.youtube.com/watch?v=q0RfchmxcOI", "Product Demo", icon_size)
 
 infrastructure_url = f"https://raw.githubusercontent.com/miketown77/MeetingGPT_Streamlit/master/images/infrastructure.png" 
 
